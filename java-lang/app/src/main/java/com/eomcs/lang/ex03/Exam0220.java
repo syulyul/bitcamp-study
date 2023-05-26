@@ -38,7 +38,7 @@ public class Exam0220 {
     System.out.println(0xff_aa);
 
     //숫자 맨 앞 또는 맨 뒤에 삽입할 수 없다.
-    //System.out.println(0x_ffaa);
-    //System.out.println(0xffaa_);
+    // System.out.println(0x_ffaa);
+    // System.out.println(0xffaa_);
   }
 }
