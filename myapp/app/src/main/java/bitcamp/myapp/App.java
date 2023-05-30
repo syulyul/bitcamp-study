@@ -1,39 +1,75 @@
 package bitcamp.myapp;
 
+// 코드 본문에서 사용할 클래스가 어떤 패키지의 클래스인지 지정
+import java.util.Scanner;
+
 public class App {
 
   public static void main(String[] args) {
     System.out.println("나의 목록 관리 시스템");
     System.out.println("-------------------------------");
 
-    int no = 100;
-    String name = "홍길동";
-    int age = 20;
-    boolean working = true;
-    char gender = 'M';
-    float leftEye = 1.5f;
-    float rightEye = 1.0f;
+    // 키보드 스캐너 준비
+    Scanner scanner = new Scanner(System.in);
 
-    // System.out.print("번호"); // 줄 안 바꿈
-    // System.out.println(no);
+    int[] no = new int[3]; // java에서 []를 앞에 해주는 이유 : primitive type 변수가 아닌 레퍼런스(주소를 담는)라는 것을 알려줌
+    String[] name = new String[3];
+    int[] age = new int[3];
+    boolean[] working = new boolean[3];
+    char[] gender = new char[3];
+    float[] leftEye = new float[3];
+    float[] rightEye = new float[3];
 
-    // System.out.printf("이름: %s", "홍길동"); // printf = 메서드, string 리터럴
-    // System.out.println();
+    for (int count = 0; count < 3; count++) {
+      System.out.print("번호? ");
+      no[count] = scanner.nextInt();
 
-    // System.out.println("나이: " + 20); // 숫자를 문자열로 바꿔서 합쳐서 문자열로 표시
+      System.out.print("이름? ");
+      name[count] = scanner.next();
 
-    // System.out.printf("재직자: %b\n", true); // boolean 값 : 1,0 쓰지x => 코드 가독성 떨어짐
-    //                                        // \n : 줄바꿈(escape character)
-    
-    // System.out.printf("성별(남자(M), 여자(W)) : %c\n", "M"); // 문자에 "" 하면 error
+      System.out.print("나이? ");
+      age[count] = scanner.nextInt();
 
-    // System.out.printf("좌우시력: %.1f,%.1f\n", 1.5f, 1.0f);
+      System.out.print("재직중(true/false)? ");
+      working[count] = scanner.nextBoolean();
 
-    System.out.printf("번호: %d\n", no);
-    System.out.printf("이름: %s\n", name);
-    System.out.printf("나이: %d\n", age);
-    System.out.printf("재직자: %b\n", working);
-    System.out.printf("성별(남자(M), 여자(W)) : %c\n", gender);
-    System.out.printf("좌우시력: %.1f,%.1f\n", leftEye, rightEye);
+      System.out.print("성별(남:M, 여자:W)? ");
+      String str = scanner.next();
+      gender[count] = str.charAt(0);
+
+      System.out.print("시력(왼쪽, 오른쪽)? ");
+      leftEye[count] = scanner.nextFloat();
+      rightEye[count] = scanner.nextFloat();
+
+      // count++; // count += 1; // count = count + 1
+    }
+
+    System.out.println("--------------------------------------------");
+
+    for (int count = 0; count < 3; count++) {
+      System.out.printf("번호: %d\n", no[count]);
+      System.out.printf("이름: %s\n", name[count]);
+      System.out.printf("나이: %d\n", age[count]);
+      System.out.printf("재직자: %b\n", working[count]);
+      System.out.printf("성별(남자(M), 여자(W)) : %c\n", gender[count]);
+      System.out.printf("좌우시력: %.1f,%.1f\n", leftEye[count], rightEye[count]);
+    }
+
+    scanner.close();
   }
 }
+
+// System.out.print("번호"); // 줄 안 바꿈
+// System.out.println(no);
+
+// System.out.printf("이름: %s", "홍길동"); // printf = 메서드, string 리터럴
+// System.out.println();
+
+// System.out.println("나이: " + 20); // 숫자를 문자열로 바꿔서 합쳐서 문자열로 표시
+
+// System.out.printf("재직자: %b\n", true); // boolean 값 : 1,0 쓰지x => 코드 가독성 떨어짐
+// // \n : 줄바꿈(escape character)
+
+// System.out.printf("성별(남자(M), 여자(W)) : %c\n", "M"); // 문자에 "" 하면 error
+
+// System.out.printf("좌우시력: %.1f,%.1f\n", 1.5f, 1.0f);
