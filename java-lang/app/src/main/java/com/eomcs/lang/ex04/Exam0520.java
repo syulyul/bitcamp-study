@@ -20,13 +20,12 @@ public class Exam0520 {
     arr1[3] = 400;
     arr1[4] = 500;
 
-
     // 유효하지 않은 인덱스를 지정한다면?
     // - 실행 중에 오류가 발생한다.
     // - 컴파일 할 때는 인덱스가 유효한지 알 수 없다.
     //
-    //    arr1[5] = 600; // 실행 오류(Runtime Error)
-    //    arr1[-1] = 700; // 실행 오류(Runtime Error)
+    // arr1[5] = 600; // 실행 오류(Runtime Error)
+    // arr1[-1] = 700; // 실행 오류(Runtime Error)
 
     System.out.println("종료!");
   }
