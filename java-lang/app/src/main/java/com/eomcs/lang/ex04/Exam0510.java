@@ -44,8 +44,8 @@ public class Exam0510 {
     // => JVM 실행 옵션에 다음을 추가하라!
     // -Xmx메모리크기
     // 예) $ java -Xmx20000m ...
-    // ㄴ compile후 실행 시 추가해 넣는 것!
-    // => java -Xmx20000m -cp bin/main com.eomcs.lang.ex04.Exam0510
+    // --> compile후 실행 시 추가해 넣는 것!
+    // --> java -Xmx20000m -cp bin/main com.eomcs.lang.ex04.Exam0510
     System.out.println("종료!");
   }
 }

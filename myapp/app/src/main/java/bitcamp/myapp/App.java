@@ -6,57 +6,108 @@ import java.util.Scanner;
 public class App {
 
   public static void main(String[] args) {
-    System.out.println("나의 목록 관리 시스템");
-    System.out.println("-------------------------------");
-
+    
     // 키보드 스캐너 준비
     Scanner scanner = new Scanner(System.in);
 
-    int[] no = new int[3]; // java에서 []를 앞에 해주는 이유 : primitive type 변수가 아닌 레퍼런스(주소를 담는)라는 것을 알려줌
-    String[] name = new String[3];
-    int[] age = new int[3];
-    boolean[] working = new boolean[3];
-    char[] gender = new char[3];
-    float[] leftEye = new float[3];
-    float[] rightEye = new float[3];
+    final int MAX_SIZE = 100; // 대문자로 해주는 이유 : 강조하기 위함
+    int userId = 1; // 회원 번호
+    int length = 0; // 한 사람 입력 할 떄마다 증가시킬 값
 
-    for (int count = 0; count < 3; count++) {
-      System.out.print("번호? ");
-      no[count] = scanner.nextInt();
+    int[] no = new int[MAX_SIZE];
+    String[] name = new String[MAX_SIZE]; // java에서 []를 앞에 해주는 이유 : primitive type 변수가 아닌 레퍼런스(주소를 담는)라는 것을 알려줌
+    String[] email = new String[MAX_SIZE];
+    String[] password = new String[MAX_SIZE];
+    char[] gender = new char[MAX_SIZE];
 
-      System.out.print("이름? ");
-      name[count] = scanner.next();
+    printTitle();
 
-      System.out.print("나이? ");
-      age[count] = scanner.nextInt();
-
-      System.out.print("재직중(true/false)? ");
-      working[count] = scanner.nextBoolean();
-
-      System.out.print("성별(남:M, 여자:W)? ");
-      String str = scanner.next();
-      gender[count] = str.charAt(0);
-
-      System.out.print("시력(왼쪽, 오른쪽)? ");
-      leftEye[count] = scanner.nextFloat();
-      rightEye[count] = scanner.nextFloat();
-
-      // count++; // count += 1; // count = count + 1
+    // 회원정보 등록 
+    for (int i = 0; i < MAX_SIZE; i++) {
+      inputMember(scanner, i, name, email, password, gender, no, userId++);
+      length++;      
+      if (!promptContinue(scanner)) {
+        break;
+      }
     }
-
-    System.out.println("--------------------------------------------");
-
-    for (int count = 0; count < 3; count++) {
-      System.out.printf("번호: %d\n", no[count]);
-      System.out.printf("이름: %s\n", name[count]);
-      System.out.printf("나이: %d\n", age[count]);
-      System.out.printf("재직자: %b\n", working[count]);
-      System.out.printf("성별(남자(M), 여자(W)) : %c\n", gender[count]);
-      System.out.printf("좌우시력: %.1f,%.1f\n", leftEye[count], rightEye[count]);
-    }
+    
+    printMemebers(length, no, name, email, gender);
 
     scanner.close();
   }
+
+  static void printTitle() {
+    System.out.println("나의 목록 관리 시스템");
+    System.out.println("-------------------------------");
+  }
+
+  static void inputMember(Scanner scanner, int i, 
+      String[] name, String[] email, String[] password, char[] gender, int[] no, int userId) {
+    System.out.print("이름? ");
+      name[i] = scanner.next();
+
+      System.out.print("이메일? ");
+      email[i] = scanner.next();
+
+      System.out.print("암호? ");
+      password[i] = scanner.next();
+
+    loop: while (true) {
+      System.out.println("성별: ");
+      System.out.println("  1. 남자");
+      System.out.println("  2. 여자");
+      System.out.print("> ");
+      String menuNo = scanner.next();
+      scanner.nextLine(); // 입력 값(token)을 읽고 난 후에 남아있는 줄바꿈 코드를 제거한다.
+
+      // if (menuNo.equals("1")) {
+      //   gender[i] = 'M';
+      //   break;
+      // } else if (menuNo.equals("2")) {
+      //   gender[i] = 'W';
+      //   break;
+      // } else {
+      //   System.out.println("무효한 번호입니다.");
+      // }
+
+      switch (menuNo) {
+        case "1": 
+          gender[i] = 'M';
+          break loop;
+        case "2": 
+          gender[i] = 'W';
+          break loop;
+        default:
+          System.out.println("무효한 번호입니다.");
+      }
+    }
+    
+    // String str = scanner.next();
+    // gender[i] = str.charAt(0);
+    // gender[i] = scanner.next().charAt(0);
+
+    no[i] = userId++; // 위에서 오류가 발생할 경우 회원번호 부여하지 않기 위해(정상적인 값 입력된 경우 회원 번호를 부여)
+  }
+
+  static boolean promptContinue(Scanner scanner) {
+    System.out.print("계속 하시겠습니까?(Y/n) ");
+      String response = scanner.nextLine(); // nextLine 쓰는 이유 : next()를 쓸 경우 빈문자열 문제,,
+      if (!response.equals("") && !response.equalsIgnoreCase ("Y")) { // equalsIgnoreCase : 대소문자
+        return false;
+      }
+      return true;
+  }
+
+  static void printMemebers(int length, int[] no, String[] name, String[] email, char[] gender) {
+    System.out.println("--------------------------------------------");
+    System.out.println("번호, 이름, 이메일, 성별");
+    System.out.println("--------------------------------------------");
+
+    for (int i = 0; i < length; i++) {
+      System.out.printf("%d, %s, %s, %c\n", no[i], name[i], email[i], gender[i]);
+    }
+  }
+
 }
 
 // System.out.print("번호"); // 줄 안 바꿈

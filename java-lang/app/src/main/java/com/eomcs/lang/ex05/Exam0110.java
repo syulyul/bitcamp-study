@@ -7,7 +7,7 @@ public class Exam0110 {
     System.out.println(100 + 27);
     System.out.println(100 - 27);
     System.out.println(100 * 27);
-    System.out.println(100 / 27);
-    System.out.println(100 % 27); // 나눈 나머지 
+    System.out.println(100 / 27); // 정수와 정수의 연산결과는 정수만 나옴
+    System.out.println(100 % 27); // 나눈 나머지
   }
 }

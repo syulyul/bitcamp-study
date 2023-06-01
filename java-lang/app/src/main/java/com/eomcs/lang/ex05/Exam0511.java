@@ -15,7 +15,7 @@ public class Exam0511 {
     test(age > 18 ? "성년" : "미성년"); // --> 메서드 호출
   }
 
-  // --> 메서드
+  // --> method = function = 명령문 블록
   static void test(String value) {
     System.out.println(value + " 입니다.");
   }
