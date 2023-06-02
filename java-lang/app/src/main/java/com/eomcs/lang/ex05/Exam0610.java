@@ -4,22 +4,6 @@ package com.eomcs.lang.ex05;
 //
 public class Exam0610 {
 
-  static void f1(int x, int y) {
-    int b = 5;
-    // int temp = b;
-    // b += 1;
-    // System.out.println(temp);
-    System.out.println(b++);
-  }
-
-  static void f2(int x, int y) {
-    int b = 5;
-
-    // b += 1;
-    // System.out.println(temp);
-    System.out.println(++b);
-  }
-
   public static void main(String[] args) {
     int i = 2;
 

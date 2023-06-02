@@ -17,7 +17,7 @@ public class Exam0520 {
     // 아규먼트가 없으면 빈 배열이 넘어온다.
     //
     for (String value : args) {
-      System.out.printf("[%s]\n", value);
+      System.out.printf("[%s]\n", value); // <-- 공백을 하나의 공백으로 만들어서 배열에 담는 것,,
     }
     System.out.println("종료!");
   }
