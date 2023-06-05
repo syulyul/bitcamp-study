@@ -33,7 +33,7 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass = 'bitcamp.myapp.App'
+    mainClass = 'bitcamp.report.App'
 }
 
 tasks.named('test') {
