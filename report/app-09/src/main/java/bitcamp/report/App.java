@@ -1,22 +1,22 @@
 package bitcamp.report;
 
-import bitcamp.report.handler.MemberHandler;
+import bitcamp.report.handler.itemHandler;
 import bitcamp.util.Prompt;
 
 public class App {
-    
+
     public static void main(String[] args) {
 
         printTitle();
 
-        while (MemberHandler.available()) {
-            MemberHandler.inputMember();
-            if(!promptContinue()){
+        while (itemHandler.available()) {
+            itemHandler.inputItem();
+            if (!promptContinue()) {
                 break;
-            } 
+            }
         }
 
-        MemberHandler.printMembers();
+        itemHandler.printItems();
 
         Prompt.close();
     }
@@ -28,10 +28,9 @@ public class App {
 
     static boolean promptContinue() {
         String response = Prompt.inputString("계속 하시겠습니까?(Y/n) ");
-        if(!response.equals("") && !response.equalsIgnoreCase("Y")) {
+        if (!response.equals("") && !response.equalsIgnoreCase("Y")) {
             return false;
         }
         return true;
     }
 }
-

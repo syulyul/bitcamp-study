@@ -7,20 +7,41 @@ public class App {
 
   public static void main(String[] args) {
 
-    
     printTitle();
 
-    // 회원정보 등록
-    while (MemberHandler.available()) {
-      MemberHandler.inputMember();
-      if (!promptContinue()) {
+    printMenu();
+
+    while (true) {
+      String menuNo = Prompt.inputString("메인> ");
+      if (menuNo.equals("6")) {
         break;
+      } else if (menuNo.equals("menu")) {
+        printMenu();
+      } else if (menuNo.equals("1")) {
+        MemberHandler.inputMember();
+      } else if (menuNo.equals("2")) {
+        MemberHandler.printMemebers();
+      } else if (menuNo.equals("3")) {
+        MemberHandler.viewMember();
+      } else if (menuNo.equals("4")) {
+        MemberHandler.updateMember();
+      } else if (menuNo.equals("5")) {
+        MemberHandler.deleteMember();
+      } else {
+        System.out.println(menuNo);
       }
     }
 
-    MemberHandler.printMemebers();
-
     Prompt.close();
+  }
+
+  static void printMenu() {
+    System.out.println("1. 회원등록");
+    System.out.println("2. 회원목록");
+    System.out.println("3. 회원조회");
+    System.out.println("4. 회원변경");
+    System.out.println("5. 회원삭제");
+    System.out.println("6. 종료");
   }
 
   static void printTitle() {
@@ -36,23 +57,4 @@ public class App {
     return true;
   }
 
-  
-
-  
-
 }
-
-// System.out.print("번호"); // 줄 안 바꿈
-// System.out.println(no);
-
-// System.out.printf("이름: %s", "홍길동"); // printf = 메서드, string 리터럴
-// System.out.println();
-
-// System.out.println("나이: " + 20); // 숫자를 문자열로 바꿔서 합쳐서 문자열로 표시
-
-// System.out.printf("재직자: %b\n", true); // boolean 값 : 1,0 쓰지x => 코드 가독성 떨어짐
-// // \n : 줄바꿈(escape character)
-
-// System.out.printf("성별(남자(M), 여자(W)) : %c\n", "M"); // 문자에 "" 하면 error
-
-// System.out.printf("좌우시력: %.1f,%.1f\n", 1.5f, 1.0f);

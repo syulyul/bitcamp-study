@@ -22,9 +22,9 @@ public class App {
         for (int i = 0; i < MAX_SIZE; i++) {
             inputMember(scanner, i, name, price, type, no, itemId++);
             length++;
-            if(!promptContinue(scanner)){
+            if (!promptContinue(scanner)) {
                 break;
-            } 
+            }
         }
 
         printMembers(length, no, name, price, type);
@@ -37,7 +37,7 @@ public class App {
         System.out.println("---------------------------------------------------------------------");
     }
 
-    static void inputMember(Scanner scanner, int i, String[] name, 
+    static void inputItem(Scanner scanner, int i, String[] name,
             int[] price, String[] type, int[] no, int typeId) {
 
         System.out.print("물품 이름? ");
@@ -45,11 +45,11 @@ public class App {
 
         System.out.print("물품 가격? ");
         price[i] = scanner.nextInt();
-            
+
         // System.out.print("한정 판매(true/false)? ");
         // limited_Sale[i] = scanner.nextBoolean();
-            
-        loop: while(true) {
+
+        loop: while (true) {
             System.out.println("종류: ");
             System.out.println("  1. 식료품");
             System.out.println("  2. 생활용품");
@@ -86,20 +86,19 @@ public class App {
     static boolean promptContinue(Scanner scanner) {
         System.out.print("계속 하시겠습니까?(Y/n) ");
         String response = scanner.nextLine();
-        if(!response.equals("") && !response.equalsIgnoreCase("Y")) {
+        if (!response.equals("") && !response.equalsIgnoreCase("Y")) {
             return false;
         }
         return true;
     }
 
-    static void printMembers(int length, int[] no, String[] name, int[] price, String[] type) {
+    static void printItems(int length, int[] no, String[] name, int[] price, String[] type) {
         System.out.println("---------------------------------------------------------------------");
         System.out.println("물품 번호, 물품 이름, 물품 가격, 종류");
         System.out.println("---------------------------------------------------------------------");
-        
+
         for (int i = 0; i < length; i++) {
             System.out.printf("%d, %s, %d, %s\n", no[i], name[i], price[i], type[i]);
         }
     }
 }
-

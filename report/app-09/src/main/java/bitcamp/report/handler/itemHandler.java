@@ -1,10 +1,8 @@
-package bitcamp.report;
+package bitcamp.report.handler;
 
-import java.util.Scanner;
+import bitcamp.util.Prompt;
 
-public class App {
-
-    static Scanner scanner = new Scanner(System.in);
+public class itemHandler {
 
     static final int MAX_SIZE = 100;
     static int[] no = new int[MAX_SIZE];
@@ -21,35 +19,14 @@ public class App {
     static final String HOME_APPLIANCES = "가전제품";
     static final String LIVING = "리빙";
 
-    public static void main(String[] args) {
-
-        printTitle();
-
-        while (length < MAX_SIZE) {
-            inputItem();
-            if (!promptContinue()) {
-                break;
-            }
-        }
-
-        printMembers();
-
-        scanner.close();
-    }
-
-    static void printTitle() {
-        System.out.println("마트 물품 관리 시스템");
-        System.out.println("---------------------------------------------------------------------");
-    }
-
-    static void inputItem() {
-        name[length] = prompt("물품 이름? ");
-        price[length] = prompt("물품 가격? ");
+    public static void inputItem() {
+        name[length] = Prompt.inputString("물품 이름? ");
+        price[length] = Prompt.inputString("물품 가격? ");
         // System.out.print("한정 판매(true/false)? ");
         // limited_Sale[i] = scanner.nextBoolean();
 
         loop: while (true) {
-            String typeNo = prompt("종류:\n" +
+            String typeNo = Prompt.inputString("종류:\n" +
                     "  1. 식료품\n" +
                     "  2. 생활용품\n" +
                     "  3. 의류\n" +
@@ -82,16 +59,7 @@ public class App {
         length++;
     }
 
-    static boolean promptContinue() {
-        System.out.print("계속 하시겠습니까?(Y/n) ");
-        String response = scanner.nextLine();
-        if (!response.equals("") && !response.equalsIgnoreCase("Y")) {
-            return false;
-        }
-        return true;
-    }
-
-    static void printItems() {
+    public static void printItems() {
         System.out.println("---------------------------------------------------------------------");
         System.out.println("물품 번호, 물품 이름, 물품 가격, 종류");
         System.out.println("---------------------------------------------------------------------");
@@ -101,8 +69,7 @@ public class App {
         }
     }
 
-    static String prompt(String inputTitle) {
-        System.out.print(inputTitle);
-        return scanner.nextLine();
+    public static boolean available() {
+        return length < MAX_SIZE;
     }
 }

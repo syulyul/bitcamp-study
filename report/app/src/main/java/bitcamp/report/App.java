@@ -1,24 +1,45 @@
 package bitcamp.report;
 
-import bitcamp.report.handler.MemberHandler;
+import bitcamp.report.handler.itemHandler;
 import bitcamp.util.Prompt;
 
 public class App {
-    
+
     public static void main(String[] args) {
 
         printTitle();
 
-        while (MemberHandler.available()) {
-            MemberHandler.inputMember();
-            if(!promptContinue()){
+        printMenu();
+
+        while (true) {
+            String menuNo = Prompt.inputString("메인> ");
+            if (menuNo.equals("6")) {
                 break;
-            } 
+            } else if (menuNo.equals("menu")) {
+                printMenu();
+            } else if (menuNo.equals("1")) {
+                itemHandler.inputItem();
+            } else if (menuNo.equals("2")) {
+                itemHandler.printItems();
+            } else if (menuNo.equals("3")) {
+                itemHandler.viewItem();
+            } else if (menuNo.equals("4")) {
+                itemHandler.updateItem();
+            } else {
+                System.out.println(menuNo);
+            }
         }
 
-        MemberHandler.printMembers();
-
         Prompt.close();
+    }
+
+    static void printMenu() {
+        System.out.println("1. 물품 등록");
+        System.out.println("2. 물품 목록");
+        System.out.println("3. 물품 조회");
+        System.out.println("4. 물품 변경");
+        System.out.println("5. 물품 삭제");
+        System.out.println("6. 종료");
     }
 
     static void printTitle() {
@@ -28,10 +49,9 @@ public class App {
 
     static boolean promptContinue() {
         String response = Prompt.inputString("계속 하시겠습니까?(Y/n) ");
-        if(!response.equals("") && !response.equalsIgnoreCase("Y")) {
+        if (!response.equals("") && !response.equalsIgnoreCase("Y")) {
             return false;
         }
         return true;
     }
 }
-

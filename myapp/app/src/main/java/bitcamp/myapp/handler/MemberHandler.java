@@ -17,40 +17,15 @@ public class MemberHandler {
   static final char FEMALE = 'W';
 
   public static void inputMember() {
-    
+    if (!available()) {
+      System.out.println("더이상 입력할 수 없습니다!");
+      return; // 함수 종료시키고 싶을 때
+    }
+
     name[length] = Prompt.inputString("이름? ");
     email[length] = Prompt.inputString("이메일? ");
     password[length] = Prompt.inputString("암호? ");
-
-
-    loop: while (true) {
-      String menuNo = Prompt.inputString("성별:\n" +
-      " 1. 남자\n" +
-      " 2. 여자\n" +
-      "> ");
-      
-
-      // if (menuNo.equals("1")) {
-      // gender[i] = 'M';
-      // break;
-      // } else if (menuNo.equals("2")) {
-      // gender[i] = 'W';
-      // break;
-      // } else {
-      // System.out.println("무효한 번호입니다.");
-      // }
-
-      switch (menuNo) {
-        case "1":
-          gender[length] = MALE;
-          break loop;
-        case "2":
-          gender[length] = FEMALE;
-          break loop;
-        default:
-          System.out.println("무효한 번호입니다.");
-      }
-    }
+    gender[length] = inputGender((char) 0);
 
     // String str = scanner.next();
     // gender[i] = str.charAt(0);
@@ -66,11 +41,132 @@ public class MemberHandler {
     System.out.println("--------------------------------------------");
 
     for (int i = 0; i < length; i++) {
-      System.out.printf("%d, %s, %s, %c\n", no[i], name[i], email[i], gender[i]);
+      System.out.printf("%d, %s, %s, %s\n",
+          no[i], name[i], email[i],
+          toGenderString(gender[i]));
     }
   }
 
-  public static boolean available() {
+  public static void viewMember() {
+    String memberNo = Prompt.inputString("번호? ");
+    // 입력 받은 번호를 가지고 배열에서 해당 회원을 찾아야 한다.
+    for (int i = 0; i < length; i++) {
+      if (no[i] == Integer.parseInt(memberNo)) {
+        // i 번째 항목에 저장된 회원 정보 출력
+        System.out.printf("이름: %s\n", name[i]);
+        System.out.printf("이메일: %s\n", email[i]);
+        System.out.printf("성별: %s\n", toGenderString(gender[i]));
+        return;
+      }
+    }
+    System.out.println("해당 번호의 회원이 없습니다!");
+  }
+
+  public static String toGenderString(char gender) {
+    return gender == 'M' ? "남성" : "여성";
+  }
+
+  public static void updateMember() {
+    String memberNo = Prompt.inputString("번호? ");
+    // 입력 받은 번호를 가지고 배열에서 해당 회원을 찾아야 한다.
+    for (int i = 0; i < length; i++) {
+      if (no[i] == Integer.parseInt(memberNo)) {
+        // i 번째 항목에 저장된 회원 정보 출력
+        name[i] = Prompt.inputString("이름(" + name[i] + ")? ");
+        email[i] = Prompt.inputString("이메일(" + email[i] + ")?\n");
+        password[i] = Prompt.inputString("새암호? ");
+        gender[i] = inputGender(gender[i]);
+        return;
+      }
+    }
+    System.out.println("해당 번호의 회원이 없습니다!");
+  }
+
+  private static char inputGender(char gender) {
+    String label;
+    if (gender == 0) {
+      label = "성별?\n";
+    } else {
+      // label = "성별(" + toGenderString(gender) + ")?\n";
+      label = String.format("성별(%s)?\n", toGenderString(gender)); // 문자열 리턴
+    }
+    loop: while (true) {
+      String menuNo = Prompt.inputString(label +
+          " 1. 남자\n" +
+          " 2. 여자\n" +
+          "> ");
+
+      switch (menuNo) {
+        case "1":
+          return MALE;
+        case "2":
+          return FEMALE;
+        default:
+          System.out.println("무효한 번호입니다.");
+      }
+    }
+  }
+
+  public static void deleteMember() {
+    // 삭제하려는 회원의 정보가 들어 있는 인덱스를 알아낸다.
+
+    int memberNo = Integer.parseInt(Prompt.inputString("번호? "));
+
+    int deletedIndex = indexOf(memberNo);
+
+    // // 입력 받은 번호를 가지고 배열에서 해당 회원을 찾아야 한다.
+    // for (int i = 0; i < length; i++) {
+    // if (no[i] == Integer.parseInt(memberNo)) {
+    // deletedIndex = i;
+    // break;
+    // }
+    // }
+
+    if (deletedIndex == -1) {
+      System.out.println("해당 번호의 회원이 없습니다!");
+      return;
+    }
+
+    // if (deletedIndex < (length - 1)) {
+    // // 만약 삭제하려는 항목이 마지막 인덱스의 항목이라면 마지막 인덱스의 값만 0으로 초기화시킨다.
+    // no[deletedIndex] = 0;
+    // name[deletedIndex] = null;
+    // email[deletedIndex] = null;
+    // password[deletedIndex] = null;
+    // gender[deletedIndex] = (char) 0;
+    // } else {
+    // 그 밖에는 해당 인덱스부터 반복하면서 앞 인덱스의 값을 당겨온다.
+    for (int i = deletedIndex; i < length - 1; i++) {
+      no[i] = no[i + 1];
+      name[i] = name[i + 1];
+      email[i] = email[i + 1];
+      password[i] = password[i + 1];
+      gender[i] = gender[i + 1];
+    }
+
+    no[length - 1] = 0; // 맨 마지막 초기화
+    name[length - 1] = null; // 맨 마지막 초기화
+    email[length - 1] = null; // 맨 마지막 초기화
+    password[length - 1] = null; // 맨 마지막 초기화
+    gender[length - 1] = (char) 0; // 맨 마지막 초기화
+    // }
+    // length를 하나 줄인다.
+    length--;
+
+    System.out.println("삭제했습니다.");
+    return;
+  }
+
+  private static int indexOf(int memberNo) {
+    for (int i = 0; i < length; i++) {
+      if (no[i] == memberNo) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  private static boolean available() { // 같은 클래스 안에서만 사용 가능
     return length < MAX_SIZE;
   }
 }
