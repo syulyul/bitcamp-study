@@ -25,6 +25,8 @@ public class App {
                 itemHandler.viewItem();
             } else if (menuNo.equals("4")) {
                 itemHandler.updateItem();
+            } else if (menuNo.equals("5")) {
+                itemHandler.deleteItem();
             } else {
                 System.out.println(menuNo);
             }

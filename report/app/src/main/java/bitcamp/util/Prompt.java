@@ -11,6 +11,12 @@ public class Prompt {
     return scanner.nextLine();
   }
 
+  public static int inputInt(String title) {
+    // System.out.print(title);
+    // return scanner.nextLine();
+    return Integer.parseInt(inputString(title));
+  }
+
   public static void close() {
     scanner.close();
   }
