@@ -1,15 +1,20 @@
 package bitcamp.myapp;
 
 class Solution {
-  public static String solution(String str1, String str2) {
+  public static String solution(String[] arr) {
     String answer = "";
+
+    for (int i = 0; i < arr.length; i++) {
+      answer += arr[i];
+    }
+
     return answer;
   }
 
+  public static void main(String[] args) {
 
-  public static void main(String[] args){
-    String ret = solution("aaaaa", "bbbbb");
+    String[] arr = { "a", "b", "c" };
+    String ret = solution(arr);
     System.out.println(ret);
   }
 }
-
