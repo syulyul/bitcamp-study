@@ -156,6 +156,10 @@
       - 이름, url
     - to: jinyoung.eom@gmail.com
 
+### 12일(6/7,목)
+
+
+
 
 ## 구글 미트 접속
 

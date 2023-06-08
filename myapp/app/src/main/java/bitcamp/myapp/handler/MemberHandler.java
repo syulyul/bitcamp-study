@@ -1,15 +1,18 @@
 package bitcamp.myapp.handler;
 
+import bitcamp.myapp.vo.Member;
 import bitcamp.util.Prompt;
 
 public class MemberHandler {
 
   static final int MAX_SIZE = 100; // 대문자로 해주는 이유 : 강조하기 위함
-  static int[] no = new int[MAX_SIZE];
-  static String[] name = new String[MAX_SIZE]; // java에서 []를 앞에 해주는 이유 : primitive type 변수가 아닌 레퍼런스(주소를 담는)라는 것을 알려줌
-  static String[] email = new String[MAX_SIZE];
-  static String[] password = new String[MAX_SIZE];
-  static char[] gender = new char[MAX_SIZE];
+  static Member[] members = new Member[MAX_SIZE];
+  // static int[] no = new int[MAX_SIZE];
+  // static String[] name = new String[MAX_SIZE]; // java에서 []를 앞에 해주는 이유 :
+  // primitive type 변수가 아닌 레퍼런스(주소를 담는)라는 것을 알려줌
+  // static String[] email = new String[MAX_SIZE];
+  // static String[] password = new String[MAX_SIZE];
+  // static char[] gender = new char[MAX_SIZE];
   static int userId = 1; // 회원 번호
   static int length = 0; // 한 사람 입력 할 떄마다 증가시킬 값
 
@@ -22,17 +25,21 @@ public class MemberHandler {
       return; // 함수 종료시키고 싶을 때
     }
 
-    name[length] = Prompt.inputString("이름? ");
-    email[length] = Prompt.inputString("이메일? ");
-    password[length] = Prompt.inputString("암호? ");
-    gender[length] = inputGender((char) 0);
+    Member m = new Member();
+    m.name = Prompt.inputString("이름? ");
+    m.email = Prompt.inputString("이메일? ");
+    m.password = Prompt.inputString("암호? ");
+    m.gender = inputGender((char) 0);
 
     // String str = scanner.next();
     // gender[i] = str.charAt(0);
     // gender[i] = scanner.next().charAt(0);
 
-    no[length] = userId++; // 위에서 오류가 발생할 경우 회원번호 부여하지 않기 위해(정상적인 값 입력된 경우 회원 번호를 부여)
-    length++;
+    m.no = userId++; // 위에서 오류가 발생할 경우 회원번호 부여하지 않기 위해(정상적인 값 입력된 경우 회원 번호를 부여)
+
+    // 위에서 만든 Member 인스턴스의 주소를 잃어버리지 않게 레퍼런스 배열에 담는다.
+    members[length++] = m;
+
   }
 
   public static void printMemebers() {
@@ -41,9 +48,10 @@ public class MemberHandler {
     System.out.println("--------------------------------------------");
 
     for (int i = 0; i < length; i++) {
+      Member m = members[i];
       System.out.printf("%d, %s, %s, %s\n",
-          no[i], name[i], email[i],
-          toGenderString(gender[i]));
+          m.no, m.name, m.email,
+          toGenderString(m.gender));
     }
   }
 
@@ -51,11 +59,12 @@ public class MemberHandler {
     String memberNo = Prompt.inputString("번호? ");
     // 입력 받은 번호를 가지고 배열에서 해당 회원을 찾아야 한다.
     for (int i = 0; i < length; i++) {
-      if (no[i] == Integer.parseInt(memberNo)) {
+      Member m = members[i];
+      if (m.no == Integer.parseInt(memberNo)) {
         // i 번째 항목에 저장된 회원 정보 출력
-        System.out.printf("이름: %s\n", name[i]);
-        System.out.printf("이메일: %s\n", email[i]);
-        System.out.printf("성별: %s\n", toGenderString(gender[i]));
+        System.out.printf("이름: %s\n", m.name);
+        System.out.printf("이메일: %s\n", m.email);
+        System.out.printf("성별: %s\n", toGenderString(m.gender));
         return;
       }
     }
@@ -70,12 +79,13 @@ public class MemberHandler {
     String memberNo = Prompt.inputString("번호? ");
     // 입력 받은 번호를 가지고 배열에서 해당 회원을 찾아야 한다.
     for (int i = 0; i < length; i++) {
-      if (no[i] == Integer.parseInt(memberNo)) {
+      Member m = members[i];
+      if (m.no == Integer.parseInt(memberNo)) {
         // i 번째 항목에 저장된 회원 정보 출력
-        name[i] = Prompt.inputString("이름(" + name[i] + ")? ");
-        email[i] = Prompt.inputString("이메일(" + email[i] + ")?\n");
-        password[i] = Prompt.inputString("새암호? ");
-        gender[i] = inputGender(gender[i]);
+        m.name = Prompt.inputString("이름(" + m.name + ")? ");
+        m.email = Prompt.inputString("이메일(" + m.email + ")?\n");
+        m.password = Prompt.inputString("새암호? ");
+        m.gender = inputGender(m.gender);
         return;
       }
     }
@@ -137,21 +147,12 @@ public class MemberHandler {
     // } else {
     // 그 밖에는 해당 인덱스부터 반복하면서 앞 인덱스의 값을 당겨온다.
     for (int i = deletedIndex; i < length - 1; i++) {
-      no[i] = no[i + 1];
-      name[i] = name[i + 1];
-      email[i] = email[i + 1];
-      password[i] = password[i + 1];
-      gender[i] = gender[i + 1];
+      members[i] = members[i + 1];
     }
 
-    no[length - 1] = 0; // 맨 마지막 초기화
-    name[length - 1] = null; // 맨 마지막 초기화
-    email[length - 1] = null; // 맨 마지막 초기화
-    password[length - 1] = null; // 맨 마지막 초기화
-    gender[length - 1] = (char) 0; // 맨 마지막 초기화
+    members[--length] = null;
     // }
     // length를 하나 줄인다.
-    length--;
 
     System.out.println("삭제했습니다.");
     return;
@@ -159,7 +160,8 @@ public class MemberHandler {
 
   private static int indexOf(int memberNo) {
     for (int i = 0; i < length; i++) {
-      if (no[i] == memberNo) {
+      Member m = members[i];
+      if (m.no == memberNo) {
         return i;
       }
     }

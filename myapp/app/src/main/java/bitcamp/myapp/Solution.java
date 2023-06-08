@@ -1,11 +1,18 @@
 package bitcamp.myapp;
 
 class Solution {
-  public static String solution(String[] arr) {
-    String answer = "";
+  public static int solution(int a, int b) {
+    int answer = 0;
 
-    for (int i = 0; i < arr.length; i++) {
-      answer += arr[i];
+    String sa = (String.valueOf(a));
+    String sb = (String.valueOf(b));
+
+    if ((Integer.parseInt(sa + sb)) > (Integer.parseInt(sb + sa))) {
+      answer = (Integer.parseInt(sa + sb));
+    } else if ((Integer.parseInt(sa + sb)) == (Integer.parseInt(sb + sa))) {
+      answer = (Integer.parseInt(sa + sb));
+    } else {
+      answer = (Integer.parseInt(sb + sa));
     }
 
     return answer;
@@ -13,8 +20,10 @@ class Solution {
 
   public static void main(String[] args) {
 
-    String[] arr = { "a", "b", "c" };
-    String ret = solution(arr);
+    int a = 9;
+    int b = 91;
+
+    int ret = solution(a, b);
     System.out.println(ret);
   }
 }
