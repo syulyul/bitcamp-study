@@ -24,7 +24,7 @@ public class itemHandler {
 
         Item item = new Item();
         item.name = Prompt.inputString("물품 이름? ");
-        item.price = Prompt.inputString("물품 가격? ");
+        item.price = Prompt.inputInt("물품 가격? ");
         item.type = inputType("0");
 
         item.no = itemId++;
@@ -67,7 +67,7 @@ public class itemHandler {
                 System.out.printf("물품 이름(%s)? ", item.name);
                 item.name = Prompt.inputString("");
                 System.out.printf("물품 가격(%s)? ", item.price);
-                item.price = Prompt.inputString("");
+                item.price = Prompt.inputInt("");
                 item.type = inputType(item.type);
                 return;
             }
