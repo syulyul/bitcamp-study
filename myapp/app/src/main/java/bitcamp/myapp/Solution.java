@@ -1,18 +1,21 @@
 package bitcamp.myapp;
 
 class Solution {
-  public static int solution(int a, int b) {
+  public static int solution(String ineq, String eq, int n, int m) {
     int answer = 0;
 
-    String sa = (String.valueOf(a));
-    String sb = (String.valueOf(b));
-
-    if ((Integer.parseInt(sa + sb)) > (Integer.parseInt(sb + sa))) {
-      answer = (Integer.parseInt(sa + sb));
-    } else if ((Integer.parseInt(sa + sb)) == (Integer.parseInt(sb + sa))) {
-      answer = (Integer.parseInt(sa + sb));
-    } else {
-      answer = (Integer.parseInt(sb + sa));
+    if (eq.equals(">") || eq.equals("=")) {
+      if (n >= m)
+        answer = 1;
+    } else if (eq.equals("<") || eq.equals("=")) {
+      if (n <= m)
+        answer = 1;
+    } else if (eq.equals(">") || eq.equals("!")) {
+      if (n > m)
+        answer = 1;
+    } else if (eq.equals("<") || eq.equals("!")) {
+      if (n < m)
+        answer = 1;
     }
 
     return answer;
@@ -20,10 +23,12 @@ class Solution {
 
   public static void main(String[] args) {
 
-    int a = 9;
-    int b = 91;
+    String ineq = "<";
+    String eq = "=";
+    int n = 41;
+    int m = 78;
 
-    int ret = solution(a, b);
+    int ret = solution(ineq, eq, n, m);
     System.out.println(ret);
   }
 }
