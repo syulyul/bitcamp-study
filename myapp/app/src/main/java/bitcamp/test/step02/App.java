@@ -6,6 +6,9 @@ package bitcamp.test.step02;
 //import bitcamp.util.Calculator; // 컴파일러는 import 문장을 바이트 코드로 바꾸지 않음 // 컴파일 시 없어짐
 
 // 메소드 활용 (static 변수를 사용하는 이유)
+
+// 1) 낱개의 변수 사용
+// 2) 낱개의 변수 재사용
 public class App { // 클래스 밖에 변수 선언 불가
 
   public static void main(String[] args) {

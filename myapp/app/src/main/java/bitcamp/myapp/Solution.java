@@ -1,34 +1,19 @@
 package bitcamp.myapp;
 
 class Solution {
-  public static int solution(String ineq, String eq, int n, int m) {
-    int answer = 0;
+  public static int solution(double flo) {
+    // 실수 flo가 매개 변수로 주어질 때, flo의 정수 부분을 return하도록 solution 함수를 완성해주세요.
 
-    if (eq.equals(">") || eq.equals("=")) {
-      if (n >= m)
-        answer = 1;
-    } else if (eq.equals("<") || eq.equals("=")) {
-      if (n <= m)
-        answer = 1;
-    } else if (eq.equals(">") || eq.equals("!")) {
-      if (n > m)
-        answer = 1;
-    } else if (eq.equals("<") || eq.equals("!")) {
-      if (n < m)
-        answer = 1;
-    }
+    int answer = 0;
 
     return answer;
   }
 
   public static void main(String[] args) {
 
-    String ineq = "<";
-    String eq = "=";
-    int n = 41;
-    int m = 78;
+    double flo = 1.42;
 
-    int ret = solution(ineq, eq, n, m);
+    double ret = solution(flo);
     System.out.println(ret);
   }
 }
