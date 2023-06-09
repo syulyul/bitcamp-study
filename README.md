@@ -156,9 +156,37 @@
       - 이름, url
     - to: jinyoung.eom@gmail.com
 
-### 12일(6/7,목)
+### 11일(6/7,수)
 
+- 프로젝트 실습
+  - 10. 메뉴 구성 및 CRUD 구현
+- 과제
+  - 프로그래머스 일별 점수 보고(6/5, 6/6)
+  - github.com 잔디 확인
+    - 개인별 github.com 의 bitcamp-study 저장소 주소 제출
+      - 이름, url
+    - to: jinyoung.eom@gmail.com
 
+### 12일(6/8,목)
+
+- 프로젝트 실습
+  - 11. 사용자 정의 데이터 타입 만들기
+- 과제(개인) 발표
+  - 개인 프로젝트 시연(17:10)
+  - 프로그래머스 일별 점수 보고(6/7)
+  - github.com 잔디 확인
+
+### 13일(6/9,금)
+
+- 자바 프로그래밍
+  - 클래스 사용법(계속)
+    - 스태틱 필드와 스태틱 메서드 사용법
+    - 인스턴스 필드와 인스턴스 메서드 사용법
+    - 패키지 사용법: import, public 접근 제어
+    - GRASP 패턴: Information Expert 패턴 소개 
+    - GoF의 Design Patters: Factory Method 패턴 소개
+    - 생성자 사용법
+    - private/public, setter/getter 사용법
 
 
 ## 구글 미트 접속
