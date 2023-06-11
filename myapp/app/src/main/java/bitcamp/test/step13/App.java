@@ -23,10 +23,6 @@ public class App {
     Score[] scores = new Score[MAX_SIZE];
     int length = 0;
 
-    // new Score(문자열, int, int, int);
-    // => Score 설계도에 따라 인스턴스를 생성하라
-    // => 생성한 후 String, int, int, int 파라미터 값을 받는 생성자를 호출하라.
-    // => 이렇게 초기화시킨 인스턴스의 주소를 리턴하라.
     scores[length++] = new Score("홍길동", 100, 100, 100);
     scores[length++] = new Score("임꺽정", 90, 90, 90);
     scores[length++] = new Score("유관순", 80, 80, 80);

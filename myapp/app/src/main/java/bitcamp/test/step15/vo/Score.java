@@ -5,8 +5,8 @@ public class Score {
   int kor;
   int eng;
   int math;
-  private int sum; // 필요에 의해 private 외부에서 접근하면 안되기 때문
-  private float aver; // 필요에 의해 private
+  private int sum; // 필요에 의해 private => 외부에서 접근하면 안되기 때문
+  private float aver; // 필요에 의해 private => 외부에서 접근하면 안되기 때문
 
   public Score(String name, int kor, int eng, int math) {
     this.name = name;

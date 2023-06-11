@@ -24,7 +24,6 @@ public class App {
     Score[] scores = new Score[MAX_SIZE];
     int length = 0;
 
-    // => 이렇게 초기화시킨 인스턴스의 주소를 리턴하라.
     scores[length++] = new Score("홍길동", 100, 100, 100);
     scores[length++] = new Score("임꺽정", 90, 90, 90);
     scores[length++] = new Score("유관순", 80, 80, 80);
