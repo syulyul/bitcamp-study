@@ -13,11 +13,9 @@ public class MemberHandler {
   // static String[] email = new String[MAX_SIZE];
   // static String[] password = new String[MAX_SIZE];
   // static char[] gender = new char[MAX_SIZE];
-  static int userId = 1; // 회원 번호
+
   static int length = 0; // 한 사람 입력 할 떄마다 증가시킬 값
 
-  static final char MALE = 'M'; // 상수로 정의
-  static final char FEMALE = 'W';
 
   public static void inputMember() {
     if (!available()) {
@@ -30,14 +28,6 @@ public class MemberHandler {
     m.setEmail(Prompt.inputString("이메일? "));
     m.setPassword(Prompt.inputString("암호? "));
     m.setGender(inputGender((char) 0));
-
-    // String str = scanner.next();
-    // gender[i] = str.charAt(0);
-    // gender[i] = scanner.next().charAt(0);
-
-    m.setNo(userId++);
-    // 위에서 오류가 발생할 경우 회원번호 부여하지 않기 위해
-    // (정상적인 값 입력된 경우 회원 번호를 부여)
 
     // 위에서 만든 Member 인스턴스의 주소를 잃어버리지 않게 레퍼런스 배열에 담는다.
     members[length++] = m;
@@ -107,9 +97,9 @@ public class MemberHandler {
 
       switch (menuNo) {
         case "1":
-          return MALE;
+          return Member.MALE;
         case "2":
-          return FEMALE;
+          return Member.FEMALE;
         default:
           System.out.println("무효한 번호입니다.");
       }
