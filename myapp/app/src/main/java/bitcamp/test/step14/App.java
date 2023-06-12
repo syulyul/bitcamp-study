@@ -39,7 +39,7 @@ public class App {
 
   static void printScore(Score s) {
     System.out.printf("%s: 합계=%d, 평균=%.1f\n",
-        s.name, s.getSum(), s.getAver());
+        s.name, s.getSum(), s.getAver()); // 인스턴스 주소값을 전달해서 getter한테 꺼내달라고 함
   }
 
 }

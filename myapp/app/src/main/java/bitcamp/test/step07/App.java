@@ -17,7 +17,7 @@ public class App {
     int sum;
     float aver;
 
-    static void compute(Score s) {
+    static void compute(Score s) { // Score의 인스턴스 값을 다룸
       s.sum = s.kor + s.eng + s.math;
       s.aver = s.sum / 3f;
     }

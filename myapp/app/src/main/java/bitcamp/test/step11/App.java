@@ -21,8 +21,11 @@ public class App {
     int sum;
     float aver;
 
-    // 생성자: 인스턴스를 생성한 직후 호출하는 메서드
+    // 생성자: 인스턴스를 생성한 직후 호출하는 메서드 (자바에서는 생성자 1개 이상 반드시 존재함 -> 안 만들면 컴파일러가 만듦)
     Score(String name, int kor, int eng, int math) {
+      // 기존에 존재하는 인스턴스 값을 초기화
+      // new 명령을 하자마자 무조건 바로 호출해야 됨(new 명령과 조합해서 씀)
+      // 생성자는 클래스와 이름이 같음 // 리턴타입 없음
       this.name = name;
       this.kor = kor;
       this.eng = eng;

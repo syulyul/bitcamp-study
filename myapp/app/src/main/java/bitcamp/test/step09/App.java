@@ -42,14 +42,14 @@ public class App {
   }
 
   // 팩토리 메서드
-  static Score createScore(String name, int kor, int eng, int math) {
+  static Score createScore(String name, int kor, int eng, int math) { // 캡슐화
     Score s = new Score();
     s.name = name;
     s.kor = kor;
     s.eng = eng;
     s.math = math;
     s.compute();
-    return s;
+    return s; // 계산까지 끝난 인스턴스 (주소값 리턴)
   }
 
   static void printScore(Score s) {

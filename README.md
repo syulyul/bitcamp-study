@@ -188,6 +188,14 @@
     - 생성자 사용법
     - private/public, setter/getter 사용법
 
+### 14일(6/12,월)
+
+
+
+
+## 웨일온 접속
+
+https://whaleon.us/o/CSrtk1/001aa759f29c46b985e32dd8562f594a
 
 ## 구글 미트 접속
 

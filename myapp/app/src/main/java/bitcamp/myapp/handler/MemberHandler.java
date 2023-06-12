@@ -26,16 +26,18 @@ public class MemberHandler {
     }
 
     Member m = new Member();
-    m.name = Prompt.inputString("이름? ");
-    m.email = Prompt.inputString("이메일? ");
-    m.password = Prompt.inputString("암호? ");
-    m.gender = inputGender((char) 0);
+    m.setName(Prompt.inputString("이름? "));
+    m.setEmail(Prompt.inputString("이메일? "));
+    m.setPassword(Prompt.inputString("암호? "));
+    m.setGender(inputGender((char) 0));
 
     // String str = scanner.next();
     // gender[i] = str.charAt(0);
     // gender[i] = scanner.next().charAt(0);
 
-    m.no = userId++; // 위에서 오류가 발생할 경우 회원번호 부여하지 않기 위해(정상적인 값 입력된 경우 회원 번호를 부여)
+    m.setNo(userId++);
+    // 위에서 오류가 발생할 경우 회원번호 부여하지 않기 위해
+    // (정상적인 값 입력된 경우 회원 번호를 부여)
 
     // 위에서 만든 Member 인스턴스의 주소를 잃어버리지 않게 레퍼런스 배열에 담는다.
     members[length++] = m;
@@ -49,9 +51,8 @@ public class MemberHandler {
 
     for (int i = 0; i < length; i++) {
       Member m = members[i];
-      System.out.printf("%d, %s, %s, %s\n",
-          m.no, m.name, m.email,
-          toGenderString(m.gender));
+      System.out.printf("%d, %s, %s, %s\n", m.getNo(), m.getName(), m.getEmail(),
+          toGenderString(m.getGender()));
     }
   }
 
@@ -60,11 +61,11 @@ public class MemberHandler {
     // 입력 받은 번호를 가지고 배열에서 해당 회원을 찾아야 한다.
     for (int i = 0; i < length; i++) {
       Member m = members[i];
-      if (m.no == Integer.parseInt(memberNo)) {
+      if (m.getNo() == Integer.parseInt(memberNo)) {
         // i 번째 항목에 저장된 회원 정보 출력
-        System.out.printf("이름: %s\n", m.name);
-        System.out.printf("이메일: %s\n", m.email);
-        System.out.printf("성별: %s\n", toGenderString(m.gender));
+        System.out.printf("이름: %s\n", m.getName());
+        System.out.printf("이메일: %s\n", m.getEmail());
+        System.out.printf("성별: %s\n", toGenderString(m.getGender()));
         return;
       }
     }
@@ -80,12 +81,13 @@ public class MemberHandler {
     // 입력 받은 번호를 가지고 배열에서 해당 회원을 찾아야 한다.
     for (int i = 0; i < length; i++) {
       Member m = members[i];
-      if (m.no == Integer.parseInt(memberNo)) {
+
+      if (m.getNo() == Integer.parseInt(memberNo)) {
         // i 번째 항목에 저장된 회원 정보 출력
-        m.name = Prompt.inputString("이름(" + m.name + ")? ");
-        m.email = Prompt.inputString("이메일(" + m.email + ")?\n");
-        m.password = Prompt.inputString("새암호? ");
-        m.gender = inputGender(m.gender);
+        m.setName(Prompt.inputString("이름(" + m.getName() + ")? "));
+        m.setEmail(Prompt.inputString("이메일(" + m.getEmail() + ")?\n"));
+        m.setPassword(Prompt.inputString("새암호? "));
+        m.setGender(inputGender(m.getGender()));
         return;
       }
     }
@@ -100,11 +102,8 @@ public class MemberHandler {
       // label = "성별(" + toGenderString(gender) + ")?\n";
       label = String.format("성별(%s)?\n", toGenderString(gender)); // 문자열 리턴
     }
-    loop: while (true) {
-      String menuNo = Prompt.inputString(label +
-          " 1. 남자\n" +
-          " 2. 여자\n" +
-          "> ");
+    while (true) {
+      String menuNo = Prompt.inputString(label + " 1. 남자\n" + " 2. 여자\n" + "> ");
 
       switch (menuNo) {
         case "1":
@@ -161,7 +160,7 @@ public class MemberHandler {
   private static int indexOf(int memberNo) {
     for (int i = 0; i < length; i++) {
       Member m = members[i];
-      if (m.no == memberNo) {
+      if (m.getNo() == memberNo) {
         return i;
       }
     }

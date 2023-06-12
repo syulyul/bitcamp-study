@@ -28,7 +28,7 @@ public class App {
     s.kor = 100;
     s.eng = 100;
     s.math = 100;
-    compute(s);
+    compute(s); // 호출할 때 인스턴스 주소를 넘긴다
     scores[length++] = s;
 
     s = new Score();
@@ -54,7 +54,7 @@ public class App {
   }
 
   static void compute(Score s) {
-    s.sum = s.kor + s.eng + s.math;
+    s.sum = s.kor + s.eng + s.math; // 각각의 인스턴스를 찾아서 계산
     s.aver = s.sum / 3f;
   }
 

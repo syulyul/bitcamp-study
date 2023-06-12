@@ -1,20 +1,13 @@
 package bitcamp.myapp;
 
 class Solution {
-  public static int solution(String my_string, String target) {
+  public static String solution(String rny_string) {
 
-    int answer = 0;
-    String ms = "";
-    String t = "";
+    String answer = "";
 
-    for (int i = 0; i < my_string.length(); i++) {
-      for (int j = 0; j < target.length(); j++) {
-        if (my_string.charAt(i) == target.charAt(j)) {
-          ms += my_string.charAt(i);
-          t += target.charAt(j);
-          if (ms.equals(t))
-            answer = 1;
-        }
+    for (int i = 0; i < rny_string.length(); i++) {
+      if (rny_string.charAt(i) == 'r' && rny_string.charAt(i + 1) == 'n') {
+        answer += rny_string.charAt(i);
       }
     }
 
@@ -23,10 +16,9 @@ class Solution {
 
   public static void main(String[] args) {
 
-    String my_String = "banana";
-    String target = "ana";
+    String rny_String = "masterpiece";
 
-    int ret = solution(my_String, target);
+    String ret = solution(rny_String);
     System.out.println(ret);
   }
 }

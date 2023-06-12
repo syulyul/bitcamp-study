@@ -26,7 +26,8 @@ public class App {
       this.aver = this.sum / 3f;
     }
 
-    static Score create(String name, int kor, int eng, int math) {
+    static Score create(String name, int kor, int eng, int math) { // 객체 생성도 Score 클래스에 맡기자
+      // 인스턴스를 생성해야되는 메소드이므로 this 쓸 필요 없음 // 인스턴스를 사용하지 않는 메서드 => static 메서드
       Score s = new Score();
       s.name = name;
       s.kor = kor;

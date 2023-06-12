@@ -14,41 +14,41 @@ public class App {
       int math;
       int sum;
       float aver;
-    }
+    } // 설계도
 
     final int MAX_SIZE = 10;
-    Score[] scores = new Score[MAX_SIZE];
+    Score[] scores = new Score[MAX_SIZE]; // 레퍼런스 배열(주소를 저장)
     int length = 0;
 
-    Score s = new Score();
+    Score s = new Score(); // 스코어 설계도에 따라서 인스턴스 생성
     s.name = "홍길동";
     s.kor = 100;
     s.eng = 100;
     s.math = 100;
     s.sum = s.kor + s.eng + s.math;
     s.aver = s.sum / 3f;
-    scores[length++] = s;
+    scores[length++] = s; // 인스턴스 주소를 잃어버리지 않기 위해 배열에 담음
 
-    s = new Score();
+    s = new Score(); // 레퍼런스 재활용
     s.name = "임꺽정";
     s.kor = 90;
     s.eng = 90;
     s.math = 90;
     s.sum = s.kor + s.eng + s.math;
     s.aver = s.sum / 3f;
-    scores[length++] = s;
+    scores[length++] = s; // 인스턴스 주소를 잃어버리지 않기 위해 배열에 담음
 
-    s = new Score();
+    s = new Score(); // 레퍼런스 재활용
     s.name = "유관순";
     s.kor = 80;
     s.eng = 80;
     s.math = 80;
     s.sum = s.kor + s.eng + s.math;
     s.aver = s.sum / 3f;
-    scores[length++] = s;
+    scores[length++] = s; // 인스턴스 주소를 잃어버리지 않기 위해 배열에 담음
 
     for (int i = 0; i < length; i++) {
-      s = scores[i];
+      s = scores[i]; // s는 임시변수
       System.out.printf("%s: 합계=%d, 평균=%.1f\n",
           s.name, s.sum, s.aver);
     }

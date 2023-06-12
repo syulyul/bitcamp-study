@@ -6,7 +6,7 @@ public class Score {
   int eng;
   int math;
   private int sum;
-  private float aver;
+  private float aver; // 패키지 안에서만 사용 가능
 
   public Score(String name, int kor, int eng, int math) {
     this.name = name;
@@ -22,7 +22,7 @@ public class Score {
   }
 
   // getter: private 으로 접근이 막힌 변수의 값을 리턴해주는 메서드
-  public int getSum() {
+  public int getSum() { // 값을 꺼내주는 메서드 // 인스턴스 주소를 가지고 호출
     return this.sum;
   }
 

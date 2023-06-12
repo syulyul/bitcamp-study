@@ -7,7 +7,7 @@ package bitcamp.test.step05;
 // 5) 출력 기능을 별도의 메서드로 분리(중첩클래스; 스태틱 중첩 클래스)
 public class App {
 
-  static class Score {
+  static class Score { // 여기서도 Score 쓰고
     String name;
     int kor;
     int eng;
@@ -55,7 +55,7 @@ public class App {
 
   }
 
-  static void printScore(Score s) {
+  static void printScore(Score s) { // 여기서도 Score 를 씀
     System.out.printf("%s: 합계=%d, 평균=%.1f\n",
         s.name, s.sum, s.aver);
   }

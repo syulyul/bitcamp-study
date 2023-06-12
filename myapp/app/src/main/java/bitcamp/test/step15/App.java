@@ -40,7 +40,7 @@ public class App {
 
   static void printScore(Score s) {
     System.out.printf("%s: 합계=%d, 평균=%.1f\n",
-        s.getName(), s.getSum(), s.getAver());
+        s.getName(), s.getSum(), s.getAver()); // 프로그래밍의 일관성을 위해 name 도 getter를 만들어줌
   }
 
 }

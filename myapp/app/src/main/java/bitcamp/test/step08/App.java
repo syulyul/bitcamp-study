@@ -18,7 +18,7 @@ public class App {
     int sum;
     float aver;
 
-    void compute(Score s) {
+    void compute() { // 파라미터를 넘겨줄 필요가 없음
       this.sum = this.kor + this.eng + this.math;
       this.aver = this.sum / 3f;
     }
@@ -35,7 +35,7 @@ public class App {
     s.kor = 100;
     s.eng = 100;
     s.math = 100;
-    s.compute(s);
+    s.compute();
     scores[length++] = s;
 
     s = new Score();
@@ -43,7 +43,7 @@ public class App {
     s.kor = 90;
     s.eng = 90;
     s.math = 90;
-    s.compute(s);
+    s.compute();
     scores[length++] = s;
 
     s = new Score();
@@ -51,7 +51,7 @@ public class App {
     s.kor = 80;
     s.eng = 80;
     s.math = 80;
-    s.compute(s);
+    s.compute();
     scores[length++] = s;
 
     for (int i = 0; i < length; i++) {
@@ -61,8 +61,7 @@ public class App {
   }
 
   static void printScore(Score s) {
-    System.out.printf("%s: 합계=%d, 평균=%.1f\n",
-        s.name, s.sum, s.aver);
+    System.out.printf("%s: 합계=%d, 평균=%.1f\n", s.name, s.sum, s.aver);
   }
 
 }
