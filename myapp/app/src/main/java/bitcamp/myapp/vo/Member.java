@@ -71,5 +71,4 @@ public class Member {
     this.gender = gender;
   }
 
-
 }
