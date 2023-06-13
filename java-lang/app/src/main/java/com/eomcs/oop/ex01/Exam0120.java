@@ -72,7 +72,7 @@ public class Exam0120 {
     //
     s.name = "홍길동"; // s에 저장된 주소로 찾아가서 name 항목에 값 저장
     s.kor = 100; // s에 저장된 주소로 찾아가서 kor 항목에 값 저장
-    s.eng = 90;
+    s.eng = 90; // --> s 레퍼런스에 저장된 주소로 찾아가서 Heap 메모리에 있는 인스턴스의 필에 90 넣어라.
     s.math = 80;
     s.sum = s.kor + s.eng + s.math;
     s.aver = s.sum / 3;

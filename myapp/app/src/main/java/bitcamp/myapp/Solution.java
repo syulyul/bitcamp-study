@@ -1,24 +1,18 @@
 package bitcamp.myapp;
 
 class Solution {
-  public static String solution(String rny_string) {
-
-    String answer = "";
-
-    for (int i = 0; i < rny_string.length(); i++) {
-      if (rny_string.charAt(i) == 'r' && rny_string.charAt(i + 1) == 'n') {
-        answer += rny_string.charAt(i);
-      }
-    }
+  public static int[] solution(int l, int r) {
+    int[] answer = {};
 
     return answer;
   }
 
   public static void main(String[] args) {
 
-    String rny_String = "masterpiece";
+    int l = 5;
+    int r = 555;
 
-    String ret = solution(rny_String);
+    int[] ret = solution(l, r);
     System.out.println(ret);
   }
 }
