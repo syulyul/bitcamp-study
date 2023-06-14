@@ -1,18 +1,35 @@
 package bitcamp.myapp;
 
-class Solution {
-  public static int[] solution(int l, int r) {
-    int[] answer = {};
+import java.util.ArrayList;
+import java.util.List;
 
-    return answer;
+class Solution {
+  public static List<Integer> solution(int n) {
+
+    // int[] answer = {};
+    List<Integer> list = new ArrayList<>();
+    int x = n;
+    list.add(n);
+
+    while (x != 1) {
+      if ((x & 1) == 0) {
+        x /= 2;
+        list.add(x);
+      } else {
+        x = 3 * x + 2;
+        list.add(x);
+      }
+      return list;
+    }
+    // return answer;
+    return list;
   }
 
   public static void main(String[] args) {
 
-    int l = 5;
-    int r = 555;
+    int n = 10;
 
-    int[] ret = solution(l, r);
+    List<Integer> ret = solution(n);
     System.out.println(ret);
   }
 }
