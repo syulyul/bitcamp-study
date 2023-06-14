@@ -3,47 +3,54 @@ package bitcamp.report.handler;
 import bitcamp.report.vo.Item;
 import bitcamp.util.Prompt;
 
-public class itemHandler {
+public class ItemHandler {
 
-  static final int MAX_SIZE = 100;
-  static Item[] items = new Item[MAX_SIZE];
+  private static final int MAX_SIZE = 100;
 
-  static int length = 0;
+  private Prompt prompt;
+  private Item[] items = new Item[MAX_SIZE];
+  private int length;
 
-  public static void inputItem() {
-    if (!available()) {
+  // 생성자: 인스턴스를 사용할 수 있도록 유효한 값으로 초기화시키는 일을 함
+  // => 필요한 값을 외부에서 받고 싶으면 파라미터를 선언
+  public ItemHandler(Prompt prompt) {
+    this.prompt = prompt;
+  }
+
+  public void inputItem() {
+    if (!this.available()) {
       System.out.println("더이상 입력할 수 없습니다!");
       return;
     }
 
     Item item = new Item();
-    item.setName(Prompt.inputString("물품 이름? "));
-    item.setPrice(Prompt.inputInt("물품 가격? "));
+    item.setName(this.prompt.inputString("물품 이름? "));
+    item.setPrice(this.prompt.inputInt("물품 가격? "));
     item.setType(inputType("0"));
 
     // 위에서 만든 Item 인스턴스의 주소를 잃어버리지 않게 레퍼런스 배열에 담기
-    items[length++] = item;
+    this.items[this.length++] = item;
   }
 
-  public static void printItems() {
+  public void printItems() {
     System.out.println("---------------------------------------------------------------------");
     System.out.println("물품 번호, 물품 이름, 물품 가격, 종류");
     System.out.println("---------------------------------------------------------------------");
 
-    for (int i = 0; i < length; i++) {
-      Item item = items[i];
-      System.out.printf("%d, %s, %s, %s\n", item.getNo(), item.getName(), item.getPrice(),
+    for (int i = 0; i < this.length; i++) {
+      Item item = this.items[i];
+      System.out.printf("%d, %s, %d, %s\n", item.getNo(), item.getName(), item.getPrice(),
           item.getType());
     }
   }
 
-  public static void viewItem() {
-    String itemNo = Prompt.inputString("물품 번호? ");
-    for (int i = 0; i < length; i++) {
-      Item item = items[i];
+  public void viewItem() {
+    String itemNo = this.prompt.inputString("물품 번호? ");
+    for (int i = 0; i < this.length; i++) {
+      Item item = this.items[i];
       if (item.getNo() == Integer.parseInt(itemNo)) {
         System.out.printf("물품 이름: %s\n", item.getName());
-        System.out.printf("물품 가격: %s\n", item.getPrice());
+        System.out.printf("물품 가격: %d\n", item.getPrice());
         System.out.printf("물품 종류: %s\n", item.getType());
         return;
       }
@@ -51,15 +58,13 @@ public class itemHandler {
     System.out.println("해당 번호의 물품이 없습니다!");
   }
 
-  public static void updateItem() {
-    String itemNo = Prompt.inputString("물품 번호? ");
-    for (int i = 0; i < length; i++) {
-      Item item = items[i];
+  public void updateItem() {
+    String itemNo = this.prompt.inputString("물품 번호? ");
+    for (int i = 0; i < this.length; i++) {
+      Item item = this.items[i];
       if (item.getNo() == Integer.parseInt(itemNo)) {
-        System.out.printf("물품 이름(%s)? ", item.getName());
-        item.setName(Prompt.inputString(""));
-        System.out.printf("물품 가격(%s)? ", item.getPrice());
-        item.setPrice(Prompt.inputInt(""));
+        item.setName(this.prompt.inputString("물품 이름(%s)? ", item.getName()));
+        item.setPrice(this.prompt.inputInt("물품 가격(%d)? ", item.getPrice()));
         item.setType(inputType(item.getType()));
         return;
       }
@@ -67,7 +72,7 @@ public class itemHandler {
     System.out.println("해당 번호의 물품이 없습니다!");
   }
 
-  private static String inputType(String type) {
+  private String inputType(String type) {
     String label;
     if (type == "0") {
       label = "물품 종류?\n";
@@ -75,7 +80,7 @@ public class itemHandler {
       label = String.format("물품 종류(%s)?\n", type);
     }
     while (true) {
-      String typeNo = Prompt.inputString(
+      String typeNo = this.prompt.inputString(
           label + "  1. 식료품\n" + "  2. 생활용품\n" + "  3. 의류\n" + "  4. 가전제품\n" + "  5. 리빙\n" + "> ");
 
       switch (typeNo) {
@@ -95,10 +100,10 @@ public class itemHandler {
     }
   }
 
-  public static void deleteItem() {
+  public void deleteItem() {
     // 삭제하려는 물품의 정보가 들어있는 인덱스 알아내기
 
-    int itemNo = Integer.parseInt(Prompt.inputString("물품 번호? "));
+    int itemNo = this.prompt.inputInt("물품 번호? ");
 
     int deletedIndex = indexOf(itemNo);
 
@@ -109,22 +114,20 @@ public class itemHandler {
 
     // 만약 삭제하려는 항목이 마지막 인덱스의 항목이라면 마지막 인덱스의 값만 0으로 초기화 시키기
     // 그 밖에는 해당 인덱스부터 반복하면서 앞 인덱스의 값을 당겨오기
-    for (int i = deletedIndex; i < length - 1; i++) {
-      items[i] = items[i + 1];
+    for (int i = deletedIndex; i < this.length - 1; i++) {
+      this.items[i] = this.items[i + 1];
     }
 
     // 배열의 맨 마지막 초기화
-    items[length - 1] = null;
-
-    length--;
+    this.items[--this.length] = null;
 
     System.out.println("삭제했습니다.");
     return;
   }
 
-  private static int indexOf(int itemNo) {
-    for (int i = 0; i < length; i++) {
-      Item item = items[i];
+  private int indexOf(int itemNo) {
+    for (int i = 0; i < this.length; i++) {
+      Item item = this.items[i];
       if (item.getNo() == itemNo) {
         return i;
       }
@@ -132,7 +135,7 @@ public class itemHandler {
     return -1;
   }
 
-  public static boolean available() {
-    return length < MAX_SIZE;
+  public boolean available() {
+    return this.length < MAX_SIZE;
   }
 }
