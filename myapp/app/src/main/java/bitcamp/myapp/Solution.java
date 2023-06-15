@@ -2,34 +2,33 @@ package bitcamp.myapp;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 class Solution {
-  public static List<Integer> solution(int n) {
-
-    // int[] answer = {};
-    List<Integer> list = new ArrayList<>();
-    int x = n;
-    list.add(n);
-
-    while (x != 1) {
-      if ((x & 1) == 0) {
-        x /= 2;
-        list.add(x);
-      } else {
-        x = 3 * x + 2;
-        list.add(x);
+  public static int solution(String str1, String str2) {
+    int answer = 0;
+    int k = 0;
+    for (int i = 0; i < str2.length() - str1.length() + 1; i++) {
+      String s = "";
+      for (int j = k; j < k + str1.length(); j++) {
+        s += str2.charAt(j);
       }
-      return list;
+      if (s.equals(str1)) {
+        
+      }
+      k++;
     }
-    // return answer;
-    return list;
+
+    return answer;
   }
 
   public static void main(String[] args) {
 
-    int n = 10;
+    String str1 = "abc";
+    String str2 = "aabcc";
 
-    List<Integer> ret = solution(n);
+    int ret = solution(str1, str2);
     System.out.println(ret);
   }
 }
+
