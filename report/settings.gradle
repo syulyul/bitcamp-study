@@ -14,12 +14,3 @@ plugins {
 
 rootProject.name = 'report'
 include('app')
-// include('app-01')
-// include('app-02')
-// include('app-03')
-// include('app-04')
-// include('app-05')
-// include('app-06')
-// include('app-07')
-// include('app-08')
-// include('app-09')

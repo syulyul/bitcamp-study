@@ -78,11 +78,11 @@ public class App {
     }
 
     static void printMenu() {
-        System.out.println("1. 관리자 등록");
-        System.out.println("2. 관리자 목록");
-        System.out.println("3. 관리자 조회");
-        System.out.println("4. 관리자 변경");
-        System.out.println("5. 관리자 삭제");
+        System.out.println("1. 직원 등록");
+        System.out.println("2. 직원 목록");
+        System.out.println("3. 직원 조회");
+        System.out.println("4. 직원 변경");
+        System.out.println("5. 직원 삭제");
         System.out.println("6. 물품 등록");
         System.out.println("7. 물품 목록");
         System.out.println("8. 물품 조회");
