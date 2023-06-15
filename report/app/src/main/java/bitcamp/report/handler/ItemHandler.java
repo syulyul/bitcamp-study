@@ -3,73 +3,100 @@ package bitcamp.report.handler;
 import bitcamp.report.vo.Item;
 import bitcamp.util.Prompt;
 
-public class ItemHandler {
+public class ItemHandler implements Handler {
 
-  private static final int MAX_SIZE = 100;
-
+  private ItemList list = new ItemList();
   private Prompt prompt;
-  private Item[] items = new Item[MAX_SIZE];
-  private int length;
+  private String title;
 
   // 생성자: 인스턴스를 사용할 수 있도록 유효한 값으로 초기화시키는 일을 함
   // => 필요한 값을 외부에서 받고 싶으면 파라미터를 선언
-  public ItemHandler(Prompt prompt) {
+  public ItemHandler(Prompt prompt, String title) {
     this.prompt = prompt;
+    this.title = title;
   }
 
-  public void inputItem() {
-    if (!this.available()) {
-      System.out.println("더이상 입력할 수 없습니다!");
-      return;
-    }
+  public void execute() {
+    printMenu();
 
+    while (true) {
+      String menuNo = prompt.inputString("%s> ", title);
+      if (menuNo.equals("0")) {
+        break;
+      } else if (menuNo.equals("menu")) {
+        printMenu();
+      } else if (menuNo.equals("1")) {
+        this.inputItem();
+      } else if (menuNo.equals("2")) {
+        this.printItems();
+      } else if (menuNo.equals("3")) {
+        this.viewItem();
+      } else if (menuNo.equals("4")) {
+        this.updateItem();
+      } else if (menuNo.equals("5")) {
+        this.deleteItem();
+      } else {
+        System.out.println("메뉴 번호가 옳지 않습니다!");
+      }
+    }
+  }
+
+  private static void printMenu() {
+    System.out.println("1. 등록");
+    System.out.println("2. 목록");
+    System.out.println("3. 조회");
+    System.out.println("4. 변경");
+    System.out.println("5. 삭제");
+    System.out.println("0. 종료");
+  }
+
+  private void inputItem() {
     Item item = new Item();
     item.setName(this.prompt.inputString("물품 이름? "));
     item.setPrice(this.prompt.inputInt("물품 가격? "));
     item.setType(inputType("0"));
 
-    // 위에서 만든 Item 인스턴스의 주소를 잃어버리지 않게 레퍼런스 배열에 담기
-    this.items[this.length++] = item;
+    this.list.add(item);
   }
 
-  public void printItems() {
+  private void printItems() {
     System.out.println("---------------------------------------------------------------------");
     System.out.println("물품 번호, 물품 이름, 물품 가격, 종류");
     System.out.println("---------------------------------------------------------------------");
 
-    for (int i = 0; i < this.length; i++) {
-      Item item = this.items[i];
+    Item[] arr = this.list.list();
+    for (Item item : arr) {
       System.out.printf("%d, %s, %d, %s\n", item.getNo(), item.getName(), item.getPrice(),
           item.getType());
     }
   }
 
-  public void viewItem() {
-    String itemNo = this.prompt.inputString("물품 번호? ");
-    for (int i = 0; i < this.length; i++) {
-      Item item = this.items[i];
-      if (item.getNo() == Integer.parseInt(itemNo)) {
-        System.out.printf("물품 이름: %s\n", item.getName());
-        System.out.printf("물품 가격: %d\n", item.getPrice());
-        System.out.printf("물품 종류: %s\n", item.getType());
-        return;
-      }
+  private void viewItem() {
+    int itemNo = this.prompt.inputInt("물품 번호? ");
+
+    Item item = this.list.get(itemNo);
+    if (item == null) {
+      System.out.println("해당 번호의 물품이 없습니다!");
+      return;
     }
-    System.out.println("해당 번호의 물품이 없습니다!");
+
+    System.out.printf("물품 이름: %s\n", item.getName());
+    System.out.printf("물품 가격: %d\n", item.getPrice());
+    System.out.printf("물품 종류: %s\n", item.getType());
   }
 
-  public void updateItem() {
-    String itemNo = this.prompt.inputString("물품 번호? ");
-    for (int i = 0; i < this.length; i++) {
-      Item item = this.items[i];
-      if (item.getNo() == Integer.parseInt(itemNo)) {
-        item.setName(this.prompt.inputString("물품 이름(%s)? ", item.getName()));
-        item.setPrice(this.prompt.inputInt("물품 가격(%d)? ", item.getPrice()));
-        item.setType(inputType(item.getType()));
-        return;
-      }
+  private void updateItem() {
+    int itemNo = this.prompt.inputInt("물품 번호? ");
+
+    Item item = this.list.get(itemNo);
+    if (item == null) {
+      System.out.println("해당 번호의 물품이 없습니다!");
+      return;
     }
-    System.out.println("해당 번호의 물품이 없습니다!");
+
+    item.setName(this.prompt.inputString("물품 이름(%s)? ", item.getName()));
+    item.setPrice(this.prompt.inputInt("물품 가격(%d)? ", item.getPrice()));
+    item.setType(inputType(item.getType()));
   }
 
   private String inputType(String type) {
@@ -100,42 +127,12 @@ public class ItemHandler {
     }
   }
 
-  public void deleteItem() {
+  private void deleteItem() {
     // 삭제하려는 물품의 정보가 들어있는 인덱스 알아내기
 
-    int itemNo = this.prompt.inputInt("물품 번호? ");
-
-    int deletedIndex = indexOf(itemNo);
-
-    if (deletedIndex == -1) {
+    if (!this.list.delete(prompt.inputInt("물품 번호? "))) {
       System.out.println("해당 번호의 물품이 없습니다!");
-      return;
     }
-
-    // 만약 삭제하려는 항목이 마지막 인덱스의 항목이라면 마지막 인덱스의 값만 0으로 초기화 시키기
-    // 그 밖에는 해당 인덱스부터 반복하면서 앞 인덱스의 값을 당겨오기
-    for (int i = deletedIndex; i < this.length - 1; i++) {
-      this.items[i] = this.items[i + 1];
-    }
-
-    // 배열의 맨 마지막 초기화
-    this.items[--this.length] = null;
-
-    System.out.println("삭제했습니다.");
-    return;
   }
 
-  private int indexOf(int itemNo) {
-    for (int i = 0; i < this.length; i++) {
-      Item item = this.items[i];
-      if (item.getNo() == itemNo) {
-        return i;
-      }
-    }
-    return -1;
-  }
-
-  public boolean available() {
-    return this.length < MAX_SIZE;
-  }
 }

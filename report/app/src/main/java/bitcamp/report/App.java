@@ -1,108 +1,62 @@
 package bitcamp.report;
 
-import bitcamp.report.handler.MemberHandler;
-
 import bitcamp.report.handler.BoardHandler;
+import bitcamp.report.handler.Handler;
 import bitcamp.report.handler.ItemHandler;
+import bitcamp.report.handler.MemberHandler;
 import bitcamp.util.Prompt;
 
 public class App {
 
-    public static void main(String[] args) {
+  public static void main(String[] args) {
 
-        // 기본 생성자를 이용해 Prompt 인스턴스를 준비
-        // => 기본 생성자는 Scanner를 키보드와 연결함
-        Prompt prompt = new Prompt();
+    // 기본 생성자를 이용해 Prompt 인스턴스를 준비
+    // => 기본 생성자는 Scanner를 키보드와 연결함
+    Prompt prompt = new Prompt();
 
-        MemberHandler memberHandler = new MemberHandler(prompt);
-        ItemHandler itemHandler = new ItemHandler(prompt);
-        BoardHandler boardHandler = new BoardHandler(prompt);
-        BoardHandler noticeHandler = new BoardHandler(prompt);
+    // 모든 핸들러는 Handler 규칙에 따라 정의되었기 때문에
+    // Handler 레퍼런스에 그 주소를 담을 수 있다.
+    Handler memberHandler = new MemberHandler(prompt, "직원");
+    Handler itemHandler = new ItemHandler(prompt, "물품");
+    Handler boardHandler = new BoardHandler(prompt, "게시글");
+    Handler noticeHandler = new BoardHandler(prompt, "공지");
 
-        printTitle();
+    printTitle();
 
+    printMenu();
+
+    while (true) {
+      String menuNo = prompt.inputString("메인> ");
+      if (menuNo.equals("0")) {
+        break;
+      } else if (menuNo.equals("menu")) {
         printMenu();
-
-        while (true) {
-            String menuNo = prompt.inputString("메인> ");
-            if (menuNo.equals("99")) {
-                break;
-            } else if (menuNo.equals("menu")) {
-                printMenu();
-            } else if (menuNo.equals("1")) {
-                memberHandler.inputMember();
-            } else if (menuNo.equals("2")) {
-                memberHandler.printMembers();
-            } else if (menuNo.equals("3")) {
-                memberHandler.viewMember();
-            } else if (menuNo.equals("4")) {
-                memberHandler.updateMember();
-            } else if (menuNo.equals("5")) {
-                memberHandler.deleteMember();
-            } else if (menuNo.equals("6")) {
-                itemHandler.inputItem();
-            } else if (menuNo.equals("7")) {
-                itemHandler.printItems();
-            } else if (menuNo.equals("8")) {
-                itemHandler.viewItem();
-            } else if (menuNo.equals("9")) {
-                itemHandler.updateItem();
-            } else if (menuNo.equals("10")) {
-                itemHandler.deleteItem();
-            } else if (menuNo.equals("11")) {
-                boardHandler.inputBoard();
-            } else if (menuNo.equals("12")) {
-                boardHandler.printBoards();
-            } else if (menuNo.equals("13")) {
-                boardHandler.viewBoard();
-            } else if (menuNo.equals("14")) {
-                boardHandler.updateBoard();
-            } else if (menuNo.equals("15")) {
-                boardHandler.deleteBoard();
-            } else if (menuNo.equals("16")) {
-                noticeHandler.inputBoard();
-            } else if (menuNo.equals("17")) {
-                noticeHandler.printBoards();
-            } else if (menuNo.equals("18")) {
-                noticeHandler.viewBoard();
-            } else if (menuNo.equals("19")) {
-                noticeHandler.updateBoard();
-            } else if (menuNo.equals("20")) {
-                noticeHandler.deleteBoard();
-            } else {
-                System.out.println(menuNo);
-            }
-        }
-
-        prompt.close();
+      } else if (menuNo.equals("1")) {
+        memberHandler.execute();
+      } else if (menuNo.equals("2")) {
+        itemHandler.execute();
+      } else if (menuNo.equals("3")) {
+        boardHandler.execute();
+      } else if (menuNo.equals("4")) {
+        noticeHandler.execute();
+      } else {
+        System.out.println("메뉴 번호가 옳지 않습니다!");
+      }
     }
 
-    static void printMenu() {
-        System.out.println("1. 관리자 등록");
-        System.out.println("2. 관리자 목록");
-        System.out.println("3. 관리자 조회");
-        System.out.println("4. 관리자 변경");
-        System.out.println("5. 관리자 삭제");
-        System.out.println("6. 물품 등록");
-        System.out.println("7. 물품 목록");
-        System.out.println("8. 물품 조회");
-        System.out.println("9. 물품 변경");
-        System.out.println("10. 물품 삭제");
-        System.out.println("11. 게시글 등록");
-        System.out.println("12. 게시글 목록");
-        System.out.println("13. 게시글 조회");
-        System.out.println("14. 게시글 변경");
-        System.out.println("15. 게시글 삭제");
-        System.out.println("16. 공지 등록");
-        System.out.println("17. 공지 목록");
-        System.out.println("18. 공지 조회");
-        System.out.println("19. 공지 변경");
-        System.out.println("20. 공지 삭제");
-        System.out.println("99. 종료");
-    }
+    prompt.close();
+  }
 
-    static void printTitle() {
-        System.out.println("마트 관리 시스템");
-        System.out.println("---------------------------------------------------------------------");
-    }
+  static void printMenu() {
+    System.out.println("1. 직원");
+    System.out.println("2. 물품");
+    System.out.println("3. 게시글");
+    System.out.println("4. 공지");
+    System.out.println("0. 종료");
+  }
+
+  static void printTitle() {
+    System.out.println("마트 관리 시스템");
+    System.out.println("---------------------------------------------------------------------");
+  }
 }
