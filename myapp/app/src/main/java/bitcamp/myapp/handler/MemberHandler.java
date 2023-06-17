@@ -7,7 +7,7 @@ import bitcamp.util.Prompt;
 // 즉 Handler 인터페이스에 선언된 메서드를 모두 정의했다.
 public class MemberHandler implements Handler {
 
-  private MemberList list = new MemberList();
+  private ArrayList list = new ArrayList();
   private Prompt prompt;
   private String title;
 
@@ -59,7 +59,9 @@ public class MemberHandler implements Handler {
     m.setPassword(this.prompt.inputString("암호? "));
     m.setGender(inputGender((char) 0));
 
-    this.list.add(m);
+    if (!this.list.add(m)) {
+      System.out.println("입력 실패입니다!");
+    }
   }
 
   private void printMemebers() {
@@ -67,8 +69,9 @@ public class MemberHandler implements Handler {
     System.out.println("번호, 이름, 이메일, 성별");
     System.out.println("--------------------------------------------");
 
-    Member[] arr = this.list.list();
-    for (Member m : arr) {
+    Object[] arr = this.list.list();
+    for (Object obj : arr) {
+      Member m = (Member) obj;
       System.out.printf("%d, %s, %s, %s\n", m.getNo(), m.getName(), m.getEmail(),
           toGenderString(m.getGender()));
     }
@@ -77,7 +80,7 @@ public class MemberHandler implements Handler {
   private void viewMember() {
     int memberNo = this.prompt.inputInt("번호? ");
 
-    Member m = this.list.get(memberNo);
+    Member m = (Member) this.list.get(new Member(memberNo));
     if (m == null) {
       System.out.println("해당 번호의 회원이 없습니다!");
       return;
@@ -95,7 +98,7 @@ public class MemberHandler implements Handler {
   private void updateMember() {
     int memberNo = this.prompt.inputInt("번호? ");
 
-    Member m = this.list.get(memberNo);
+    Member m = (Member) this.list.get(new Member(memberNo));
     if (m == null) {
       System.out.println("해당 번호의 회원이 없습니다!");
       return;
@@ -132,9 +135,9 @@ public class MemberHandler implements Handler {
 
   private void deleteMember() {
 
-    int memberNo = Integer.parseInt(this.prompt.inputString("번호? "));
+    // int memberNo = Integer.parseInt(new Member(this.prompt.inputString("번호? ")));
 
-    if (!this.list.delete(memberNo)) {
+    if (!this.list.delete(new Member(this.prompt.inputInt("번호? ")))) {
       System.out.println("해당 번호의 회원이 없습니다!");
     }
     System.out.println("삭제했습니다.");

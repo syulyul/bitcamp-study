@@ -59,7 +59,6 @@ public class MemberHandler implements Handler {
 
     if (!this.list.add(m)) {
       System.out.println("입력 실패입니다!");
-      return;
     }
   }
 

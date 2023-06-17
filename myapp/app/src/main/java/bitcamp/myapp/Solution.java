@@ -1,22 +1,14 @@
 package bitcamp.myapp;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.*;
 
 class Solution {
-  public static int solution(String str1, String str2) {
-    int answer = 0;
+  public static int[] solution(int start, int end) {
+    int[] answer = new int[start - end + 1];
+
     int k = 0;
-    for (int i = 0; i < str2.length() - str1.length() + 1; i++) {
-      String s = "";
-      for (int j = k; j < k + str1.length(); j++) {
-        s += str2.charAt(j);
-      }
-      if (s.equals(str1)) {
-        
-      }
-      k++;
+    for (int i = start; i >= end; i--) {
+      answer[k++] = i;
     }
 
     return answer;
@@ -24,11 +16,11 @@ class Solution {
 
   public static void main(String[] args) {
 
-    String str1 = "abc";
-    String str2 = "aabcc";
+    int start = 10;
+    int end = 3;
 
-    int ret = solution(str1, str2);
-    System.out.println(ret);
+    int[] ret = solution(start, end);
+    // System.out.println(ret);
+    System.out.println(Arrays.toString(ret));
   }
 }
-
