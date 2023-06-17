@@ -5,7 +5,7 @@ import bitcamp.util.Prompt;
 
 public class MemberHandler implements Handler {
 
-  private MemberList list = new MemberList();
+  private ArrayList list = new ArrayList();
   private Prompt prompt;
   private String title;
 
@@ -59,7 +59,6 @@ public class MemberHandler implements Handler {
 
     if (!this.list.add(m)) {
       System.out.println("입력 실패입니다!");
-      return;
     }
   }
 
@@ -68,8 +67,9 @@ public class MemberHandler implements Handler {
     System.out.println("번호, 이름, 전화번호, 직책");
     System.out.println("---------------------------------------");
 
-    Member[] arr = this.list.list();
-    for (Member m : arr) {
+    Object[] arr = this.list.list();
+    for (Object obj : arr) {
+      Member m = (Member) obj;
       System.out.printf("%d, %s, %s, %s\n", m.getNo(), m.getName(), m.getPhone(),
           toPositionString(m.getPosition()));
     }
@@ -77,7 +77,8 @@ public class MemberHandler implements Handler {
 
   private void viewMember() {
     int memberNo = this.prompt.inputInt("번호? ");
-    Member m = this.list.get(memberNo);
+
+    Member m = (Member) this.list.get(new Member(memberNo));
     if (m == null) {
       System.out.println("해당 번호의 직원이 없습니다!");
       return;
@@ -93,7 +94,8 @@ public class MemberHandler implements Handler {
 
   private void updateMember() {
     int memberNo = this.prompt.inputInt("번호? ");
-    Member m = this.list.get(memberNo);
+
+    Member m = (Member) this.list.get(new Member(memberNo));
     if (m == null) {
       System.out.println("해당 번호의 직원이 없습니다!");
       return;
@@ -128,7 +130,8 @@ public class MemberHandler implements Handler {
   }
 
   private void deleteMember() {
-    if (!this.list.delete(this.prompt.inputInt("번호? "))) {
+
+    if (!this.list.delete(new Member(this.prompt.inputInt("번호? ")))) {
       System.out.println("해당 번호의 직원이 없습니다!");
     }
   }

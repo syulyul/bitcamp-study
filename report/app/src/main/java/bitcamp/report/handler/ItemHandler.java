@@ -5,7 +5,7 @@ import bitcamp.util.Prompt;
 
 public class ItemHandler implements Handler {
 
-  private ItemList list = new ItemList();
+  private ArrayList list = new ArrayList();
   private Prompt prompt;
   private String title;
 
@@ -64,8 +64,9 @@ public class ItemHandler implements Handler {
     System.out.println("물품 번호, 물품 이름, 물품 가격, 종류");
     System.out.println("---------------------------------------------------------------------");
 
-    Item[] arr = this.list.list();
-    for (Item item : arr) {
+    Object[] arr = this.list.list();
+    for (Object obj : arr) {
+      Item item = (Item) obj;
       System.out.printf("%d, %s, %d, %s\n", item.getNo(), item.getName(), item.getPrice(),
           item.getType());
     }
@@ -74,7 +75,7 @@ public class ItemHandler implements Handler {
   private void viewItem() {
     int itemNo = this.prompt.inputInt("물품 번호? ");
 
-    Item item = this.list.get(itemNo);
+    Item item = (Item) this.list.get(new Item(itemNo));
     if (item == null) {
       System.out.println("해당 번호의 물품이 없습니다!");
       return;
@@ -88,7 +89,7 @@ public class ItemHandler implements Handler {
   private void updateItem() {
     int itemNo = this.prompt.inputInt("물품 번호? ");
 
-    Item item = this.list.get(itemNo);
+    Item item = (Item) this.list.get(new Item(itemNo));
     if (item == null) {
       System.out.println("해당 번호의 물품이 없습니다!");
       return;
@@ -130,7 +131,7 @@ public class ItemHandler implements Handler {
   private void deleteItem() {
     // 삭제하려는 물품의 정보가 들어있는 인덱스 알아내기
 
-    if (!this.list.delete(prompt.inputInt("물품 번호? "))) {
+    if (!this.list.delete(new Item(prompt.inputInt("물품 번호? ")))) {
       System.out.println("해당 번호의 물품이 없습니다!");
     }
   }

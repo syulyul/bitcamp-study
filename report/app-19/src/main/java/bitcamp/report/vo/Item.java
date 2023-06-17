@@ -18,6 +18,25 @@ public class Item {
     this.no = itemId++;
   }
 
+  public Item(int no) {
+    this.no = no;
+  }
+
+  public boolean equals(Object obj) {
+    if (obj == null) {
+      return false;
+    }
+    if (this.getClass() != obj.getClass()) {
+      return false;
+    }
+    Item item = (Item) obj;
+
+    if (this.getNo() != item.getNo()) {
+      return false;
+    }
+    return true;
+  }
+
   public int getNo() {
     return no;
   }

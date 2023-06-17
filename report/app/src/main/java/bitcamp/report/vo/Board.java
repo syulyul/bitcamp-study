@@ -18,6 +18,42 @@ public class Board {
     this.createdDate = System.currentTimeMillis();
   }
 
+  public Board(int no) {
+    this.no = no;
+  }
+
+  public boolean equals(Object obj) {
+    if (obj == null) {
+      return false;
+    }
+    if (this.getClass() != obj.getClass()) {
+      return false;
+    }
+
+    // 위 조건에서 this가 가리키는 인스턴스의 클래스와
+    // 파라미터 obj가 가리키는 인스턴스의 클래스가 같다고 결론이 났기 때문에
+    // 다음과 같이 obj를 Member 타입으로 형변환한다.
+    //
+    Board board = (Board) obj;
+
+    if (this.getNo() != board.getNo()) {
+      return false;
+    }
+    // if (this.getName() != null && !this.getName().equals(m.getName())) {
+    // return false;
+    // }
+    // if (this.getPhone() != null && !this.getPhone().equals(m.getPhone())) {
+    // return false;
+    // }
+    // if (this.getPassword() != null && !this.getPassword().equals(m.getPassword())) {
+    // return false;
+    // }
+    // if (this.getPosition() != m.getPosition()) {
+    // return false;
+    // }
+    return true;
+  }
+
   // 겟터/셋터는 인스턴스 필드의 값을 설정하고 꺼내는 메서드다.
   // 보통 외부에서 직접 필드에 접근하는 것을 막았을 때 사용한다.
   public int getNo() {
