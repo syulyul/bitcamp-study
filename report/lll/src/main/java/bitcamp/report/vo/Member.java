@@ -67,8 +67,8 @@ public class Member {
     return position;
   }
 
-  public void setPosition(char position) {
-    this.position = position;
+  public void setPosition(char gender) {
+    this.position = gender;
   }
 
 }

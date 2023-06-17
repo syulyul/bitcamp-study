@@ -22,7 +22,6 @@ public class BoardList {
       arr[i] = boards[i];
     }
     boards = arr;
-    System.out.println("배열 확장: " + boards.length);
   }
 
   public Board[] list() {
