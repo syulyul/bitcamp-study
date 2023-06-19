@@ -1,14 +1,13 @@
 package bitcamp.myapp;
 
-import java.util.*;
-
+// import java.util.*;
 class Solution {
-  public static int[] solution(int start, int end) {
-    int[] answer = new int[start - end + 1];
+  public static String[] solution(String my_string) {
+    String[] answer = {};
+    String str = "";
 
-    int k = 0;
-    for (int i = start; i >= end; i--) {
-      answer[k++] = i;
+    for (int i = 0; i < my_string.length(); i++) {
+
     }
 
     return answer;
@@ -16,11 +15,9 @@ class Solution {
 
   public static void main(String[] args) {
 
-    int start = 10;
-    int end = 3;
-
-    int[] ret = solution(start, end);
-    // System.out.println(ret);
-    System.out.println(Arrays.toString(ret));
+    String my_string = "i    love  you";
+    String[] ret = solution(my_string);
+    System.out.println(ret);
+    // System.out.println(Arrays.toString(ret));
   }
 }
