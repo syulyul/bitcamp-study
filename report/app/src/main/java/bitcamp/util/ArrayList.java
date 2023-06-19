@@ -1,4 +1,4 @@
-package bitcamp.report.handler;
+package bitcamp.util;
 
 public class ArrayList {
   private static final int MAX_SIZE = 100;
