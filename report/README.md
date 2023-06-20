@@ -83,7 +83,7 @@
 ## 15. 인스턴스 필드와 인스턴스 메서드, 생성자와 의존 객체 활용
 
 - BoardHandler 클래스에 인스턴스 필드 및 메서드 적용
-- 향후 확장성을 고려하여 MemberHandler 클래스에도 인스턴스 필드와 인스턴스 메서드를 적용
+- 향후 확장성을 고려하여 MemberHandler, ItemHandler 클래스에도 인스턴스 필드와 인스턴스 메서드를 적용
   - 그래서 실무에서는 대부분의 클래스가 인스턴스 필드와 인스턴스 메서드로 구성된다.
 - 향후 확장성을 고려하여 Prompt 클래스에도 인스턴스 필드와 인스턴스 메서드를 적용
   - 생성자 도입: Scanner 사용할 입력 도구를 지정할 수 있게 한다.
@@ -115,17 +115,17 @@
   - 다형성의 polymorphic variable 문법 활용
 - equals() 메서드와 오버라이딩 활용
   - Object 클래스와 상속
-  - Member와 Board 클래스에 적용
+  - Member와 Item, Board 클래스에 적용
 - 오버로딩을 활용하여 생성자를 추가
-  - Member와 Board 클래스 적용
-- MemberHandler와 BoardHandler에 적용
+  - Member와 Item, Board 클래스 적용
+- MemberHandler와 ItemHandler, BoardHandler에 적용
 
 ## 20. LinkedList 자료구조 구현하기
 
 - 목록 관리 범용 클래스 LinkedList 정의
   - LinkedList 구동원리 이해 및 구현
   - 중첩 클래스 활용
-- MemberHandler와 BoardHandler에 적용
+- MemberHandler와 ItemHandler, BoardHandler에 적용
 
 ## 21. 인터페이스를 이용하여 List 사용 규칙 정의하기
 
