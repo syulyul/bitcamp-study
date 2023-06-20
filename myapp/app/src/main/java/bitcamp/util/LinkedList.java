@@ -56,8 +56,8 @@ public class LinkedList implements List {
     // 2. 새 노드에 값 저장
     node.value = value;
 
-    if (head == null) {
-      head = node;
+    if (this.head == null) {
+      this.head = node;
     } else if (this.tail != null) { // 3. 리스트의 마지막 노드에 새 노드를 연결
       this.tail.next = node;
     }
@@ -103,13 +103,13 @@ public class LinkedList implements List {
     while (cursor != null) {
       if (cursor.value.equals(value)) {
         if (prev == null) {
-          head = cursor.next;
+          this.head = cursor.next;
           if (head == null) {
-            tail = null;
+            this.tail = null;
           }
         } else if (cursor.next == null) {
-          tail = prev;
-          tail.next = null;
+          this.tail = prev;
+          this.tail.next = null;
         } else {
           prev.next = cursor.next;
         }

@@ -1,20 +1,21 @@
 package bitcamp.report.handler;
 
 import bitcamp.report.vo.Item;
-import bitcamp.util.LinkedList;
+import bitcamp.util.List;
 import bitcamp.util.Prompt;
 
 public class ItemHandler implements Handler {
 
-  private LinkedList list = new LinkedList();
+  private List list;
   private Prompt prompt;
   private String title;
 
   // 생성자: 인스턴스를 사용할 수 있도록 유효한 값으로 초기화시키는 일을 함
   // => 필요한 값을 외부에서 받고 싶으면 파라미터를 선언
-  public ItemHandler(Prompt prompt, String title) {
+  public ItemHandler(Prompt prompt, String title, List list) {
     this.prompt = prompt;
     this.title = title;
+    this.list = list;
   }
 
   public void execute() {
@@ -65,9 +66,8 @@ public class ItemHandler implements Handler {
     System.out.println("물품 번호, 물품 이름, 물품 가격, 종류");
     System.out.println("---------------------------------------------------------------------");
 
-    Object[] arr = this.list.getList();
-    for (Object obj : arr) {
-      Item item = (Item) obj;
+    for (int i = 0; i < this.list.size(); i++) {
+      Item item = (Item) this.list.get(i);
       System.out.printf("%d, %s, %d, %s\n", item.getNo(), item.getName(), item.getPrice(),
           item.getType());
     }
@@ -76,7 +76,7 @@ public class ItemHandler implements Handler {
   private void viewItem() {
     int itemNo = this.prompt.inputInt("물품 번호? ");
 
-    Item item = (Item) this.list.retrieve(new Item(itemNo));
+    Item item = this.findBy(itemNo);
     if (item == null) {
       System.out.println("해당 번호의 물품이 없습니다!");
       return;
@@ -90,7 +90,7 @@ public class ItemHandler implements Handler {
   private void updateItem() {
     int itemNo = this.prompt.inputInt("물품 번호? ");
 
-    Item item = (Item) this.list.retrieve(new Item(itemNo));
+    Item item = this.findBy(itemNo);
     if (item == null) {
       System.out.println("해당 번호의 물품이 없습니다!");
       return;
@@ -135,6 +135,16 @@ public class ItemHandler implements Handler {
     if (!this.list.remove(new Item(prompt.inputInt("물품 번호? ")))) {
       System.out.println("해당 번호의 물품이 없습니다!");
     }
+  }
+
+  private Item findBy(int no) {
+    for (int i = 0; i < this.list.size(); i++) {
+      Item item = (Item) this.list.get(i);
+      if (item.getNo() == no) {
+        return item;
+      }
+    }
+    return null;
   }
 
 }

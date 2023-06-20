@@ -4,6 +4,8 @@ import bitcamp.report.handler.BoardHandler;
 import bitcamp.report.handler.Handler;
 import bitcamp.report.handler.ItemHandler;
 import bitcamp.report.handler.MemberHandler;
+import bitcamp.util.ArrayList;
+import bitcamp.util.LinkedList;
 import bitcamp.util.Prompt;
 
 public class App {
@@ -16,10 +18,10 @@ public class App {
 
     // 모든 핸들러는 Handler 규칙에 따라 정의되었기 때문에
     // Handler 레퍼런스에 그 주소를 담을 수 있다.
-    Handler memberHandler = new MemberHandler(prompt, "직원");
-    Handler itemHandler = new ItemHandler(prompt, "물품");
-    Handler boardHandler = new BoardHandler(prompt, "게시글");
-    Handler noticeHandler = new BoardHandler(prompt, "공지");
+    Handler memberHandler = new MemberHandler(prompt, "직원", new ArrayList());
+    Handler itemHandler = new ItemHandler(prompt, "물품", new ArrayList());
+    Handler boardHandler = new BoardHandler(prompt, "게시글", new LinkedList());
+    Handler noticeHandler = new BoardHandler(prompt, "공지", new LinkedList());
 
     printTitle();
 

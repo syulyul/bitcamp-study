@@ -1,6 +1,6 @@
 package bitcamp.util;
 
-public class LinkedList {
+public class LinkedList implements List {
 
   Node head;
   Node tail;
@@ -33,7 +33,7 @@ public class LinkedList {
   }
 
   static void print(LinkedList list) {
-    Object[] arr = list.getList();
+    Object[] arr = list.toArray();
     for (Object obj : arr) {
       System.out.print(obj);
       System.out.print(", ");
@@ -41,7 +41,8 @@ public class LinkedList {
     System.out.println();
   }
 
-  public void add(Object value) {
+  @Override
+  public boolean add(Object value) {
     // 1. 새 노드를 생성한다.
     Node node = new Node();
     // 2. 새 노드에 값 저장
@@ -54,9 +55,11 @@ public class LinkedList {
     }
     this.tail = node;
     this.size++;
+    return true;
   }
 
-  public Object[] getList() {
+  @Override
+  public Object[] toArray() {
     Object[] arr = new Object[this.size];
 
     Node cursor = this.head;
@@ -67,16 +70,18 @@ public class LinkedList {
     return arr;
   }
 
-  public Object retrieve(Object value) {
+  @Override
+  public Object get(int index) {
+    if (!isValid(index)) {
+      return null;
+    }
+
     Node cursor = this.head;
 
-    while (cursor != null) {
-      if (cursor.value.equals(value)) {
-        return cursor.value;
-      }
+    for (int i = 0; i < index; i++) {
       cursor = cursor.next;
     }
-    return null;
+    return cursor.value;
   }
 
   public boolean remove(Object value) {
@@ -116,6 +121,58 @@ public class LinkedList {
       cursor = cursor.next;
     }
     return false;
+  }
+
+  public Object remove(int index) {
+    if (!isValid(index)) {
+      return null;
+    }
+
+    Node prev = null;
+    Node cursor = this.head;
+
+    // 삭제하려는 값이 있는 노드까지 이동한다.
+    for (int i = 0; i < index; i++) {
+      prev = cursor; // 다음 노드로 이동하기 전에 현재 커서가 가리키는 노드를 prev에 보관한다.
+      cursor = cursor.next; // 커서를 다음 노드로 이동시킨다.
+    }
+
+    // 삭제할 값을 리턴할 수 있도록 보관한다.
+    Object old = cursor.value;
+
+
+    // 삭제할 노드가 시작 노드라면
+    if (prev == null) {
+      head = cursor.next;
+
+      // 삭제할 노드가 끝 노드라면
+      if (head == null) {
+        tail = null;
+      }
+    } else if (cursor.next == null) { // 삭제할 노드가 끝 노드라면
+      tail = prev;
+      tail.next = null;
+    } else {
+      // 중간 노드라면, 다음 노드의 주소를 이전 노드에 저장한다.
+      prev.next = cursor.next; // 현재 커서의 다음 노드를 현재 커서의 이전 노드와 연결한다.
+    }
+
+    size--;
+
+    // 가비지 객체를 초기화시켜서 가비지가 인스턴스를 가리키지 않도록 한다.
+    cursor.next = null;
+    cursor.value = null;
+
+    return old;
+  }
+
+  @Override
+  public int size() {
+    return this.size;
+  }
+
+  private boolean isValid(int index) {
+    return index >= 0 || index < this.size;
   }
 
   static class Node {
