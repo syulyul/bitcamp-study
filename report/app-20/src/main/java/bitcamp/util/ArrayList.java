@@ -1,9 +1,9 @@
 package bitcamp.util;
 
 public class ArrayList {
-  private static final int MAX_SIZE = 100;
+  private static final int DEFAULT_SIZE = 100;
 
-  private Object[] list = new Object[MAX_SIZE];
+  private Object[] list = new Object[DEFAULT_SIZE];
   private int length;
 
   public boolean add(Object obj) {

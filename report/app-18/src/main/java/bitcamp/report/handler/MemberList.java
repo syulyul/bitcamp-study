@@ -3,9 +3,9 @@ package bitcamp.report.handler;
 import bitcamp.report.vo.Member;
 
 public class MemberList {
-  private static final int MAX_SIZE = 100;
+  private static final int DEFAULT_SIZE = 100;
 
-  private Member[] members = new Member[MAX_SIZE];
+  private Member[] members = new Member[DEFAULT_SIZE];
   private int length;
 
   public void add(Member m) {
