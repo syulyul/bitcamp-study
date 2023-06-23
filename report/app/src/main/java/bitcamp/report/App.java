@@ -1,60 +1,95 @@
 package bitcamp.report;
 
-import bitcamp.report.handler.BoardHandler;
-import bitcamp.report.handler.Handler;
-import bitcamp.report.handler.ItemHandler;
-import bitcamp.report.handler.MemberHandler;
+import bitcamp.report.handler.BoardAddListener;
+import bitcamp.report.handler.BoardDeleteListener;
+import bitcamp.report.handler.BoardDetailListener;
+import bitcamp.report.handler.BoardListListener;
+import bitcamp.report.handler.BoardUpdateListener;
+import bitcamp.report.handler.FooterListener;
+import bitcamp.report.handler.HeaderListener;
+import bitcamp.report.handler.HelloListener;
+import bitcamp.report.handler.ItemAddListener;
+import bitcamp.report.handler.ItemDeleteListener;
+import bitcamp.report.handler.ItemDetailListener;
+import bitcamp.report.handler.ItemListListener;
+import bitcamp.report.handler.ItemUpdateListener;
+import bitcamp.report.handler.MemberAddListener;
+import bitcamp.report.handler.MemberDeleteListener;
+import bitcamp.report.handler.MemberDetailListener;
+import bitcamp.report.handler.MemberListListener;
+import bitcamp.report.handler.MemberUpdateListener;
 import bitcamp.util.ArrayList;
+import bitcamp.util.BreadcrumbPrompt;
 import bitcamp.util.LinkedList;
-import bitcamp.util.Prompt;
+import bitcamp.util.Menu;
+import bitcamp.util.MenuGroup;
 
 public class App {
 
   public static void main(String[] args) {
 
-    // 기본 생성자를 이용해 Prompt 인스턴스를 준비
-    // => 기본 생성자는 Scanner를 키보드와 연결함
-    Prompt prompt = new Prompt();
+    ArrayList memberList = new ArrayList();
+    ArrayList itemList = new ArrayList();
+    LinkedList boardList = new LinkedList();
+    LinkedList noticeList = new LinkedList();
 
-    // 모든 핸들러는 Handler 규칙에 따라 정의되었기 때문에
-    // Handler 레퍼런스에 그 주소를 담을 수 있다.
-    Handler memberHandler = new MemberHandler(prompt, "직원", new ArrayList());
-    Handler itemHandler = new ItemHandler(prompt, "물품", new ArrayList());
-    Handler boardHandler = new BoardHandler(prompt, "게시글", new LinkedList());
-    Handler noticeHandler = new BoardHandler(prompt, "공지", new LinkedList());
+    BreadcrumbPrompt prompt = new BreadcrumbPrompt();
+
+    MenuGroup mainMenu = new MenuGroup("메인");
+
+    MenuGroup memberMenu = new MenuGroup("직원");
+    memberMenu.add(new Menu("등록", new MemberAddListener(memberList)));
+    memberMenu.add(new Menu("목록", new MemberListListener(memberList)));
+    memberMenu.add(new Menu("조회", new MemberDetailListener(memberList)));
+    memberMenu.add(new Menu("변경", new MemberUpdateListener(memberList)));
+    memberMenu.add(new Menu("삭제", new MemberDeleteListener(memberList)));
+    mainMenu.add(memberMenu);
+
+    MenuGroup itemMenu = new MenuGroup("물품");
+    itemMenu.add(new Menu("등록", new ItemAddListener(itemList)));
+    itemMenu.add(new Menu("목록", new ItemListListener(itemList)));
+    itemMenu.add(new Menu("조회", new ItemDetailListener(itemList)));
+    itemMenu.add(new Menu("변경", new ItemUpdateListener(itemList)));
+    itemMenu.add(new Menu("삭제", new ItemDeleteListener(itemList)));
+    mainMenu.add(itemMenu);
+
+    MenuGroup boardMenu = new MenuGroup("게시글");
+    boardMenu.add(new Menu("등록", new BoardAddListener(boardList)));
+    boardMenu.add(new Menu("목록", new BoardListListener(boardList)));
+    boardMenu.add(new Menu("조회", new BoardDetailListener(boardList)));
+    boardMenu.add(new Menu("변경", new BoardUpdateListener(boardList)));
+    boardMenu.add(new Menu("삭제", new BoardDeleteListener(boardList)));
+    mainMenu.add(boardMenu);
+
+    MenuGroup noticeMenu = new MenuGroup("공지");
+    noticeMenu.add(new Menu("등록", new BoardAddListener(noticeList)));
+    noticeMenu.add(new Menu("목록", new BoardListListener(noticeList)));
+    noticeMenu.add(new Menu("조회", new BoardDetailListener(noticeList)));
+    noticeMenu.add(new Menu("변경", new BoardUpdateListener(noticeList)));
+    noticeMenu.add(new Menu("삭제", new BoardDeleteListener(noticeList)));
+    mainMenu.add(noticeMenu);
+
+    Menu helloMenu = new Menu("안녕!");
+    helloMenu.addActionListener(new HeaderListener());
+    helloMenu.addActionListener(new HelloListener());
+    helloMenu.addActionListener(new FooterListener());
+    mainMenu.add(helloMenu);
 
     printTitle();
 
-    printMenu();
-
-    while (true) {
-      String menuNo = prompt.inputString("메인> ");
-      if (menuNo.equals("0")) {
-        break;
-      } else if (menuNo.equals("menu")) {
-        printMenu();
-      } else if (menuNo.equals("1")) {
-        memberHandler.execute();
-      } else if (menuNo.equals("2")) {
-        itemHandler.execute();
-      } else if (menuNo.equals("3")) {
-        boardHandler.execute();
-      } else if (menuNo.equals("4")) {
-        noticeHandler.execute();
-      } else {
-        System.out.println("메뉴 번호가 옳지 않습니다!");
-      }
-    }
+    mainMenu.execute(prompt);
 
     prompt.close();
   }
 
-  static void printMenu() {
-    System.out.println("1. 직원");
-    System.out.println("2. 물품");
-    System.out.println("3. 게시글");
-    System.out.println("4. 공지");
-    System.out.println("0. 종료");
+  static String getMenu() {
+    StringBuilder menu = new StringBuilder();
+    menu.append("1. 직원\n");
+    menu.append("2. 물품\n");
+    menu.append("3. 게시글\n");
+    menu.append("4. 공지\n");
+    menu.append("0. 종료\n");
+    return menu.toString();
   }
 
   static void printTitle() {
