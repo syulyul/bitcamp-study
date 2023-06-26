@@ -1,16 +1,13 @@
 package bitcamp.report.handler;
 
 import bitcamp.report.vo.Item;
-import bitcamp.util.ActionListener;
 import bitcamp.util.BreadcrumbPrompt;
 import bitcamp.util.List;
 
-public class ItemDetailListener implements ActionListener {
-
-  private List list;
+public class ItemDetailListener extends AbstractItemListener {
 
   public ItemDetailListener(List list) {
-    this.list = list;
+    super(list);
   }
 
   @Override
@@ -28,14 +25,6 @@ public class ItemDetailListener implements ActionListener {
     System.out.printf("물품 종류: %s\n", item.getType());
   }
 
-  private Item findBy(int no) {
-    for (int i = 0; i < this.list.size(); i++) {
-      Item item = (Item) this.list.get(i);
-      if (item.getNo() == no) {
-        return item;
-      }
-    }
-    return null;
-  }
+  
 
 }

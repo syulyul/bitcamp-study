@@ -1,17 +1,13 @@
 package bitcamp.report.handler;
 
 import bitcamp.report.vo.Item;
-import bitcamp.util.ActionListener;
 import bitcamp.util.BreadcrumbPrompt;
 import bitcamp.util.List;
 
-public class ItemListListener implements ActionListener {
-
-  private List list;
+public class ItemListListener extends AbstractItemListener {
 
   public ItemListListener(List list) {
-
-    this.list = list;
+	super(list);
   }
 
   @Override
