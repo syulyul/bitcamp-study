@@ -6,8 +6,8 @@ import bitcamp.util.List;
 
 public class ItemDeleteListener extends AbstractItemListener {
 
-  public ItemDeleteListener(List list) {
-   	super(list);
+  public ItemDeleteListener(List<Item> list) {
+    super(list);
   }
 
   @Override

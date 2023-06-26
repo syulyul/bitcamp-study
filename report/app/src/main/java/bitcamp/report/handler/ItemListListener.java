@@ -6,8 +6,8 @@ import bitcamp.util.List;
 
 public class ItemListListener extends AbstractItemListener {
 
-  public ItemListListener(List list) {
-	super(list);
+  public ItemListListener(List<Item> list) {
+    super(list);
   }
 
   @Override
@@ -17,7 +17,7 @@ public class ItemListListener extends AbstractItemListener {
     System.out.println("---------------------------------------------------------------------");
 
     for (int i = 0; i < this.list.size(); i++) {
-      Item item = (Item) this.list.get(i);
+      Item item = this.list.get(i);
       System.out.printf("%d, %s, %d, %s\n", item.getNo(), item.getName(), item.getPrice(),
           item.getType());
     }

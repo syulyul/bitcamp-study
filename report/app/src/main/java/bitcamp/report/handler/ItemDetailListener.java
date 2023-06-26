@@ -6,7 +6,7 @@ import bitcamp.util.List;
 
 public class ItemDetailListener extends AbstractItemListener {
 
-  public ItemDetailListener(List list) {
+  public ItemDetailListener(List<Item> list) {
     super(list);
   }
 
@@ -25,6 +25,6 @@ public class ItemDetailListener extends AbstractItemListener {
     System.out.printf("물품 종류: %s\n", item.getType());
   }
 
-  
+
 
 }

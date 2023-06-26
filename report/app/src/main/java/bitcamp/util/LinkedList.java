@@ -1,13 +1,15 @@
 package bitcamp.util;
 
-public class LinkedList implements List {
+import java.lang.reflect.Array;
 
-  Node head;
-  Node tail;
+public class LinkedList<E> implements List<E> {
+
+  Node<E> head;
+  Node<E> tail;
   int size;
 
   public static void main(String[] args) {
-    LinkedList list = new LinkedList();
+    LinkedList<Integer> list = new LinkedList<>();
     list.add(100);
     list.add(200);
     list.add(300);
@@ -32,7 +34,7 @@ public class LinkedList implements List {
     // System.out.println(list.retrieve(600));
   }
 
-  static void print(LinkedList list) {
+  static void print(LinkedList<Integer> list) {
     Object[] arr = list.toArray();
     for (Object obj : arr) {
       System.out.print(obj);
@@ -42,9 +44,9 @@ public class LinkedList implements List {
   }
 
   @Override
-  public boolean add(Object value) {
+  public boolean add(E value) {
     // 1. 새 노드를 생성한다.
-    Node node = new Node();
+    Node<E> node = new Node<E>();
     // 2. 새 노드에 값 저장
     node.value = value;
 
@@ -62,7 +64,7 @@ public class LinkedList implements List {
   public Object[] toArray() {
     Object[] arr = new Object[this.size];
 
-    Node cursor = this.head;
+    Node<E> cursor = this.head;
     for (int i = 0; i < this.size; i++) {
       arr[i] = cursor.value;
       cursor = cursor.next;
@@ -70,13 +72,36 @@ public class LinkedList implements List {
     return arr;
   }
 
+  // 객체 생성과정이 복잡할 때 팩토리 메서드 디자인 패턴을 사용
+  @SuppressWarnings("unchecked")
   @Override
-  public Object get(int index) {
+  public <T> T[] toArray(T[] arr) {
+    T[] values = null;
+
+    if (arr.length < this.size) {
+      // 파라미터로 받은 배열이 목록의 개수 보다 작다면,
+      // 새 배열을 만들어 저장한다.
+      values = (T[]) Array.newInstance(arr.getClass().componentType(), this.size);
+    } else {
+      // 파라미터로 받은 배열이 목록에 저장된 개수와 같거나 크다면,
+      // 파라미터로 받은 배열을 그대로 사용한다.
+      values = arr;
+    }
+    Node<E> cursor = this.head;
+    for (int i = 0; i < this.size; i++) {
+      arr[i] = (T) cursor.value;
+      cursor = cursor.next;
+    }
+    return values;
+  }
+
+  @Override
+  public E get(int index) {
     if (!isValid(index)) {
       return null;
     }
 
-    Node cursor = this.head;
+    Node<E> cursor = this.head;
 
     for (int i = 0; i < index; i++) {
       cursor = cursor.next;
@@ -84,9 +109,9 @@ public class LinkedList implements List {
     return cursor.value;
   }
 
-  public boolean remove(Object value) {
-    Node prev = null;
-    Node cursor = this.head;
+  public boolean remove(E value) {
+    Node<E> prev = null;
+    Node<E> cursor = this.head;
 
     while (cursor != null) {
       if (cursor.value.equals(value)) {
@@ -123,13 +148,13 @@ public class LinkedList implements List {
     return false;
   }
 
-  public Object remove(int index) {
+  public E remove(int index) {
     if (!isValid(index)) {
       return null;
     }
 
-    Node prev = null;
-    Node cursor = this.head;
+    Node<E> prev = null;
+    Node<E> cursor = this.head;
 
     // 삭제하려는 값이 있는 노드까지 이동한다.
     for (int i = 0; i < index; i++) {
@@ -138,7 +163,7 @@ public class LinkedList implements List {
     }
 
     // 삭제할 값을 리턴할 수 있도록 보관한다.
-    Object old = cursor.value;
+    E old = cursor.value;
 
 
     // 삭제할 노드가 시작 노드라면
@@ -175,8 +200,8 @@ public class LinkedList implements List {
     return index >= 0 || index < this.size;
   }
 
-  static class Node {
-    Object value;
-    Node next; // 주소를 저장하는 변수
+  static class Node<T> {
+    T value;
+    Node<T> next; // 주소를 저장하는 변수
   }
 }

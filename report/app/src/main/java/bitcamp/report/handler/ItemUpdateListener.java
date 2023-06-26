@@ -6,8 +6,8 @@ import bitcamp.util.List;
 
 public class ItemUpdateListener extends AbstractItemListener {
 
-  public ItemUpdateListener(List list) {
-   	super(list);
+  public ItemUpdateListener(List<Item> list) {
+    super(list);
   }
 
   @Override
