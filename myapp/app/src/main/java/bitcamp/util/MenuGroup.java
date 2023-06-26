@@ -1,12 +1,14 @@
 package bitcamp.util;
 
+import java.util.ArrayList;
+
 public class MenuGroup extends Menu {
 
-  ArrayList childs;
+  ArrayList<Menu> childs;
 
   public MenuGroup(String title) {
     super(title);
-    this.childs = new ArrayList();
+    this.childs = new ArrayList<>();
   }
 
   public void add(Menu menu) {
@@ -15,6 +17,7 @@ public class MenuGroup extends Menu {
 
   @Override
   public void execute(BreadcrumbPrompt prompt) {
+
     prompt.appendBreadcrumb(this.getTitle());
 
     this.printMenu();
@@ -37,7 +40,6 @@ public class MenuGroup extends Menu {
         menu.execute(prompt);
       }
     }
-
   }
 
   private void printMenu() {

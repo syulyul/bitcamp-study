@@ -1,5 +1,7 @@
 package bitcamp.myapp;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import bitcamp.myapp.handler.BoardAddListener;
 import bitcamp.myapp.handler.BoardDeleteListener;
 import bitcamp.myapp.handler.BoardDetailListener;
@@ -13,9 +15,9 @@ import bitcamp.myapp.handler.MemberDeleteListener;
 import bitcamp.myapp.handler.MemberDetailListener;
 import bitcamp.myapp.handler.MemberListListener;
 import bitcamp.myapp.handler.MemberUpdateListener;
-import bitcamp.util.ArrayList;
+import bitcamp.myapp.vo.Board;
+import bitcamp.myapp.vo.Member;
 import bitcamp.util.BreadcrumbPrompt;
-import bitcamp.util.LinkedList;
 import bitcamp.util.Menu;
 import bitcamp.util.MenuGroup;
 
@@ -23,15 +25,13 @@ public class App {
 
   public static void main(String[] args) {
 
-    ArrayList memberList = new ArrayList();
-    LinkedList boardList = new LinkedList();
-    LinkedList readingList = new LinkedList();
+    ArrayList<Member> memberList = new ArrayList<>();
+    LinkedList<Board> boardList = new LinkedList<>();
+    LinkedList<Board> readingList = new LinkedList<>();
 
-    // 기본 생성자를 이용해 Prompt 인스턴스를 준비한다.
-    // => 기본 생성자는 Scanner를 키보드와 연결한다.
     BreadcrumbPrompt prompt = new BreadcrumbPrompt();
 
-    MenuGroup mainMenu = new MenuGroup("메인"); // prompt 의존객체를 생성자에 넘겨
+    MenuGroup mainMenu = new MenuGroup("메인");
 
     MenuGroup memberMenu = new MenuGroup("회원");
     memberMenu.add(new Menu("등록", new MemberAddListener(memberList)));
@@ -49,7 +49,7 @@ public class App {
     boardMenu.add(new Menu("삭제", new BoardDeleteListener(boardList)));
     mainMenu.add(boardMenu);
 
-    MenuGroup readingMenu = new MenuGroup("회원");
+    MenuGroup readingMenu = new MenuGroup("독서록");
     readingMenu.add(new Menu("등록", new BoardAddListener(readingList)));
     readingMenu.add(new Menu("목록", new BoardListListener(readingList)));
     readingMenu.add(new Menu("조회", new BoardDetailListener(readingList)));
@@ -67,22 +67,11 @@ public class App {
 
     mainMenu.execute(prompt);
 
-
     prompt.close();
-  }
-
-  static String getMenu() {
-    StringBuilder menu = new StringBuilder();
-    menu.append("1. 회원\n");
-    menu.append("2. 게시글\n");
-    menu.append("3. 독서록\n");
-    menu.append("0. 종료\n");
-    return menu.toString();
   }
 
   static void printTitle() {
     System.out.println("나의 목록 관리 시스템");
-    System.out.println("-------------------------------");
+    System.out.println("----------------------------------");
   }
-
 }

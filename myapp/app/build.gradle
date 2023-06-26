@@ -9,7 +9,6 @@ repositories {
 
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.1'
-
     implementation 'com.google.guava:guava:31.1-jre'
 }
 
@@ -27,9 +26,8 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
-// 명령창에서 컴파일 할 경우
 // 자바 소스를 컴파일 할 때 적용할 옵션
-tasks.withType(JavaCompile) { 
+tasks.withType(JavaCompile) {
     // 프로젝트의 소스 파일 인코딩을 gradle에게 알려준다.
     // $javac -encoding UTF-8 ..
     options.encoding = 'UTF-8' 
@@ -47,8 +45,8 @@ eclipse {
         name = "myapp"
     }
     jdt {
-      sourceCompatibility = 17 // 컴파일러가 17버전까지의 문법만 ok.
-      targetCompatibility = 17 // 최소 17버전 이상 있어야 된다.
-      javaRuntimeName = "JavaSE-17" // eclipse가 17버전으로 컴파일 한다.
+      sourceCompatibility = 17
+      targetCompatibility = 17
+      javaRuntimeName = "JavaSE-17"
     }
 }

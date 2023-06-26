@@ -1,14 +1,12 @@
 package bitcamp.myapp.handler;
 
+import java.util.List;
 import bitcamp.myapp.vo.Member;
 import bitcamp.util.BreadcrumbPrompt;
-import bitcamp.util.List;
 
-// MemberHandler는 Handler 규칙에 따라 메서드를 구현했다.
-// 즉 Handler 인터페이스에 선언된 메서드를 모두 정의했다.
 public class MemberDetailListener extends AbstractMemberListener {
 
-  public MemberDetailListener(List list) {
+  public MemberDetailListener(List<Member> list) {
     super(list);
   }
 
@@ -26,10 +24,4 @@ public class MemberDetailListener extends AbstractMemberListener {
     System.out.printf("이메일: %s\n", m.getEmail());
     System.out.printf("성별: %s\n", toGenderString(m.getGender()));
   }
-
-  private static String toGenderString(char gender) { // 해당 메서드가 인스턴스를 쓰고 있지 않다면 static
-    return gender == 'M' ? "남성" : "여성";
-  }
-
-
 }

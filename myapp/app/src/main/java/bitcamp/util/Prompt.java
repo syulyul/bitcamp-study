@@ -7,7 +7,7 @@ public class Prompt {
 
   private Scanner scanner;
 
-  // default constructor
+  // default constructor 정의
   public Prompt() {
     this.scanner = new Scanner(System.in);
   }
@@ -18,17 +18,16 @@ public class Prompt {
   }
 
   public String inputString(String title, Object... args) {
-    // 가변 파라미터 : string 다음 0개 이상이 올 수 있음
     System.out.printf(title, args);
     return this.scanner.nextLine();
   }
 
   public int inputInt(String title, Object... args) {
-    // System.out.print(title);
     return Integer.parseInt(this.inputString(title, args));
   }
 
   public void close() {
     this.scanner.close();
   }
+
 }

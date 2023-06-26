@@ -1,15 +1,18 @@
 package bitcamp.util;
 
-public class Menu {
-  private String title;
-  private ArrayList listeners = new ArrayList();
+import java.util.ArrayList;
 
-  public Menu(String title) { // 타이틀을 받는 생성자
+public class Menu {
+
+  private String title;
+  private ArrayList<ActionListener> listeners = new ArrayList<>();
+
+  public Menu(String title) {
     this.title = title;
   }
 
   public Menu(String title, ActionListener listener) {
-    this(title); // 생성자 호출(생성자에서 생성자 호출)
+    this(title);
     this.addActionListener(listener);
   }
 
@@ -25,7 +28,6 @@ public class Menu {
     return title;
   }
 
-  // 메뉴를 실행할 메서드 -> execute()
   public void execute(BreadcrumbPrompt prompt) {
     for (int i = 0; i < listeners.size(); i++) {
       ActionListener listener = (ActionListener) listeners.get(i);
