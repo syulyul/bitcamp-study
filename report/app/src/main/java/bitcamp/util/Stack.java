@@ -10,13 +10,18 @@ public class Stack<E> extends LinkedList<E> {
     s.push("안중근");
     s.push("윤봉길");
 
-    System.out.println(s.pop());
-    System.out.println(s.pop());
-    System.out.println(s.pop());
-    System.out.println(s.pop());
-    System.out.println(s.pop());
+    Iterator<String> iterator = s.iterator();
+    while (iterator.hasNext()) {
+      System.out.println(iterator.next());
+    }
 
-    System.out.println(s.pop());
+    // System.out.println(s.pop());
+    // System.out.println(s.pop());
+    // System.out.println(s.pop());
+    // System.out.println(s.pop());
+    // System.out.println(s.pop());
+    //
+    // System.out.println(s.pop());
   }
 
   public void push(E value) {
@@ -43,5 +48,24 @@ public class Stack<E> extends LinkedList<E> {
 
   public boolean empty() {
     return this.size() == 0;
+  }
+
+  @Override
+  public Iterator<E> iterator() {
+    return new Iterator<>() {
+      // iterator 인터페이스를 구현하는 클래스를 정의
+      // 인스턴스를 즉시 생성
+      // 기본 생성자 호출
+
+      @Override
+      public boolean hasNext() {
+        return !Stack.this.empty();
+      }
+
+      @Override
+      public E next() {
+        return Stack.this.pop();
+      }
+    };
   }
 }
