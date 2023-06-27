@@ -172,7 +172,7 @@ public class LinkedList implements List {
   }
 
   private boolean isValid(int index) {
-    return index >= 0 || index < this.size;
+    return index >= 0 && index < this.size;
   }
 
   static class Node {

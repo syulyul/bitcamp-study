@@ -112,7 +112,7 @@ public class ArrayList<E> implements List<E> {
   }
 
   private boolean isValid(int index) {
-    return index >= 0 || index < this.length;
+    return index >= 0 && index < this.length;
   }
 
   private int indexOf(E obj) {
