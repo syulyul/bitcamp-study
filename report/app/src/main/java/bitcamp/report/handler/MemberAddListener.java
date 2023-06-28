@@ -1,8 +1,8 @@
 package bitcamp.report.handler;
 
+import java.util.List;
 import bitcamp.report.vo.Member;
 import bitcamp.util.BreadcrumbPrompt;
-import bitcamp.util.List;
 
 public class MemberAddListener extends AbstractMemberListener {
 

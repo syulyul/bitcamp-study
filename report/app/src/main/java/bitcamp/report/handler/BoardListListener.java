@@ -1,9 +1,9 @@
 package bitcamp.report.handler;
 
+import java.util.Iterator;
+import java.util.List;
 import bitcamp.report.vo.Board;
 import bitcamp.util.BreadcrumbPrompt;
-import bitcamp.util.Iterator;
-import bitcamp.util.List;
 
 public class BoardListListener extends AbstractBoardListener {
 
