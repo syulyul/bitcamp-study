@@ -1,7 +1,7 @@
 package bitcamp.report.vo;
 
 public class Item {
-  private static int itemId = 1;
+  public static int itemId = 1;
 
   public static final String FOOD = "식료품";
   public static final String HOUSEHOLD_SUPPLIES = "생활용품";

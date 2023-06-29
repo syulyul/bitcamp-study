@@ -3,7 +3,7 @@ package bitcamp.report.vo;
 public class Board {
 
   // 모든 인스턴스가 공유하는 값은 스태틱 필드에 보관한다.
-  private static int boardNo = 1;
+  public static int boardNo = 1;
 
   private int no; // private 이라는 modifier 를 사용하여 접근 제어
   private String title;
