@@ -82,16 +82,6 @@ public class App {
     prompt.close();
   }
 
-  static String getMenu() {
-    StringBuilder menu = new StringBuilder();
-    menu.append("1. 직원\n");
-    menu.append("2. 물품\n");
-    menu.append("3. 게시글\n");
-    menu.append("4. 공지\n");
-    menu.append("0. 종료\n");
-    return menu.toString();
-  }
-
   static void printTitle() {
     System.out.println("마트 관리 시스템");
     System.out.println("---------------------------------------------------------------------");
