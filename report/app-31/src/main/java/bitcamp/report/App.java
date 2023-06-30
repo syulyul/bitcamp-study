@@ -2,10 +2,10 @@ package bitcamp.report;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -71,17 +71,17 @@ public class App {
   }
 
   private void loadData() {
-    loadMember("member.data2", memberList);
-    loadItem("item.data2", itemList);
-    loadBoard("board.data2", boardList);
-    loadBoard("notice.data2", noticeList);
+    loadMember();
+    loadItem();
+    loadBoard("board.data", boardList);
+    loadBoard("notice.data", noticeList);
   }
 
   private void saveData() {
-    saveMember("member.data2", memberList);
-    saveItem("item.data2", itemList);
-    saveBoard("board.data2", boardList);
-    saveBoard("notice.data2", noticeList);
+    saveMember();
+    saveItem();
+    saveBoard("board.data", boardList);
+    saveBoard("notice.data", noticeList);
   }
 
   private void prepareMenu() {
@@ -125,37 +125,50 @@ public class App {
     mainMenu.add(helloMenu);
   }
 
-  private void loadMember(String filename, List<Member> list) {
+  private void loadMember() {
     try {
-      FileInputStream in0 = new FileInputStream(filename);
-      BufferedInputStream in1 = new BufferedInputStream(in0); // <== Decorator 역할을 수행!
-      ObjectInputStream in = new ObjectInputStream(in1); // <== decorator 역할 수행
+      FileInputStream in0 = new FileInputStream("member.data");
+      BufferedInputStream in1 = new BufferedInputStream(in0); // <== decorator 역할 수행
+      DataInputStream in = new DataInputStream(in1); // <== decorator 역할 수행
 
       int size = in.readShort();
 
       for (int i = 0; i < size; i++) {
-        list.add((Member) in.readObject());
+        Member member = new Member();
+        member.setNo(in.readInt());
+        member.setName(in.readUTF());
+        member.setPhone(in.readUTF());
+        member.setPassword(in.readUTF());
+        member.setPosition(in.readChar());
+
+        memberList.add(member);
       }
       // 데이터를 로딩한 이후에 추가할 회원의 번호를 설정
-      Member.userId = list.get(list.size() - 1).getNo() + 1;
+      Member.userId = memberList.get(memberList.size() - 1).getNo() + 1;
 
       in.close();
 
     } catch (Exception e) {
-      System.out.println(filename + " 파일을 읽는 중 오류 발생!");
+      System.out.println("회원 정보를 읽는 중 오류 발생!");
     }
   }
 
-  private void loadItem(String filename, List<Item> list) {
+  private void loadItem() {
     try {
-      FileInputStream in0 = new FileInputStream(filename);
-      BufferedInputStream in1 = new BufferedInputStream(in0); // <== Decorator 역할을 수행!
-      ObjectInputStream in = new ObjectInputStream(in1); // <== decorator 역할 수행
+      FileInputStream in0 = new FileInputStream("item.data");
+      BufferedInputStream in1 = new BufferedInputStream(in0); // <== decorator 역할 수행
+      DataInputStream in = new DataInputStream(in1); // <== decorator 역할 수행
 
       int size = in.readShort();
 
       for (int i = 0; i < size; i++) {
-        list.add((Item) in.readObject());
+        Item item = new Item();
+        item.setNo(in.readInt());
+        item.setName(in.readUTF());
+        item.setPrice(in.readInt());
+        item.setType(in.readUTF());
+
+        itemList.add(item);
       }
       // 데이터를 로딩한 이후에 추가할 물품의 번호를 설정
       Item.itemId = itemList.get(itemList.size() - 1).getNo() + 1;
@@ -163,20 +176,29 @@ public class App {
       in.close();
 
     } catch (Exception e) {
-      System.out.println(filename + " 파일을 읽는 중 오류 발생!");
+      System.out.println("물품 정보를 읽는 중 오류 발생!");
     }
   }
 
   private void loadBoard(String filename, List<Board> list) {
     try {
       FileInputStream in0 = new FileInputStream(filename);
-      BufferedInputStream in1 = new BufferedInputStream(in0); // <== Decorator 역할을 수행!
-      ObjectInputStream in = new ObjectInputStream(in1); // <== decorator 역할 수행
+      BufferedInputStream in1 = new BufferedInputStream(in0); // <== decorator 역할 수행
+      DataInputStream in = new DataInputStream(in1); // <== decorator 역할 수행
 
       int size = in.readShort();
 
       for (int i = 0; i < size; i++) {
-        list.add((Board) in.readObject());
+        Board board = new Board();
+        board.setNo(in.readInt());
+        board.setTitle(in.readUTF());
+        board.setContent(in.readUTF());
+        board.setWriter(in.readUTF());
+        board.setPassword(in.readUTF());
+        board.setViewCount(in.readInt());
+        board.setCreatedDate(in.readLong());
+
+        list.add(board);
       }
       Board.boardNo = Math.max(Board.boardNo, list.get(list.size() - 1).getNo() + 1);
 
@@ -187,58 +209,71 @@ public class App {
     }
   }
 
-  private void saveMember(String filename, List<Member> list) {
+  private void saveMember() {
     try {
-      FileOutputStream out0 = new FileOutputStream(filename);
+      FileOutputStream out0 = new FileOutputStream("member.data");
       BufferedOutputStream out1 = new BufferedOutputStream(out0); // <== decorator 역할 수행
-      ObjectOutputStream out = new ObjectOutputStream(out1); // <== Decorator(장식품) 역할
+      DataOutputStream out = new DataOutputStream(out1); // <== Decorator(장식품) 역할
 
       // 저장할 데이터의 개수를 먼저 출력한다.
-      out.writeShort(list.size());
+      out.writeShort(memberList.size());
 
-      for (Member member : list) {
-        out.writeObject(member);
+      for (Member member : memberList) {
+        out.writeInt(member.getNo());
+        out.writeUTF(member.getName());
+        out.writeUTF(member.getPhone());
+        out.writeUTF(member.getPassword());
+        out.writeChar(member.getPosition());
       }
       out.close();
     } catch (Exception e) {
-      System.out.println(filename + " 파일 저장하는 중 오류 발생!");
+      System.out.println("회원 정보를 저장하는 중 오류 발생!");
     }
   }
 
-  private void saveItem(String filename, List<Item> list) {
+  private void saveItem() {
     try {
-      FileOutputStream out0 = new FileOutputStream(filename);
+      FileOutputStream out0 = new FileOutputStream("item.data");
       BufferedOutputStream out1 = new BufferedOutputStream(out0); // <== Decorator 역할을 수행!
-      ObjectOutputStream out = new ObjectOutputStream(out1); // <== Decorator(장식품) 역할
+      DataOutputStream out = new DataOutputStream(out1); // <== Decorator(장식품) 역할
 
       // 저장할 데이터의 개수를 먼저 출력한다.
-      out.writeShort(list.size());
+      out.writeShort(itemList.size());
 
-      for (Item item : list) {
-        out.writeObject(item);
+      for (Item item : itemList) {
+        out.writeInt(item.getNo());
+        out.writeUTF(item.getName());
+        out.writeInt(item.getPrice());
+        out.writeUTF(item.getType());
       }
       out.close();
     } catch (Exception e) {
-      System.out.println(filename + " 파일을 저장하는 중 오류 발생!");
+      System.out.println("물품 정보를 저장하는 중 오류 발생!");
     }
   }
 
   private void saveBoard(String filename, List<Board> list) {
     try {
-      FileOutputStream out0 = new FileOutputStream(filename);
+      FileOutputStream out0 = new FileOutputStream("board.data");
       BufferedOutputStream out1 = new BufferedOutputStream(out0); // <== Decorator 역할을 수행!
-      ObjectOutputStream out = new ObjectOutputStream(out1); // <== Decorator(장식품) 역할
+      DataOutputStream out = new DataOutputStream(out1); // <== Decorator(장식품) 역할
 
       // 저장할 데이터의 개수를 먼저 출력한다.
       out.writeShort(list.size());
 
       for (Board board : list) {
-        out.writeObject(board);
+        out.writeInt(board.getNo());
+        out.writeUTF(board.getTitle());
+        out.writeUTF(board.getContent());
+        out.writeUTF(board.getWriter());
+        out.writeUTF(board.getPassword());
+        out.writeInt(board.getViewCount());
+        out.writeLong(board.getCreatedDate());
       }
       out.close();
 
     } catch (Exception e) {
-      System.out.println(filename + " 파일을 저장하는 중 오류 발생!");
+      System.out.println(filename + "파일을 저장하는 중 오류 발생!");
     }
   }
 }

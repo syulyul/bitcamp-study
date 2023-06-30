@@ -1,13 +1,9 @@
 package bitcamp.report.vo;
 
-import java.io.Serializable;
-
-public class Board implements Serializable {
+public class Board {
 
   // 모든 인스턴스가 공유하는 값은 스태틱 필드에 보관한다.
   public static int boardNo = 1;
-
-  public static final long serialVersionUID = 1L;
 
   private int no; // private 이라는 modifier 를 사용하여 접근 제어
   private String title;

@@ -1,9 +1,6 @@
 package bitcamp.report.vo;
 
-import java.io.Serializable;
-
-public class Member implements Serializable {
-  private static final long serialVersionUID = 1L;
+public class Member {
 
   // 모든 인스턴스가 공유하는 값은 스태틱 필드에 보관한다.
   public static int userId = 1;

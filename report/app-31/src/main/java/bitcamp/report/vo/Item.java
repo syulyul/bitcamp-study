@@ -1,11 +1,7 @@
 package bitcamp.report.vo;
 
-import java.io.Serializable;
-
-public class Item implements Serializable {
+public class Item {
   public static int itemId = 1;
-
-  private static final long serialVersionUID = 1L;
 
   public static final String FOOD = "식료품";
   public static final String HOUSEHOLD_SUPPLIES = "생활용품";
