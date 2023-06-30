@@ -1,21 +1,19 @@
-package bitcamp.myapp.vo;
+package bitcamp.report.vo;
 
-import java.io.Serializable;
+public class Board {
 
-public class Board implements Serializable, CsvObject { // 다중 구현 가능
-  private static final long serialVersionUID = 1L;
-
+  // 모든 인스턴스가 공유하는 값은 스태틱 필드에 보관한다.
   public static int boardNo = 1;
 
-  private int no;
+  private int no; // private 이라는 modifier 를 사용하여 접근 제어
   private String title;
   private String content;
   private String writer;
   private String password;
   private int viewCount;
-  private long createdDate;
+  private long createdDate; // 밀리세컨드
 
-  public Board() {
+  public Board() { // 생성자
     this.no = boardNo++;
     this.createdDate = System.currentTimeMillis();
   }
@@ -24,49 +22,40 @@ public class Board implements Serializable, CsvObject { // 다중 구현 가능
     this.no = no;
   }
 
-  public static Board fromCsv(String csv) {
-    String[] values = csv.split(",");
-
-    Board board = new Board(Integer.parseInt(values[0]));
-    board.setTitle(values[1]);
-    board.setContent(values[2]);
-    board.setWriter(values[3]);
-    board.setPassword(values[4]);
-    board.setViewCount(Integer.parseInt(values[5]));
-    board.setCreatedDate(Long.parseLong(values[6]));
-
-    if (Board.boardNo <= board.getNo()) {
-      Board.boardNo = board.getNo() + 1;
-    }
-
-    return board;
-  }
-
-  @Override
-  public String toCsvString() {
-    return String.format("%d,%s,%s,%s,%s,%d,%d", // %d 로 long 도 가능
-        this.getNo(), this.getTitle(), this.getContent(), this.getWriter(), this.getPassword(),
-        this.getViewCount(), this.getCreatedDate());
-  }
-
   public boolean equals(Object obj) {
     if (obj == null) {
       return false;
     }
-
     if (this.getClass() != obj.getClass()) {
       return false;
     }
 
-    Board b = (Board) obj;
+    // 위 조건에서 this가 가리키는 인스턴스의 클래스와
+    // 파라미터 obj가 가리키는 인스턴스의 클래스가 같다고 결론이 났기 때문에
+    // 다음과 같이 obj를 Member 타입으로 형변환한다.
+    //
+    Board board = (Board) obj;
 
-    if (this.getNo() != b.getNo()) {
+    if (this.getNo() != board.getNo()) {
       return false;
     }
-
+    // if (this.getName() != null && !this.getName().equals(m.getName())) {
+    // return false;
+    // }
+    // if (this.getPhone() != null && !this.getPhone().equals(m.getPhone())) {
+    // return false;
+    // }
+    // if (this.getPassword() != null && !this.getPassword().equals(m.getPassword())) {
+    // return false;
+    // }
+    // if (this.getPosition() != m.getPosition()) {
+    // return false;
+    // }
     return true;
   }
 
+  // 겟터/셋터는 인스턴스 필드의 값을 설정하고 꺼내는 메서드다.
+  // 보통 외부에서 직접 필드에 접근하는 것을 막았을 때 사용한다.
   public int getNo() {
     return no;
   }
@@ -122,6 +111,5 @@ public class Board implements Serializable, CsvObject { // 다중 구현 가능
   public void setPassword(String password) {
     this.password = password;
   }
-
 
 }
