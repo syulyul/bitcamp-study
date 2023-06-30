@@ -1,10 +1,14 @@
 package bitcamp.report;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import bitcamp.io.BufferedDataInputStream;
-import bitcamp.io.BufferedDataOutputStream;
+import bitcamp.io.BufferedInputStream;
+import bitcamp.io.BufferedOutputStream;
+import bitcamp.io.DataInputStream;
+import bitcamp.io.DataOutputStream;
 import bitcamp.report.handler.BoardAddListener;
 import bitcamp.report.handler.BoardDeleteListener;
 import bitcamp.report.handler.BoardDetailListener;
@@ -123,7 +127,9 @@ public class App {
 
   private void loadMember() {
     try {
-      BufferedDataInputStream in = new BufferedDataInputStream("member.data");
+      FileInputStream in0 = new FileInputStream("member.data");
+      BufferedInputStream in1 = new BufferedInputStream(in0); // <== decorator 역할 수행
+      DataInputStream in = new DataInputStream(in1); // <== decorator 역할 수행
 
       int size = in.readShort();
 
@@ -149,7 +155,9 @@ public class App {
 
   private void loadItem() {
     try {
-      BufferedDataInputStream in = new BufferedDataInputStream("item.data");
+      FileInputStream in0 = new FileInputStream("item.data");
+      BufferedInputStream in1 = new BufferedInputStream(in0); // <== decorator 역할 수행
+      DataInputStream in = new DataInputStream(in1); // <== decorator 역할 수행
 
       int size = in.readShort();
 
@@ -174,7 +182,9 @@ public class App {
 
   private void loadBoard(String filename, List<Board> list) {
     try {
-      BufferedDataInputStream in = new BufferedDataInputStream(filename);
+      FileInputStream in0 = new FileInputStream(filename);
+      BufferedInputStream in1 = new BufferedInputStream(in0); // <== decorator 역할 수행
+      DataInputStream in = new DataInputStream(in1); // <== decorator 역할 수행
 
       int size = in.readShort();
 
@@ -201,7 +211,9 @@ public class App {
 
   private void saveMember() {
     try {
-      BufferedDataOutputStream out = new BufferedDataOutputStream("member.data");
+      FileOutputStream out0 = new FileOutputStream("member.data");
+      BufferedOutputStream out1 = new BufferedOutputStream(out0); // <== decorator 역할 수행
+      DataOutputStream out = new DataOutputStream(out1); // <== Decorator(장식품) 역할
 
       // 저장할 데이터의 개수를 먼저 출력한다.
       out.writeShort(memberList.size());
@@ -221,7 +233,9 @@ public class App {
 
   private void saveItem() {
     try {
-      BufferedDataOutputStream out = new BufferedDataOutputStream("item.data");
+      FileOutputStream out0 = new FileOutputStream("item.data");
+      BufferedOutputStream out1 = new BufferedOutputStream(out0); // <== Decorator 역할을 수행!
+      DataOutputStream out = new DataOutputStream(out1); // <== Decorator(장식품) 역할
 
       // 저장할 데이터의 개수를 먼저 출력한다.
       out.writeShort(itemList.size());
@@ -240,7 +254,9 @@ public class App {
 
   private void saveBoard(String filename, List<Board> list) {
     try {
-      BufferedDataOutputStream out = new BufferedDataOutputStream(filename);
+      FileOutputStream out0 = new FileOutputStream("board.data");
+      BufferedOutputStream out1 = new BufferedOutputStream(out0); // <== Decorator 역할을 수행!
+      DataOutputStream out = new DataOutputStream(out1); // <== Decorator(장식품) 역할
 
       // 저장할 데이터의 개수를 먼저 출력한다.
       out.writeShort(list.size());
