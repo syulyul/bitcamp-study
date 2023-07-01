@@ -25,17 +25,6 @@ public class Board implements Serializable {
   public Board(int no) {
     this.no = no;
   }
-  
-  public String toCsvString() {
-    return String.format("%d,%s,%s,%s,%s,%d,%d\n", 
-        this.getNo(), 
-        this.getTitle(), 
-        this.getContent(),
-        this.getWriter(), 
-        this.getPassword(), 
-        this.getViewCount(), 
-        this.getCreatedDate());
-  }
 
   public boolean equals(Object obj) {
     if (obj == null) {

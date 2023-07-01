@@ -244,12 +244,8 @@ public class App {
       PrintWriter out = new PrintWriter(out1); // <== Decorator(장식품) 역할
 
       for (Board board : list) {
-        out.println(board.toCsvString());
-        // Board 클래스에 필드가 추가/변경/삭제되더라도
-        // 여기 코드를 변경할 필요가 없다.
-        // 이것이 Information Expert 설계를 적용하는 이유다!
-        // 설계를 어떻게 하느냐에 따라 유지보수가 쉬워질 수도 있고,
-        // 어려워질 수도 있다.
+        out.printf("%d,%s,%s,%s,%s,%d,%d\n", board.getNo(), board.getTitle(), board.getContent(),
+            board.getWriter(), board.getPassword(), board.getViewCount(), board.getCreatedDate());
       }
       out.close();
 
