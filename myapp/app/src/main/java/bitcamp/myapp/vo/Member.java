@@ -2,7 +2,7 @@ package bitcamp.myapp.vo;
 
 import java.io.Serializable;
 
-public class Member implements Serializable, CsvObject { // 직렬화 표시용도
+public class Member implements Serializable, CsvObject, AutoIncrement { // 직렬화 표시용도
   private static final long serialVersionUID = 1L; // 시리얼 버전
 
   public static int userId = 1;
@@ -16,9 +16,7 @@ public class Member implements Serializable, CsvObject { // 직렬화 표시용�
   private String password;
   private char gender;
 
-  public Member() {
-    this.no = userId++;
-  }
+  public Member() {}
 
   public Member(int no) {
     this.no = no;
@@ -38,6 +36,13 @@ public class Member implements Serializable, CsvObject { // 직렬화 표시용�
     }
 
     return member;
+  }
+
+  @Override
+  public void updateKey() {
+    if (Member.userId <= this.no) {
+      Member.userId = this.no + 1;
+    }
   }
 
   @Override
