@@ -1,29 +1,12 @@
 package bitcamp.report.handler;
 
-import java.util.List;
 import bitcamp.report.vo.Item;
 import bitcamp.util.ActionListener;
 import bitcamp.util.BreadcrumbPrompt;
 
-public abstract class AbstractItemListener implements ActionListener {
+public interface ItemActionListener extends ActionListener {
 
-  protected List<Item> list;
-
-  public AbstractItemListener(List<Item> list) {
-    this.list = list;
-  }
-
-  protected Item findBy(int no) {
-    for (int i = 0; i < this.list.size(); i++) {
-      Item item = this.list.get(i);
-      if (item.getNo() == no) {
-        return item;
-      }
-    }
-    return null;
-  }
-
-  protected String inputType(String type, BreadcrumbPrompt prompt) {
+  static String inputType(String type, BreadcrumbPrompt prompt) {
     String label;
     if (type == "0") {
       label = "물품 종류?\n";
