@@ -1,0 +1,65 @@
+[
+  {
+    "no": 1,
+    "name": "aaa",
+    "phone": "01011112222",
+    "password": "1111",
+    "position": "0"
+  },
+  {
+    "no": 2,
+    "name": "bbb",
+    "phone": "01033334444",
+    "password": "1111",
+    "position": "0"
+  },
+  {
+    "no": 3,
+    "name": "ccc",
+    "phone": "01055556666",
+    "password": "1111",
+    "position": "1"
+  },
+  {
+    "no": 4,
+    "name": "ddd",
+    "phone": "01077778888",
+    "password": "1111",
+    "position": "1"
+  },
+  {
+    "no": 5,
+    "name": "eee",
+    "phone": "01099990000",
+    "password": "1111",
+    "position": "1"
+  },
+  {
+    "no": 6,
+    "name": "fff",
+    "phone": "01012341234",
+    "password": "1111",
+    "position": "1"
+  },
+  {
+    "no": 7,
+    "name": "ggg",
+    "phone": "01043214321",
+    "password": "1111",
+    "position": "1"
+  },
+  {
+    "no": 8,
+    "name": "hhh",
+    "phone": "01012123434",
+    "password": "1111",
+    "position": "0"
+  },
+  {
+    "no": 9,
+    "name": "iii",
+    "phone": "01098765432",
+    "password": "1111",
+    "position": "1"
+  }
+]
