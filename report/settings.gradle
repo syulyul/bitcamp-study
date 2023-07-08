@@ -16,3 +16,4 @@ rootProject.name = 'report'
 // include('app')
 include('app-client')
 include('app-server')
+include('app-common')
