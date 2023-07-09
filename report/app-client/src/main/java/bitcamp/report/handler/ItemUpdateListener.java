@@ -25,6 +25,8 @@ public class ItemUpdateListener implements ItemActionListener {
     item.setName(prompt.inputString("물품 이름(%s)? ", item.getName()));
     item.setPrice(prompt.inputInt("물품 가격(%d)? ", item.getPrice()));
     item.setType(ItemActionListener.inputType(item.getType(), prompt));
+
+    itemDao.update(item);
   }
 
 }

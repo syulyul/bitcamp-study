@@ -13,6 +13,8 @@ import bitcamp.report.dao.ItemListDao;
 import bitcamp.report.dao.MemberDao;
 import bitcamp.report.dao.MemberListDao;
 import bitcamp.report.vo.Board;
+import bitcamp.report.vo.Item;
+import bitcamp.report.vo.Member;
 
 public class ServerApp {
   int port;
@@ -87,6 +89,75 @@ public class ServerApp {
           break;
         case "board/delete":
           value = boardDao.delete(request.getObject(Integer.class));
+          response.status(ResponseEntity.SUCCESS).result(value);
+          break;
+        case "member/list":
+          response.status(ResponseEntity.SUCCESS).result(memberDao.list());
+          break;
+        case "member/insert":
+          memberDao.insert(request.getObject(Member.class));
+          response.status(ResponseEntity.SUCCESS);
+          break;
+        case "member/findBy":
+          Member member = memberDao.findBy(request.getObject(Integer.class));
+          if (member == null) {
+            response.status(ResponseEntity.FAILURE).result("해당 번호의 직원이 없습니다!");
+          } else {
+            response.status(ResponseEntity.SUCCESS).result(member);
+          }
+          break;
+        case "member/update":
+          value = memberDao.update(request.getObject(Member.class));
+          response.status(ResponseEntity.SUCCESS).result(value);
+          break;
+        case "member/delete":
+          value = memberDao.delete(request.getObject(Integer.class));
+          response.status(ResponseEntity.SUCCESS).result(value);
+          break;
+        case "notice/list":
+          response.status(ResponseEntity.SUCCESS).result(noticeDao.list());
+          break;
+        case "notice/insert":
+          noticeDao.insert(request.getObject(Board.class));
+          response.status(ResponseEntity.SUCCESS);
+          break;
+        case "notice/findBy":
+          board = noticeDao.findBy(request.getObject(Integer.class));
+          if (board == null) {
+            response.status(ResponseEntity.FAILURE).result("해당 번호의 공지가 없습니다!");
+          } else {
+            response.status(ResponseEntity.SUCCESS).result(board);
+          }
+          break;
+        case "notice/update":
+          value = noticeDao.update(request.getObject(Board.class));
+          response.status(ResponseEntity.SUCCESS).result(value);
+          break;
+        case "notice/delete":
+          value = noticeDao.delete(request.getObject(Integer.class));
+          response.status(ResponseEntity.SUCCESS).result(value);
+          break;
+        case "item/list":
+          response.status(ResponseEntity.SUCCESS).result(itemDao.list());
+          break;
+        case "item/insert":
+          itemDao.insert(request.getObject(Item.class));
+          response.status(ResponseEntity.SUCCESS);
+          break;
+        case "item/findBy":
+          Item item = itemDao.findBy(request.getObject(Integer.class));
+          if (item == null) {
+            response.status(ResponseEntity.FAILURE).result("해당 번호의 물품이 없습니다!");
+          } else {
+            response.status(ResponseEntity.SUCCESS).result(item);
+          }
+          break;
+        case "item/update":
+          value = itemDao.update(request.getObject(Item.class));
+          response.status(ResponseEntity.SUCCESS).result(value);
+          break;
+        case "item/delete":
+          value = itemDao.delete(request.getObject(Integer.class));
           response.status(ResponseEntity.SUCCESS).result(value);
           break;
         default:

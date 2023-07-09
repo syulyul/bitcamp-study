@@ -36,8 +36,8 @@
   },
   {
     "no": 6,
-    "name": "fff",
-    "phone": "01012341234",
+    "name": "test",
+    "phone": "01099998888",
     "password": "1111",
     "position": "1"
   },
@@ -57,8 +57,8 @@
   },
   {
     "no": 9,
-    "name": "iii",
-    "phone": "01098765432",
+    "name": "test",
+    "phone": "01011112222",
     "password": "1111",
     "position": "1"
   }
