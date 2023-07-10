@@ -61,5 +61,19 @@
     "email": "iix@test.com",
     "password": "1111",
     "gender": "W"
+  },
+  {
+    "no": 11,
+    "name": "haha",
+    "email": "haha@test.com",
+    "password": "1111",
+    "gender": "W"
+  },
+  {
+    "no": 12,
+    "name": "no",
+    "email": "no@test.com",
+    "password": "1111",
+    "gender": "W"
   }
 ]

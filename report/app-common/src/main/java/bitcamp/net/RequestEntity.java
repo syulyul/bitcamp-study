@@ -35,8 +35,13 @@ public class RequestEntity {
   }
 
   public RequestEntity data(Object obj) {
+
+    if (obj == null) {
+      return this;
+    }
+
     if (obj.getClass() == String.class) {
-      this.data = new Gson().toJson(data);
+      this.data = (String) obj;
     } else {
       this.data = new Gson().toJson(obj);
     }

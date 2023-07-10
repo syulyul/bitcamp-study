@@ -5,7 +5,7 @@
     "content": "c",
     "writer": "c",
     "password": "1111",
-    "viewCount": 0,
+    "viewCount": 1,
     "createdDate": 1688150445625
   },
   {
@@ -52,5 +52,14 @@
     "password": "1111",
     "viewCount": 0,
     "createdDate": 1688430443353
+  },
+  {
+    "no": 15,
+    "title": "test",
+    "content": "test",
+    "writer": "test",
+    "password": "1111",
+    "viewCount": 0,
+    "createdDate": 1688960034365
   }
 ]
