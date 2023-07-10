@@ -3,13 +3,11 @@ package bitcamp.report;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
+import bitcamp.dao.DaoBuilder;
 import bitcamp.net.RequestEntity;
 import bitcamp.report.dao.BoardDao;
-import bitcamp.report.dao.BoardNetworkDao;
 import bitcamp.report.dao.ItemDao;
-import bitcamp.report.dao.ItemNetworkDao;
 import bitcamp.report.dao.MemberDao;
-import bitcamp.report.dao.MemberNetworkDao;
 import bitcamp.report.handler.BoardAddListener;
 import bitcamp.report.handler.BoardDeleteListener;
 import bitcamp.report.handler.BoardDetailListener;
@@ -52,10 +50,12 @@ public class ClientApp {
     this.out = new DataOutputStream(socket.getOutputStream());
     this.in = new DataInputStream(socket.getInputStream());
 
-    this.memberDao = new MemberNetworkDao("member", in, out);
-    this.itemDao = new ItemNetworkDao("item", in, out);
-    this.boardDao = new BoardNetworkDao("board", in, out);
-    this.noticeDao = new BoardNetworkDao("notice", in, out);
+    DaoBuilder daoBuilder = new DaoBuilder(in, out); // 빌더 패턴
+
+    this.memberDao = daoBuilder.build("member", MemberDao.class);
+    this.boardDao = daoBuilder.build("board", BoardDao.class);
+    this.boardDao = daoBuilder.build("notice", BoardDao.class);
+    this.itemDao = daoBuilder.build("item", ItemDao.class);
 
     prepareMenu();
   }
