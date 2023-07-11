@@ -8,7 +8,7 @@ public class Exam0210 {
   public static void main(String[] args) throws Exception {
     FileWriter out = new FileWriter("temp/test2.txt");
 
-    char[] chars = new char[] {'A', 'B', 'C', '0', '1', '2', '가', '각', '간', '똘', '똥'};
+    char[] chars = new char[] {'A', 'B', 'C', '0', '1', '2', '가', '각', '간', '똘', '똥'}; // UTF-16으로 저장됨
 
     // FileOutputStream 은 byte[] 을 출력하지만,
     // FileWriter 는 char[] 을 출력한다.
