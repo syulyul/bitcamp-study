@@ -277,7 +277,7 @@
 - 구동 원리와 Stateful 방식 대비 이점
 - Stateless 방식의 문제점
 
-## 43. 여러 클라이언트의 요청을 도ㅇ시에 처리하기: Thread 적용
+## 43. 여러 클라이언트의 요청을 동시에 처리하기: Thread 적용
 
 - 멀티태스킹의 메커니즘 이해
   - 프로세스 스케줄링: Round Robin 방식, Priority + Aging 방식
