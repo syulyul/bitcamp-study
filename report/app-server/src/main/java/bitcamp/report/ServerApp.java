@@ -4,6 +4,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
@@ -84,8 +85,13 @@ public class ServerApp {
   // 클라이언트와 접속이 이루어지면 클라이언트의 요청을 처리한다.
   public void processRequest(Socket socket) {
 
-    try (DataInputStream in = new DataInputStream(socket.getInputStream());
+    try (Socket s = socket; // 자동 종료
+        DataInputStream in = new DataInputStream(socket.getInputStream());
         DataOutputStream out = new DataOutputStream(socket.getOutputStream())) {
+
+      InetSocketAddress socketAddress = (InetSocketAddress) socket.getRemoteSocketAddress();
+      System.out.printf("%s:%s 클라이언트가 접속했음!\n", socketAddress.getHostString(),
+          socketAddress.getPort());
 
       while (true) {
         RequestEntity request = RequestEntity.fromJson(in.readUTF());
