@@ -1,7 +1,5 @@
 package bitcamp.dao;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Proxy;
 import java.util.List;
@@ -11,12 +9,12 @@ import bitcamp.report.ClientApp;
 
 public class DaoBuilder {
 
-  DataInputStream in;
-  DataOutputStream out;
+  String serverAddress;
+  int port;
 
-  public DaoBuilder(DataInputStream in, DataOutputStream out) {
-    this.in = in;
-    this.out = out;
+  public DaoBuilder(String serverAddress, int port) {
+    this.serverAddress = serverAddress;
+    this.port = port;
   }
 
   @SuppressWarnings("unchecked")
