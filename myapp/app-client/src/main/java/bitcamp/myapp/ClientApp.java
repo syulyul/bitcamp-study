@@ -32,7 +32,7 @@ public class ClientApp {
 
   public ClientApp(String ip, int port) throws Exception {
 
-    DaoBuilder daoBuilder = new DaoBuilder(ip, port); // 빌더 패턴
+    DaoBuilder daoBuilder = new DaoBuilder(ip, port);
 
     this.memberDao = daoBuilder.build("member", MemberDao.class);
     this.boardDao = daoBuilder.build("board", BoardDao.class);
@@ -46,7 +46,6 @@ public class ClientApp {
   }
 
   public static void main(String[] args) throws Exception {
-
     if (args.length < 2) {
       System.out.println("실행 예) java ... bitcamp.myapp.ClientApp 서버주소 포트번호");
       return;
@@ -65,7 +64,6 @@ public class ClientApp {
   public void execute() {
     printTitle();
     mainMenu.execute(prompt);
-
   }
 
   private void prepareMenu() {
@@ -99,6 +97,4 @@ public class ClientApp {
     helloMenu.addActionListener(new FooterListener());
     mainMenu.add(helloMenu);
   }
-
 }
-

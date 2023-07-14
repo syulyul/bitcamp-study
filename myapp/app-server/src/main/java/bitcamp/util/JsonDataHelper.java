@@ -14,7 +14,6 @@ import bitcamp.myapp.vo.AutoIncrement;
 public class JsonDataHelper {
   public static <T> void loadJson(String filename, List<T> list, Class<T> clazz) {
     try {
-
       FileReader in0 = new FileReader(filename);
       BufferedReader in = new BufferedReader(in0); // <== Decorator 역할을 수행!
 
@@ -28,7 +27,6 @@ public class JsonDataHelper {
       in.close();
 
       Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-
       Collection<T> objects = gson.fromJson(strBuilder.toString(),
           TypeToken.getParameterized(Collection.class, clazz).getType());
 
@@ -44,14 +42,14 @@ public class JsonDataHelper {
       }
 
     } catch (Exception e) {
-      System.out.println(filename + "파일을 읽는 중 오류 발생!");
+      System.out.println(filename + " 파일을 읽는 중 오류 발생!");
     }
   }
 
   public static void saveJson(String filename, List<?> list) {
     try {
       FileWriter out0 = new FileWriter(filename);
-      BufferedWriter out = new BufferedWriter(out0); // <== Decorator(장식품) 역할 수행!
+      BufferedWriter out = new BufferedWriter(out0);
 
       Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").setPrettyPrinting().create();
       out.write(gson.toJson(list));
