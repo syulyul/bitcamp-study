@@ -31,7 +31,7 @@ public class Sender {
     // 3) 상대편으로 문자열을 한 줄 보낸다.
     // => 보낸 데이터를 NIC의 메모리에 임시 보관된다.
     // => 임시 보관된 데이터가 상대편으로 완전히 보내졌는지 따지지 않고 즉시 리턴한다.
-    out.println("엄진영입니다. 안녕하세요!");
+    out.println("OOO입니다. 안녕하세요!");
     System.out.println("서버에 데이터 보냈음!");
 
     keyscan.nextLine(); // 서버가 보낸 문자열을 읽지 않고 대기함

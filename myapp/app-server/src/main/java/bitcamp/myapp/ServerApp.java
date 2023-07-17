@@ -8,12 +8,12 @@ import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import bitcamp.myapp.dao.BoardListDao;
 import bitcamp.myapp.dao.MemberListDao;
 import bitcamp.net.RequestEntity;
 import bitcamp.net.ResponseEntity;
-import bitcamp.util.ManagedThread;
-import bitcamp.util.ThreadPool;
 
 public class ServerApp {
 
@@ -22,8 +22,8 @@ public class ServerApp {
 
   HashMap<String, Object> daoMap = new HashMap<>();
 
-  // 스레드를 리턴해 줄 스레드풀 준비
-  ThreadPool threadPool = new ThreadPool();
+  // 자바 스레드풀 준비
+  ExecutorService threadPool = Executors.newFixedThreadPool(10); // 10 개
 
   public ServerApp(int port) throws Exception {
     this.port = port;
@@ -56,8 +56,28 @@ public class ServerApp {
 
     while (true) {
       Socket socket = serverSocket.accept();
-      ManagedThread t = threadPool.getResource();
-      t.setJob(() -> processRequest(socket));
+      
+      threadPool.execute(() -> processRequest(socket));
+      
+      // 중첩 클래스가바깥 클래스에 있는 필드를 호출할 수 있는 이유
+      // 생성자에서 받아놨기 때문에
+      // 바깥 클래스의 주소를 이용해서 호출하기 때문에 
+
+      // 컴파일러는 위의 문장을 다음 문장으로 변환한다.
+      //      class $1 implements Runnable { // 자바 컴파일러가 이렇게 만듦
+      //        ServerApp this$0;
+      //        Socket socket;
+      //
+      //        public $1(ServerApp arg0, Socket arg1) {
+      //          this$0 = arg0;
+      //          socket = arg1;
+      //        }
+      //        public void run() {
+      //          this$0.processRequest(socket);
+      //        }
+      //      }
+      //      $1 obj = new $1(this, socket);
+      //      threadPool.execute(obj);
     }
   }
 
@@ -86,7 +106,9 @@ public class ServerApp {
         DataOutputStream out = new DataOutputStream(socket.getOutputStream())) {
 
       InetSocketAddress socketAddress = (InetSocketAddress) socket.getRemoteSocketAddress();
-      System.out.printf("%s:%s 클라이언트가 접속했음!\n", socketAddress.getHostString(),
+      System.out.printf("[%s] %s:%s 클라이언트가 접속했음!\n", 
+          Thread.currentThread().getName(), // 현재 스레드 이름이 무엇인지 출력하기 위함
+          socketAddress.getHostString(),
           socketAddress.getPort());
 
       // 스레드풀이 새 스레드를 만드는 것을 테스트하기 위함.
