@@ -102,6 +102,9 @@ dependencies {
   // MariaDB JDBC 드라이버
   // implementation 'org.mariadb.jdbc:mariadb-java-client:3.1.2'
 
+  // MySQL JDBC 드라이버
+  implementation 'mysql:mysql-connector-java:8.0.33'
+
   // Oracle JDBC Driver
   //   implementation 'com.oracle.database.jdbc:ojdbc11-production:21.7.0.0'
     

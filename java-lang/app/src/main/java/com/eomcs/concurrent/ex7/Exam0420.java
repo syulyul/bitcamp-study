@@ -47,7 +47,7 @@ public class Exam0420 {
 
     // 가능한 현재 수행 중인 작업들을 모두 멈추도록 지시한다.
     // => shutdown()과 차이점:
-    //    - 만약 Running 상태의 스레드 Not Runnable 상태(sleep()/wait())에 놓인다면,
+    //    - 만약 Running 상태의 스레드가 Not Runnable 상태(sleep()/wait())에 놓인다면,
     //      바로 스레드를 멈출 기회라고 보고 스레드를 강 종료할 것이다.
     //    - 즉 실행 중인 작업만 완료시키고, 대기 중인 작업은 취소시키는 효과가 있다.
     // => Running 상태에 Not Runnable 상태가 될 때까지 기다린다.
