@@ -433,6 +433,12 @@
     - JDBC API와 JDBC 드라이버
     - SQL - DDL 사용법
 
+### 41일(7/19,수)
+
+- 자바 프로그래밍
+  - JDBC 프로그래밍(com.eomcs.jdbc)
+    - SQL - DML 사용법
+    - SQL - DQL 사용법
 
 ## 웨일즈 화상회의
 
