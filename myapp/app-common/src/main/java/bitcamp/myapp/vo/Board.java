@@ -2,10 +2,8 @@ package bitcamp.myapp.vo;
 
 import java.io.Serializable;
 
-public class Board implements Serializable, CsvObject, AutoIncrement { // 다중 구현 가능
+public class Board implements Serializable { // 다중 구현 가능
   private static final long serialVersionUID = 1L;
-
-  public static int boardNo = 1;
 
   private int no;
   private String title;
@@ -19,38 +17,6 @@ public class Board implements Serializable, CsvObject, AutoIncrement { // 다중
 
   public Board(int no) {
     this.no = no;
-  }
-
-  public static Board fromCsv(String csv) {
-    String[] values = csv.split(",");
-
-    Board board = new Board(Integer.parseInt(values[0]));
-    board.setTitle(values[1]);
-    board.setContent(values[2]);
-    board.setWriter(values[3]);
-    board.setPassword(values[4]);
-    board.setViewCount(Integer.parseInt(values[5]));
-    board.setCreatedDate(Long.parseLong(values[6]));
-
-    if (Board.boardNo <= board.getNo()) {
-      Board.boardNo = board.getNo() + 1;
-    }
-
-    return board;
-  }
-
-  @Override
-  public void updateKey() {
-    if (Board.boardNo <= this.no) {
-      Board.boardNo = this.no + 1;
-    }
-  }
-
-  @Override
-  public String toCsvString() {
-    return String.format("%d,%s,%s,%s,%s,%d,%d", // %d 로 long 도 가능
-        this.getNo(), this.getTitle(), this.getContent(), this.getWriter(), this.getPassword(),
-        this.getViewCount(), this.getCreatedDate());
   }
 
   public boolean equals(Object obj) {

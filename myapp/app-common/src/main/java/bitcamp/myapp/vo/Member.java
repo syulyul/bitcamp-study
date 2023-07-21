@@ -2,10 +2,8 @@ package bitcamp.myapp.vo;
 
 import java.io.Serializable;
 
-public class Member implements Serializable, CsvObject, AutoIncrement { // 직렬화 표시용도
+public class Member implements Serializable { // 직렬화 표시용도
   private static final long serialVersionUID = 1L; // 시리얼 버전
-
-  public static int userId = 1;
 
   public static final char MALE = 'M';
   public static final char FEMALE = 'W';
@@ -22,34 +20,6 @@ public class Member implements Serializable, CsvObject, AutoIncrement { // 직�
     this.no = no;
   }
 
-  public static Member fromCsv(String csv) {
-    String[] values = csv.split(",");
-
-    Member member = new Member(Integer.parseInt(values[0]));
-    member.setName(values[1]);
-    member.setEmail(values[2]);
-    member.setPassword(values[3]);
-    member.setGender(values[4].charAt(0));
-
-    if (Member.userId <= member.getNo()) {
-      Member.userId = member.getNo() + 1;
-    }
-
-    return member;
-  }
-
-  @Override
-  public void updateKey() {
-    if (Member.userId <= this.no) {
-      Member.userId = this.no + 1;
-    }
-  }
-
-  @Override
-  public String toCsvString() {
-    return String.format("%d,%s,%s,%s,%c", this.getNo(), this.getName(), this.getEmail(),
-        this.getPassword(), this.getGender());
-  }
 
   public boolean equals(Object obj) {
     if (obj == null) {
