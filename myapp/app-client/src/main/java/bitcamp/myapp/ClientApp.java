@@ -14,6 +14,7 @@ import bitcamp.myapp.handler.BoardUpdateListener;
 import bitcamp.myapp.handler.FooterListener;
 import bitcamp.myapp.handler.HeaderListener;
 import bitcamp.myapp.handler.HelloListener;
+import bitcamp.myapp.handler.LoginListener;
 import bitcamp.myapp.handler.MemberAddListener;
 import bitcamp.myapp.handler.MemberDeleteListener;
 import bitcamp.myapp.handler.MemberDetailListener;
@@ -68,6 +69,9 @@ public class ClientApp {
 
   public void execute() {
     printTitle();
+    
+    new LoginListener(memberDao).service(prompt);
+    
     mainMenu.execute(prompt);
   }
 

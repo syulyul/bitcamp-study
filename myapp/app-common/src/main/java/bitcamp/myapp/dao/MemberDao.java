@@ -10,7 +10,10 @@ public interface MemberDao {
 
   Member findBy(int no); // 규칙 추가
 
+  Member findByEmailAndPassword(Member m);
+
   int update(Member member);
 
   int delete(int inputInt);
+
 }
