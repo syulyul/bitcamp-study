@@ -35,8 +35,8 @@ public class ClientApp {
 
   public ClientApp(String ip, int port) throws Exception {
 
-    Connection con = DriverManager.getConnection("jdbc:mysql://study:1111@localhost:3306/studydb" // JDBC
-                                                                                                  // URL
+    Connection con = DriverManager.getConnection(
+        "jdbc:mysql://study:1111@localhost:3306/studydb" // JDBC URL
     );
 
     this.memberDao = new MySQLMemberDao(con);
