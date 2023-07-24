@@ -11,12 +11,10 @@ import bitcamp.util.BreadcrumbPrompt;
 public class BoardListListener implements ActionListener {
 
   BoardDao boardDao;
-  int category;
   SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
 
-  public BoardListListener(BoardDao boardDao, int category) {
+  public BoardListListener(BoardDao boardDao) {
     this.boardDao = boardDao;
-    this.category = category;
 
   }
 
@@ -29,12 +27,8 @@ public class BoardListListener implements ActionListener {
     List<Board> list = boardDao.list();
 
     for (Board board : list) {
-      System.out.printf("%d, %s, %s, %d, %s\n",
-          board.getNo(),
-          board.getTitle(),
-          board.getWriter(),
-          board.getViewCount(),
-          dateFormatter.format(board.getCreatedDate()));
+      System.out.printf("%d, %s, %s, %d, %s\n", board.getNo(), board.getTitle(), board.getWriter(),
+          board.getViewCount(), dateFormatter.format(board.getCreatedDate()));
 
     }
   }
