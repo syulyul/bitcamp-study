@@ -64,7 +64,7 @@ public class MySQLMemberDao implements MemberDao {
         ResultSet rs = stmt.executeQuery(
             "select member_no, name, phone, position from report_member where member_no=" + no)) {
 
-      while (rs.next()) {
+      if (rs.next()) {
         Member m = new Member();
         m.setNo(rs.getInt("member_no"));
         m.setName(rs.getString("name"));
