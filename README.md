@@ -473,7 +473,7 @@
 
 - 자바 프로그래밍
 - 프로젝트 실습
-  - 50. Application Server 아키텍터로 전환하기
+  - 50. Application Server 아키텍처로 전환하기
 
 
 ## 웨일즈 화상회의
