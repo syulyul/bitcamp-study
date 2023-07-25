@@ -2,8 +2,7 @@ package bitcamp.report.vo;
 
 import java.io.Serializable;
 
-public class Item implements Serializable, CsvObject, AutoIncrement {
-  public static int itemId = 1;
+public class Item implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
@@ -22,34 +21,6 @@ public class Item implements Serializable, CsvObject, AutoIncrement {
 
   public Item(int no) {
     this.no = no;
-  }
-
-  public static Item fromCsv(String csv) {
-    String[] values = csv.split(",");
-
-    Item item = new Item(Integer.parseInt(values[0]));
-    item.setName(values[1]);
-    item.setPrice(Integer.parseInt(values[2]));
-    item.setType(values[3]);
-
-    if (Item.itemId <= item.getNo()) {
-      Item.itemId = item.getNo() + 1;
-    }
-
-    return item;
-  }
-
-  @Override
-  public void updateKey() {
-    if (Item.itemId <= this.no) {
-      Item.itemId = this.no + 1;
-    }
-  }
-
-  @Override
-  public String toCsvString() {
-    return String.format("%d,%s,%d,%s", this.getNo(), this.getName(), this.getPrice(),
-        this.getType());
   }
 
   public boolean equals(Object obj) {
