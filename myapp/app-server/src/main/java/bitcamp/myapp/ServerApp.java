@@ -19,6 +19,7 @@ import bitcamp.myapp.handler.BoardUpdateListener;
 import bitcamp.myapp.handler.FooterListener;
 import bitcamp.myapp.handler.HeaderListener;
 import bitcamp.myapp.handler.HelloListener;
+import bitcamp.myapp.handler.LoginListener;
 import bitcamp.myapp.handler.MemberAddListener;
 import bitcamp.myapp.handler.MemberDeleteListener;
 import bitcamp.myapp.handler.MemberDetailListener;
@@ -34,11 +35,11 @@ public class ServerApp {
 
   public static Member loginUser;
 
+  Connection con;
+  
   MemberDao memberDao;
   BoardDao boardDao;
   BoardDao readingDao;
-
-  BreadcrumbPrompt prompt = new BreadcrumbPrompt();
 
   MenuGroup mainMenu = new MenuGroup("메인");
 
@@ -48,7 +49,7 @@ public class ServerApp {
 
     this.port = port;
 
-    Connection con = DriverManager.getConnection(
+    con = DriverManager.getConnection(
         "jdbc:mysql://study:1111@localhost:3306/studydb" // JDBC URL
     );
 
@@ -60,7 +61,7 @@ public class ServerApp {
   }
 
   public void close() throws Exception {
-    prompt.close();
+    con.close();
   }
 
   public static void main(String[] args) throws Exception {
@@ -68,11 +69,6 @@ public class ServerApp {
     ServerApp app = new ServerApp(8888);
     app.execute();
     app.close();
-  }
-
-  static void printTitle() {
-    System.out.println("나의 목록 관리 시스템");
-    System.out.println("----------------------------------");
   }
 
   public void execute() {
@@ -83,16 +79,19 @@ public class ServerApp {
         try (Socket socket = serverSocket.accept();
             DataInputStream in = new DataInputStream(socket.getInputStream());
             DataOutputStream out = new DataOutputStream(socket.getOutputStream())) {
+          
+          BreadcrumbPrompt prompt = new BreadcrumbPrompt(in, out);
 
           InetSocketAddress clientAddress = (InetSocketAddress) socket.getRemoteSocketAddress();
           System.out.printf("%s 클라이언트 접속함!\n", clientAddress.getHostString());
 
-          String request = in.readUTF();
-          out.writeUTF("응답1: " + request);
-          out.writeUTF("응답2: " + request);
-          out.writeUTF("응답3: " + request);
-          out.writeUTF("응답4: " + request);
-          out.writeUTF(NetProtocol.RESPONSE_END);
+          out.writeUTF("[나의 목록 관리 시스템]\n"
+              + "------------------------------------------");
+          
+          new LoginListener(memberDao).service(prompt);
+          
+          mainMenu.execute(prompt);
+          out.writeUTF(NetProtocol.NET_END);
 
         } catch (Exception e) {
           System.out.println("클라이언트 통신 오류!");
@@ -104,8 +103,6 @@ public class ServerApp {
       System.out.println("서버 실행 오류!");
       e.printStackTrace();
     }
-    // printTitle();
-    // mainMenu.execute(prompt);
   }
 
   private void prepareMenu() {

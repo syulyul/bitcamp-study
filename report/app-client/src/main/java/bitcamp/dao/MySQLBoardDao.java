@@ -25,7 +25,10 @@ public class MySQLBoardDao implements BoardDao {
       stmt.executeUpdate(String.format(
           "insert into report_board(title,content,writer,password,category)"
               + " values('%s','%s','%s','%s',%d)",
-          board.getTitle(), board.getContent(), board.getWriter(), board.getPassword(),
+          board.getTitle(), 
+          board.getContent(), 
+          board.getWriter(), 
+          board.getPassword(),
           this.category));
 
     } catch (Exception e) {
@@ -38,8 +41,11 @@ public class MySQLBoardDao implements BoardDao {
   public List<Board> list() {
     try (Statement stmt = con.createStatement();
         ResultSet rs = stmt.executeQuery(
-            "select board_no, title, writer, view_count, created_date" + " from report_board"
-                + " where category=" + this.category + " order by board_no desc")) {
+            "select board_no, title, writer, view_count, created_date"
+                + " from report_board"
+                + " where category="
+                + this.category
+                + " order by board_no desc")) {
 
       List<Board> list = new ArrayList<>();
 
@@ -65,8 +71,11 @@ public class MySQLBoardDao implements BoardDao {
   public Board findBy(int no) {
     try (Statement stmt = con.createStatement();
         ResultSet rs =
-            stmt.executeQuery("select board_no, title, content, writer, view_count, created_date"
-                + " from report_board" + " where category=" + this.category + " and board_no=" + no
+            stmt.executeQuery(
+                "select board_no, title, content, writer, view_count, created_date"
+                + " from report_board"
+                + " where category=" + this.category
+                + " and board_no=" + no
                 + " order by board_no desc")) {
 
       if (rs.next()) {
@@ -77,6 +86,10 @@ public class MySQLBoardDao implements BoardDao {
         b.setWriter(rs.getString("writer"));
         b.setViewCount(rs.getInt("view_count"));
         b.setCreatedDate(rs.getTimestamp("created_date"));
+        
+        stmt.executeUpdate("update report_board set"
+            + " view_count=view_count + 1"
+            + " where board_no=" + no);
 
         return b;
       }
@@ -102,8 +115,6 @@ public class MySQLBoardDao implements BoardDao {
             board.getNo(),
             board.getPassword()));
 
-          stmt.
-
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
@@ -111,8 +122,15 @@ public class MySQLBoardDao implements BoardDao {
 
   @Override
   public int delete(int no) {
-    // TODO Auto-generated method stub
-    return 0;
+    try (Statement stmt = con.createStatement()) {
+
+      return stmt.executeUpdate(String.format(
+          "delete from report_board where category=%d and board_no=%d",
+          this.category, no));
+
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
   }
 
 }
