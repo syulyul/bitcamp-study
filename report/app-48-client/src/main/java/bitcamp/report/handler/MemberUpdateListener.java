@@ -2,14 +2,13 @@ package bitcamp.report.handler;
 
 import bitcamp.report.dao.MemberDao;
 import bitcamp.report.vo.Member;
-import bitcamp.util.ActionListener;
 import bitcamp.util.BreadcrumbPrompt;
 
-public class MemberDetailListener implements ActionListener {
+public class MemberUpdateListener implements MemberActionListener {
 
   MemberDao memberDao;
 
-  public MemberDetailListener(MemberDao memberDao) {
+  public MemberUpdateListener(MemberDao memberDao) {
     this.memberDao = memberDao;
   }
 
@@ -22,10 +21,12 @@ public class MemberDetailListener implements ActionListener {
       System.out.println("해당 번호의 직원이 없습니다!");
       return;
     }
-    System.out.printf("이름: %s\n", m.getName());
-    System.out.printf("전화번호: %s\n", m.getPhone());
-    System.out.printf("직책: %s\n", m.getPosition() == '0' ? "관리자" : "일반직원");
-    System.out.printf("가입일: %s\n", m.getCreatedDate());
+    m.setName(prompt.inputString("이름(%s)? ", m.getName()));
+    m.setPhone(prompt.inputString("전화번호(%s)? ", m.getPhone()));
+    m.setPassword(prompt.inputString("새암호? "));
+    m.setPosition(MemberActionListener.inputPosition(m.getPosition(), prompt));
+
+    memberDao.update(m);
   }
 
 }
