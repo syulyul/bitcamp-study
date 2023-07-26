@@ -8,20 +8,21 @@ import java.util.List;
 import bitcamp.myapp.dao.BoardDao;
 import bitcamp.myapp.vo.Board;
 import bitcamp.myapp.vo.Member;
+import bitcamp.util.DataSource;
 
 public class MySQLBoardDao implements BoardDao {
 
-  Connection con;
+  DataSource ds;
   int category;
 
-  public MySQLBoardDao(Connection con, int category) {
-    this.con = con;
+  public MySQLBoardDao(DataSource ds, int category) {
+    this.ds = ds;
     this.category = category;
   }
 
   @Override
   public void insert(Board board) {
-    try (PreparedStatement stmt = con.prepareStatement(
+    try (PreparedStatement stmt = ds.getConnection(false).prepareStatement(
         "insert into myapp_board(title,content,writer,password,category)"
             + " values(?,?,?,sha1(?),?)")) {
 
@@ -56,7 +57,7 @@ public class MySQLBoardDao implements BoardDao {
    */
   @Override
   public List<Board> list() {
-    try (PreparedStatement stmt = con.prepareStatement(
+    try (PreparedStatement stmt = ds.getConnection(false).prepareStatement(
         "select" + 
             "  b.board_no, " +
             "  b.title, " +
@@ -101,7 +102,7 @@ public class MySQLBoardDao implements BoardDao {
 
   @Override
   public Board findBy(int no) {
-    try (PreparedStatement stmt = con.prepareStatement(
+    try (PreparedStatement stmt = ds.getConnection(false).prepareStatement(
         "select" + 
             "  b.board_no, " +
             "  b.title, " +
@@ -150,7 +151,7 @@ public class MySQLBoardDao implements BoardDao {
 
   @Override
   public int update(Board board) {
-    try (PreparedStatement stmt = con.prepareStatement(
+    try (PreparedStatement stmt = ds.getConnection(false).prepareStatement(
         "update myapp_board set"
             + " title=?,"
             + " content=?"
@@ -171,7 +172,7 @@ public class MySQLBoardDao implements BoardDao {
 
   @Override
   public int delete(Board board) {
-    try (PreparedStatement stmt = con.prepareStatement(
+    try (PreparedStatement stmt = ds.getConnection(false).prepareStatement(
         "delete from myapp_board"
             + " where category=? and board_no=? and writer=?")) {
 
