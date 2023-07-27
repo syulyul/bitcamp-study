@@ -2,171 +2,165 @@ package bitcamp.report;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.HashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import bitcamp.net.RequestEntity;
-import bitcamp.net.ResponseEntity;
-import bitcamp.report.dao.BoardListDao;
-import bitcamp.report.dao.ItemListDao;
-import bitcamp.report.dao.MemberListDao;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import bitcamp.dao.MySQLBoardDao;
+import bitcamp.dao.MySQLItemDao;
+import bitcamp.dao.MySQLMemberDao;
+import bitcamp.net.NetProtocol;
+import bitcamp.report.dao.BoardDao;
+import bitcamp.report.dao.ItemDao;
+import bitcamp.report.dao.MemberDao;
+import bitcamp.report.handler.BoardAddListener;
+import bitcamp.report.handler.BoardDeleteListener;
+import bitcamp.report.handler.BoardDetailListener;
+import bitcamp.report.handler.BoardListListener;
+import bitcamp.report.handler.BoardUpdateListener;
+import bitcamp.report.handler.FooterListener;
+import bitcamp.report.handler.HeaderListener;
+import bitcamp.report.handler.HelloListener;
+import bitcamp.report.handler.ItemAddListener;
+import bitcamp.report.handler.ItemDeleteListener;
+import bitcamp.report.handler.ItemDetailListener;
+import bitcamp.report.handler.ItemListListener;
+import bitcamp.report.handler.ItemUpdateListener;
+import bitcamp.report.handler.MemberAddListener;
+import bitcamp.report.handler.MemberDeleteListener;
+import bitcamp.report.handler.MemberDetailListener;
+import bitcamp.report.handler.MemberListListener;
+import bitcamp.report.handler.MemberUpdateListener;
+import bitcamp.report.vo.Member;
+import bitcamp.util.BreadcrumbPrompt;
+import bitcamp.util.Menu;
+import bitcamp.util.MenuGroup;
 
 public class ServerApp {
+
+  public static Member loginUser;
+
+  Connection con;
+  MemberDao memberDao;
+  ItemDao itemDao;
+  BoardDao boardDao;
+  BoardDao noticeDao;
+
+  BreadcrumbPrompt prompt = new BreadcrumbPrompt();
+
+  MenuGroup mainMenu = new MenuGroup("메인");
+
   int port;
-  ServerSocket serverSocket;
-
-  HashMap<String, Object> daoMap = new HashMap<>();
-
-  // 자바 스레드풀 준비
-  ExecutorService threadPool = Executors.newFixedThreadPool(10); // 스레드 10개로 제한
 
   public ServerApp(int port) throws Exception {
+
     this.port = port;
 
-    daoMap.put("member", new MemberListDao("member.json"));
-    daoMap.put("item", new ItemListDao("item.json"));
-    daoMap.put("board", new BoardListDao("board.json"));
-    daoMap.put("notice", new BoardListDao("notice.json"));
-  }
+    con = DriverManager.getConnection(
+        "jdbc:mysql://study:1111@localhost:3306/studydb" // JDBC URL
+    );
 
+    this.memberDao = new MySQLMemberDao(con);
+    this.boardDao = new MySQLBoardDao(con, 1);
+    this.noticeDao = new MySQLBoardDao(con, 2);
+    this.itemDao = new MySQLItemDao(con);
+
+    prepareMenu();
+  }
+  
   public void close() throws Exception {
-    serverSocket.close();
+    con.close();
   }
 
   public static void main(String[] args) throws Exception {
-    if (args.length < 1) {
-      System.out.println("실행 예) java ... bitcamp.report.ClientApp 포트번호");
-      return;
-    }
 
-    ServerApp app = new ServerApp(Integer.parseInt(args[0]));
+    ServerApp app = new ServerApp(8888);
     app.execute();
     app.close();
 
   }
 
-  public void execute() throws Exception {
+  public void execute() {
+    try (ServerSocket serverSocket = new ServerSocket(this.port)) {
+      System.out.println("서버 실행 중...");
 
-    System.out.println("[Mart Management 서버 애플리케이션]");
+      while (true) {
+        try (Socket socket = serverSocket.accept();
+            DataInputStream in = new DataInputStream(socket.getInputStream());
+            DataOutputStream out = new DataOutputStream(socket.getOutputStream())) {
 
-    this.serverSocket = new ServerSocket(port);
-    System.out.println("서버 실행 중...");
+          InetSocketAddress clientAddress = (InetSocketAddress) socket.getRemoteSocketAddress();
+          System.out.printf("%s 클라이언트 접속함!\n", clientAddress.getHostString());
 
-    while (true) {
-      Socket socket = serverSocket.accept();
-      threadPool.execute(new Runnable() {
-        @Override
-        public void run() {
-          processRequest(socket);
+          out.writeUTF("[마트 관리 시스템]\n" 
+              + "------------------------------------------");
+
+          while (true) {
+            mainMenu.execute(prompt);
+            String request = in.readUTF();
+            if (request.equals("exit")) {
+              break;
+            }
+
+            out.writeUTF("응답1: " + request);
+            out.writeUTF("응답2: " + request);
+            out.writeUTF("응답3: " + request);
+            out.writeUTF("응답4: " + request);
+            out.writeUTF(NetProtocol.RESPONSE_END);
+          }
+
+        } catch (Exception e) {
+          System.out.println("클라이언트 통신 오류!");
+          e.printStackTrace();
         }
-      });
-    }
-
-    // 컴파일러는 위의 문장을 다음 문장으로 변환한다.
-    // class $1 implements Runnable {
-    // ServerApp this$0;
-    // Socket socket;
-    //
-    // public $1(ServerApp arg0, Socket arg1) {
-    // this$0 = arg0;
-    // socket = arg1;
-    // }
-    //
-    // public void run() {
-    // this$0.processRequest(socket);
-    // }
-    // }
-    // $1 obj = new $1(this, socket);
-    // threadPool.execute(obj);
-  }
-
-  // 메서드 찾기
-  public Method findMethod(Object obj, String methodName) {
-    Method[] methods = obj.getClass().getDeclaredMethods();
-    for (int i = 0; i < methods.length; i++) {
-      if (methods[i].getName().equals(methodName)) {
-        return methods[i];
-      }
-    }
-    return null;
-  }
-
-  // 메서드 호출하기
-  public static Object call(Object obj, Method method, RequestEntity request) throws Exception {
-    Parameter[] params = method.getParameters();
-
-    if (params.length > 0) {
-      return method.invoke(obj, request.getObject(params[0].getType()));
-    } else {
-      return method.invoke(obj);
-    }
-  }
-
-  // 클라이언트와 접속이 이루어지면 클라이언트의 요청을 처리한다.
-  public void processRequest(Socket socket) {
-
-    try (Socket s = socket; // 자동 종료
-        DataInputStream in = new DataInputStream(socket.getInputStream());
-        DataOutputStream out = new DataOutputStream(socket.getOutputStream())) {
-
-      InetSocketAddress socketAddress = (InetSocketAddress) socket.getRemoteSocketAddress();
-      System.out.printf("[%s] %s:%s 클라이언트가 접속했음!\n", 
-          Thread.currentThread().getName(),
-          socketAddress.getHostString(),
-          socketAddress.getPort());
-
-      // 클라이언트 요청을 반복해서 처리하지 않는다.
-      // => 접속 -> 요청 -> 실행 -> 응답 -> 연결 끊기
-      RequestEntity request = RequestEntity.fromJson(in.readUTF());
-
-      String command = request.getCommand();
-
-      System.out.println(command);
-
-      String[] values = command.split("/");
-      String dataName = values[0];
-      String methodName = values[1];
-
-
-      Object dao = daoMap.get(dataName);
-      if (dao == null) {
-        out.writeUTF(
-            new ResponseEntity().status(ResponseEntity.ERROR).result("데이터를 찾을 수 없습니다.").toJson());
-        return;
-      }
-
-      // DAO 객체에서 메서드 찾기
-      Method method = findMethod(dao, methodName);
-      if (method == null) {
-        out.writeUTF(
-            new ResponseEntity().status(ResponseEntity.ERROR).result("메서드를 찾을 수 없습니다.").toJson());
-        return;
-      }
-
-      try {
-        // DAO 메서드 호출하기
-        Object result = call(dao, method, request);
-
-        ResponseEntity response = new ResponseEntity();
-        response.status(ResponseEntity.SUCCESS);
-        response.result(result);
-        out.writeUTF(response.toJson());
-
-      } catch (Exception e) {
-        ResponseEntity response = new ResponseEntity();
-        response.status(ResponseEntity.ERROR);
-        response.result(e.getMessage());
-        out.writeUTF(response.toJson());
       }
 
     } catch (Exception e) {
-      System.out.println();
+      System.out.println("서버 실행 오류!");
+      e.printStackTrace();
     }
+  }
+
+  private void prepareMenu() {
+
+    MenuGroup memberMenu = new MenuGroup("직원");
+    memberMenu.add(new Menu("등록", new MemberAddListener(memberDao)));
+    memberMenu.add(new Menu("목록", new MemberListListener(memberDao)));
+    memberMenu.add(new Menu("조회", new MemberDetailListener(memberDao)));
+    memberMenu.add(new Menu("변경", new MemberUpdateListener(memberDao)));
+    memberMenu.add(new Menu("삭제", new MemberDeleteListener(memberDao)));
+    mainMenu.add(memberMenu);
+
+    MenuGroup itemMenu = new MenuGroup("물품");
+    itemMenu.add(new Menu("등록", new ItemAddListener(itemDao)));
+    itemMenu.add(new Menu("목록", new ItemListListener(itemDao)));
+    itemMenu.add(new Menu("조회", new ItemDetailListener(itemDao)));
+    itemMenu.add(new Menu("변경", new ItemUpdateListener(itemDao)));
+    itemMenu.add(new Menu("삭제", new ItemDeleteListener(itemDao)));
+    mainMenu.add(itemMenu);
+
+    MenuGroup boardMenu = new MenuGroup("게시글");
+    boardMenu.add(new Menu("등록", new BoardAddListener(boardDao)));
+    boardMenu.add(new Menu("목록", new BoardListListener(boardDao)));
+    boardMenu.add(new Menu("조회", new BoardDetailListener(boardDao)));
+    boardMenu.add(new Menu("변경", new BoardUpdateListener(boardDao)));
+    boardMenu.add(new Menu("삭제", new BoardDeleteListener(boardDao)));
+    mainMenu.add(boardMenu);
+
+    MenuGroup noticeMenu = new MenuGroup("공지");
+    noticeMenu.add(new Menu("등록", new BoardAddListener(noticeDao)));
+    noticeMenu.add(new Menu("목록", new BoardListListener(noticeDao)));
+    noticeMenu.add(new Menu("조회", new BoardDetailListener(noticeDao)));
+    noticeMenu.add(new Menu("변경", new BoardUpdateListener(noticeDao)));
+    noticeMenu.add(new Menu("삭제", new BoardDeleteListener(noticeDao)));
+    mainMenu.add(noticeMenu);
+
+    Menu helloMenu = new Menu("안녕!");
+    helloMenu.addActionListener(new HeaderListener());
+    helloMenu.addActionListener(new HelloListener());
+    helloMenu.addActionListener(new FooterListener());
+    mainMenu.add(helloMenu);
   }
 }
 

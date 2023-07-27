@@ -3,7 +3,7 @@ package bitcamp.util;
 import java.io.InputStream;
 import java.util.Scanner;
 
-public class Prompt {
+public class Prompt implements AutoCloseable {
 
   private Scanner scanner;
 
@@ -26,6 +26,7 @@ public class Prompt {
     return Integer.parseInt(this.inputString(title, args));
   }
 
+  @Override
   public void close() {
     this.scanner.close();
   }

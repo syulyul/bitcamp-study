@@ -1,6 +1,6 @@
 package bitcamp.report.handler;
 
-import bitcamp.report.ClientApp;
+import bitcamp.report.ServerApp;
 import bitcamp.report.dao.BoardDao;
 import bitcamp.report.vo.Board;
 import bitcamp.util.ActionListener;
@@ -20,7 +20,7 @@ public class BoardAddListener implements ActionListener {
 
     board.setTitle(prompt.inputString("제목? "));
     board.setContent(prompt.inputString("내용? "));
-    board.setWriter(ClientApp.loginUser);
+    board.setWriter(ServerApp.loginUser);
 
     boardDao.insert(board);
   }

@@ -1,6 +1,6 @@
 package bitcamp.report.handler;
 
-import bitcamp.report.ClientApp;
+import bitcamp.report.ServerApp;
 import bitcamp.report.dao.BoardDao;
 import bitcamp.report.vo.Board;
 import bitcamp.util.ActionListener;
@@ -25,7 +25,7 @@ public class BoardUpdateListener implements ActionListener {
     }
     board.setTitle(prompt.inputString("제목(%s)? ", board.getTitle()));
     board.setContent(prompt.inputString("내용(%s)? ", board.getContent()));
-    board.setWriter(ClientApp.loginUser);
+    board.setWriter(ServerApp.loginUser);
 
     if (boardDao.update(board) == 0) {
       System.out.println("게시글 변경 권한이 없습니다.");

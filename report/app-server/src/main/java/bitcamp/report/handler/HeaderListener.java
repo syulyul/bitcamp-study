@@ -3,10 +3,9 @@ package bitcamp.report.handler;
 import bitcamp.util.ActionListener;
 import bitcamp.util.BreadcrumbPrompt;
 
-public class HelloListener implements ActionListener {
+public class HeaderListener implements ActionListener {
   @Override
   public void service(BreadcrumbPrompt prompt) {
-    String name = prompt.inputString("이름은? ");
-    System.out.printf("%s 님 반가워요!\n", name);
+    prompt.printf("======================================[비트캠프!]==\n");
   }
 }

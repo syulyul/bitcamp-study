@@ -29,10 +29,23 @@ public class Menu {
 
   // 메뉴를 실행할 메서드 -> execute()
   public void execute(BreadcrumbPrompt prompt) {
-    for (int i = 0; i < listeners.size(); i++) {
-      ActionListener listener = listeners.get(i);
-      listener.service(prompt);
+    try {
+      for (int i = 0; i < listeners.size(); i++) {
+        ActionListener listener = listeners.get(i);
+        listener.service(prompt);
+      }
+    } catch (Exception e) {
+      prompt.clear();
+      prompt.println(e.getMessage());
+
+    } finally {
+      try {
+        prompt.end();
+      } catch (Exception e) {
+        throw new RuntimeException(e);
+      }
     }
+
   }
 
 }

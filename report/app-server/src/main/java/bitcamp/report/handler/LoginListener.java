@@ -1,6 +1,6 @@
 package bitcamp.report.handler;
 
-import bitcamp.report.ClientApp;
+import bitcamp.report.ServerApp;
 import bitcamp.report.dao.MemberDao;
 import bitcamp.report.vo.Member;
 import bitcamp.util.BreadcrumbPrompt;
@@ -24,7 +24,7 @@ public class LoginListener implements MemberActionListener {
       if (loginUser == null) {
         System.out.println("회원 정보가 일치하지 않습니다.");
       } else {
-        ClientApp.loginUser = loginUser;
+        ServerApp.loginUser = loginUser;
         break;
       }
     }
