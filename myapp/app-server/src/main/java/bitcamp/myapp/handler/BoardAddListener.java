@@ -38,10 +38,7 @@ public class BoardAddListener implements ActionListener {
       sqlSessionFactory.openSession(false).commit();
 
     } catch (Exception e) {
-      try {
-        sqlSessionFactory.openSession(false).getConnection().rollback();
-      } catch (Exception e2) {
-      }
+      sqlSessionFactory.openSession(false).rollback();
       throw new RuntimeException(e);
     }
   }

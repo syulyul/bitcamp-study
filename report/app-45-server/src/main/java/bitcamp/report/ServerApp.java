@@ -59,30 +59,33 @@ public class ServerApp {
 
     while (true) {
       Socket socket = serverSocket.accept();
-      threadPool.execute(new Runnable() {
-        @Override
-        public void run() {
-          processRequest(socket);
-        }
-      });
-    }
 
-    // 컴파일러는 위의 문장을 다음 문장으로 변환한다.
-    // class $1 implements Runnable {
-    // ServerApp this$0;
-    // Socket socket;
-    //
-    // public $1(ServerApp arg0, Socket arg1) {
-    // this$0 = arg0;
-    // socket = arg1;
-    // }
-    //
-    // public void run() {
-    // this$0.processRequest(socket);
-    // }
-    // }
-    // $1 obj = new $1(this, socket);
-    // threadPool.execute(obj);
+      threadPool.execute(() -> processRequest(socket));
+
+      // threadPool.execute(new Runnable() {
+      //   @Override
+      //   public void run() {
+      //     processRequest(socket);
+      //   }
+      // });
+
+      // 컴파일러는 위의 문장을 다음 문장으로 변환한다.
+      // class $1 implements Runnable {
+      // ServerApp this$0;
+      // Socket socket;
+      //
+      // public $1(ServerApp arg0, Socket arg1) {
+      // this$0 = arg0;
+      // socket = arg1;
+      // }
+      //
+      // public void run() {
+      // this$0.processRequest(socket);
+      // }
+      // }
+      // $1 obj = new $1(this, socket);
+      // threadPool.execute(obj);
+    }
   }
 
   // 메서드 찾기
