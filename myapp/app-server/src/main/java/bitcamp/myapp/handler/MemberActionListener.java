@@ -5,7 +5,7 @@ import bitcamp.myapp.vo.Member;
 import bitcamp.util.ActionListener;
 import bitcamp.util.BreadcrumbPrompt;
 
-public interface MemberActionListener extends ActionListener { // interface 는 static 메소드를 가질 수 있음
+public interface MemberActionListener extends ActionListener {
 
   static char inputGender(char gender, BreadcrumbPrompt prompt) throws IOException {
     String label;
@@ -16,7 +16,10 @@ public interface MemberActionListener extends ActionListener { // interface 는 
     }
 
     while (true) {
-      String menuNo = prompt.inputString(label + "  1. 남자\n" + "  2. 여자\n" + "> ");
+      String menuNo = prompt.inputString(label +
+          "  1. 남자\n" +
+          "  2. 여자\n" +
+          "> ");
 
       switch (menuNo) {
         case "1":
@@ -27,7 +30,6 @@ public interface MemberActionListener extends ActionListener { // interface 는 
           prompt.println("무효한 번호입니다.");
       }
     }
-
   }
 
 }

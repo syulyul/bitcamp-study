@@ -2,18 +2,22 @@ package bitcamp.report;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.InputStream;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import bitcamp.dao.MySQLBoardDao;
-import bitcamp.dao.MySQLItemDao;
-import bitcamp.dao.MySQLMemberDao;
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import bitcamp.net.NetProtocol;
 import bitcamp.report.dao.BoardDao;
 import bitcamp.report.dao.ItemDao;
 import bitcamp.report.dao.MemberDao;
+import bitcamp.report.dao.MySQLBoardDao;
+import bitcamp.report.dao.MySQLItemDao;
+import bitcamp.report.dao.MySQLMemberDao;
 import bitcamp.report.handler.BoardAddListener;
 import bitcamp.report.handler.BoardDeleteListener;
 import bitcamp.report.handler.BoardDetailListener;
@@ -43,6 +47,8 @@ public class ServerApp {
   // 자바 스레드풀 준비
   ExecutorService threadPool = Executors.newFixedThreadPool(2);
 
+  SqlSessionFactory sqlSessionFactory;
+
   DataSource ds = new DataSource("jdbc:mysql://localhost:3306/studydb", "study", "1111");
 
   MemberDao memberDao;
@@ -58,9 +64,19 @@ public class ServerApp {
 
     this.port = port;
 
+    // 1) mybatis 설정 파일을 읽어들일 도구를 준비한다.
+    InputStream mybatisConfigIn =
+        Resources.getResourceAsStream("bitcamp/report/config/mybatis-config.xml");
+
+    // 2) SqlSessionFactory를 만들어줄 빌더 객체 준비
+    SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
+
+    // 3) 빌더 객체를 통해 SqlSessionFactory를 생성
+    sqlSessionFactory = builder.build(mybatisConfigIn);
+
     this.memberDao = new MySQLMemberDao(ds);
-    this.boardDao = new MySQLBoardDao(ds, 1);
-    this.noticeDao = new MySQLBoardDao(ds, 2);
+    this.boardDao = new MySQLBoardDao(sqlSessionFactory, ds, 1);
+    this.noticeDao = new MySQLBoardDao(sqlSessionFactory, ds, 2);
     this.itemDao = new MySQLItemDao(ds);
 
     prepareMenu();
@@ -103,8 +119,7 @@ public class ServerApp {
       InetSocketAddress clientAddress = (InetSocketAddress) socket.getRemoteSocketAddress();
       System.out.printf("%s 클라이언트 접속함!\n", clientAddress.getHostString());
 
-      out.writeUTF("[마트 관리 시스템]\n" 
-          + "------------------------------------------");
+      out.writeUTF("[마트 관리 시스템]\n" + "------------------------------------------");
 
       new LoginListener(memberDao).service(prompt);
 
@@ -139,7 +154,7 @@ public class ServerApp {
     mainMenu.add(itemMenu);
 
     MenuGroup boardMenu = new MenuGroup("게시글");
-    boardMenu.add(new Menu("등록", new BoardAddListener(boardDao, ds)));
+    boardMenu.add(new Menu("등록", new BoardAddListener(boardDao, sqlSessionFactory)));
     boardMenu.add(new Menu("목록", new BoardListListener(boardDao)));
     boardMenu.add(new Menu("조회", new BoardDetailListener(boardDao)));
     boardMenu.add(new Menu("변경", new BoardUpdateListener(boardDao, ds)));
@@ -147,7 +162,7 @@ public class ServerApp {
     mainMenu.add(boardMenu);
 
     MenuGroup noticeMenu = new MenuGroup("공지");
-    noticeMenu.add(new Menu("등록", new BoardAddListener(noticeDao, ds)));
+    noticeMenu.add(new Menu("등록", new BoardAddListener(noticeDao, sqlSessionFactory)));
     noticeMenu.add(new Menu("목록", new BoardListListener(noticeDao)));
     noticeMenu.add(new Menu("조회", new BoardDetailListener(noticeDao)));
     noticeMenu.add(new Menu("변경", new BoardUpdateListener(noticeDao, ds)));
