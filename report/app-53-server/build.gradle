@@ -26,6 +26,9 @@ dependencies {
 
     // Google JSON 라이브러리
     implementation 'com.google.code.gson:gson:2.10.1'
+    
+    // Mybatis 라이브러리
+    implementation 'org.mybatis:mybatis:3.5.13'
 
     // Use JUnit Jupiter for testing.
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.1'
@@ -43,7 +46,7 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass = 'bitcamp.report.ClientApp'
+    mainClass = 'bitcamp.report.ServerApp'
 }
 
 tasks.named('test') {
@@ -67,7 +70,7 @@ tasks.withType(JavaCompile) {
 // eclipse 프로젝트 이름을 설정하기
 eclipse {
     project {
-        name = "report-client"
+        name = "report-server"
     }
     jdt {
       sourceCompatibility = 17 // 컴파일러가 17버전까지의 문법만 ok.
