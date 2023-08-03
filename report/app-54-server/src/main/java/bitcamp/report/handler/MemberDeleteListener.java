@@ -1,33 +1,31 @@
-package bitcamp.myapp.handler;
+package bitcamp.report.handler;
 
 import java.io.IOException;
 import org.apache.ibatis.session.SqlSessionFactory;
-import bitcamp.myapp.dao.MemberDao;
-import bitcamp.myapp.vo.Member;
+import bitcamp.report.dao.MemberDao;
+import bitcamp.util.ActionListener;
 import bitcamp.util.BreadcrumbPrompt;
 import bitcamp.util.Component;
 
-@Component("/member/add")
-public class MemberAddListener implements MemberActionListener {
+@Component("/member/delete")
+public class MemberDeleteListener implements ActionListener {
 
   MemberDao memberDao;
   SqlSessionFactory sqlSessionFactory;
 
-  public MemberAddListener(MemberDao memberDao, SqlSessionFactory sqlSessionFactory) {
+  public MemberDeleteListener(MemberDao memberDao, SqlSessionFactory sqlSessionFactory) {
     this.memberDao = memberDao;
     this.sqlSessionFactory = sqlSessionFactory;
   }
 
   @Override
   public void service(BreadcrumbPrompt prompt) throws IOException {
-    Member m = new Member();
-    m.setName(prompt.inputString("이름? "));
-    m.setEmail(prompt.inputString("이메일? "));
-    m.setPassword(prompt.inputString("암호? "));
-    m.setGender(MemberActionListener.inputGender((char) 0, prompt));
-
     try {
-      memberDao.insert(m);
+      if (memberDao.delete(prompt.inputInt("번호? ")) == 0) {
+        prompt.println("해당 번호의 직원이 없습니다!");
+        return;
+      }
+      prompt.println("삭제했습니다!");
       sqlSessionFactory.openSession(false).commit();
 
     } catch (Exception e) {
@@ -35,4 +33,5 @@ public class MemberAddListener implements MemberActionListener {
       throw new RuntimeException(e);
     }
   }
+
 }

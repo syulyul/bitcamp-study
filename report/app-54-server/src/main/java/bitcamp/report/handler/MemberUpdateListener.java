@@ -1,9 +1,9 @@
-package bitcamp.myapp.handler;
+package bitcamp.report.handler;
 
 import java.io.IOException;
 import org.apache.ibatis.session.SqlSessionFactory;
-import bitcamp.myapp.dao.MemberDao;
-import bitcamp.myapp.vo.Member;
+import bitcamp.report.dao.MemberDao;
+import bitcamp.report.vo.Member;
 import bitcamp.util.BreadcrumbPrompt;
 import bitcamp.util.Component;
 
@@ -24,15 +24,13 @@ public class MemberUpdateListener implements MemberActionListener {
 
     Member m = memberDao.findBy(memberNo);
     if (m == null) {
-      prompt.println("해당 번호의 회원이 없습니다!");
+      System.out.println("해당 번호의 직원이 없습니다!");
       return;
     }
-
     m.setName(prompt.inputString("이름(%s)? ", m.getName()));
-    m.setEmail(prompt.inputString("이메일(%s)? ", m.getEmail()));
+    m.setPhone(prompt.inputString("전화번호(%s)? ", m.getPhone()));
     m.setPassword(prompt.inputString("새암호? "));
-    m.setGender(MemberActionListener.inputGender(m.getGender(), prompt));
-
+    m.setPosition(MemberActionListener.inputPosition(m.getPosition(), prompt));
 
     try {
       memberDao.update(m);

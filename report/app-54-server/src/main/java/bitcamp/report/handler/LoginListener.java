@@ -1,8 +1,8 @@
-package bitcamp.myapp.handler;
+package bitcamp.report.handler;
 
 import java.io.IOException;
-import bitcamp.myapp.dao.MemberDao;
-import bitcamp.myapp.vo.Member;
+import bitcamp.report.dao.MemberDao;
+import bitcamp.report.vo.Member;
 import bitcamp.util.BreadcrumbPrompt;
 import bitcamp.util.Component;
 
@@ -19,10 +19,10 @@ public class LoginListener implements MemberActionListener {
   public void service(BreadcrumbPrompt prompt) throws IOException {
     while (true) {
       Member m = new Member();
-      m.setEmail(prompt.inputString("이메일? "));
+      m.setPhone(prompt.inputString("전화번호? "));
       m.setPassword(prompt.inputString("암호? "));
 
-      Member loginUser = memberDao.findByEmailAndPassword(m);
+      Member loginUser = memberDao.findByPhoneAndPassword(m);
       if (loginUser == null) {
         prompt.println("회원 정보가 일치하지 않습니다.");
       } else {
@@ -32,4 +32,5 @@ public class LoginListener implements MemberActionListener {
       prompt.end();
     }
   }
+
 }

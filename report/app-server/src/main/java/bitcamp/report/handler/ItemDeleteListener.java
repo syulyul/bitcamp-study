@@ -5,7 +5,9 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import bitcamp.report.dao.ItemDao;
 import bitcamp.util.ActionListener;
 import bitcamp.util.BreadcrumbPrompt;
+import bitcamp.util.Component;
 
+@Component("/item/delete")
 public class ItemDeleteListener implements ActionListener {
 
   ItemDao itemDao;
@@ -21,6 +23,7 @@ public class ItemDeleteListener implements ActionListener {
     try {
       if (itemDao.delete(prompt.inputInt("물품 번호? ")) == 0) {
         prompt.println("해당 번호의 물품이 없습니다!");
+        return;
       }
       prompt.println("삭제했습니다!");
       sqlSessionFactory.openSession(false).commit();
