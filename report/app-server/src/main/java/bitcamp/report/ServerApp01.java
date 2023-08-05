@@ -17,7 +17,7 @@ import bitcamp.util.Menu;
 import bitcamp.util.MenuGroup;
 import bitcamp.util.SqlSessionFactoryProxy;
 
-public class ServerApp {
+public class ServerApp01 {
 
   // 자바 스레드풀 준비
   ExecutorService threadPool = Executors.newFixedThreadPool(2);
@@ -29,7 +29,7 @@ public class ServerApp {
 
   int port;
 
-  public ServerApp(int port) throws Exception {
+  public ServerApp01(int port) throws Exception {
     this.port = port;
     iocContainer = new ApplicationContext(AppConfig.class);
     facadeListener = new DispatcherListener(iocContainer);
@@ -42,7 +42,7 @@ public class ServerApp {
 
   public static void main(String[] args) throws Exception {
 
-    ServerApp app = new ServerApp(8888);
+    ServerApp01 app = new ServerApp01(8888);
     app.execute();
     app.close();
 
@@ -65,8 +65,7 @@ public class ServerApp {
 
 
   private void processRequest(Socket socket) {
-    try (Socket s = socket;
-        DataInputStream in = new DataInputStream(socket.getInputStream());
+    try (DataInputStream in = new DataInputStream(socket.getInputStream());
         DataOutputStream out = new DataOutputStream(socket.getOutputStream())) {
 
       BreadcrumbPrompt prompt = new BreadcrumbPrompt(in, out);
