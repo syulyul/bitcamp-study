@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>비트 캠프</title>
+</head>
+<body>
+<h1>직원</h1>
+<form action='/member/add'>
+<table border='1'>
+<tr>
+  <th>이름</th> <td style="width:200px;"><input type='text' name='name'></td>
+</tr>
+<tr>
+  <th>전화번호</th> <td><input type='tel' name='phone'></td>
+</tr>
+<tr>
+  <th>암호</th> <td><input type='password' name='password'></td>
+</tr>
+<tr>
+  <th>직책</th>
+    <td>
+      <select name="position">
+        <option value="0">관리자</option>
+        <option value="1">일반직원</option>
+      </select>
+    </td>
+</tr>
+</table>
+<button>등록</button>
+</form>
+</body>
+</html>

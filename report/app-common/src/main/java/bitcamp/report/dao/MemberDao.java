@@ -6,7 +6,7 @@ import bitcamp.report.vo.Member;
 public interface MemberDao {
   void insert(Member member);
 
-  List<Member> list();
+  List<Member> findAll();
 
   Member findBy(int no);
 

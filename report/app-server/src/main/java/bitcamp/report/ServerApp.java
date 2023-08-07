@@ -1,10 +1,11 @@
 package bitcamp.report;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import org.apache.ibatis.session.SqlSessionFactory;
+import bitcamp.report.config.AppConfig;
 import bitcamp.util.ApplicationContext;
-import bitcamp.util.DispatcherListener;
+import bitcamp.util.DispatcherServlet;
+import bitcamp.util.HttpServletRequest;
+import bitcamp.util.HttpServletResponse;
 import bitcamp.util.SqlSessionFactoryProxy;
 import reactor.core.publisher.Mono;
 import reactor.netty.DisposableServer;
@@ -16,14 +17,14 @@ import reactor.netty.http.server.HttpServerResponse;
 public class ServerApp {
 
   ApplicationContext iocContainer;
-  DispatcherListener facadeListener;
+  DispatcherServlet dispatcherServlet;
 
   int port;
 
   public ServerApp(int port) throws Exception {
     this.port = port;
-    // iocContainer = new ApplicationContext(AppConfig.class);
-    // facadeListener = new DispatcherListener(iocContainer);
+    iocContainer = new ApplicationContext(AppConfig.class);
+    dispatcherServlet = new DispatcherServlet(iocContainer);
   }
 
   public void close() throws Exception {
@@ -31,25 +32,14 @@ public class ServerApp {
   }
 
   public static void main(String[] args) throws Exception {
-
     ServerApp app = new ServerApp(8888);
     app.execute();
     app.close();
-
   }
 
   public void execute() throws Exception {
-    Path file = Paths.get(ServerApp.class.getResource("/static/index.html").toURI());
     DisposableServer server = HttpServer.create().port(8888)
-        .handle((request, response) -> processRequest(request, response))
-        // .route(routes -> routes // 클라이언트 요청을 처리할 객체를 등록한다.
-        // .get("/hello", (request, response) -> response.sendString(Mono.just("Hello, world!")))
-        // .get("/board/list", (request, response) -> response.sendString(Mono.just("게시글 목록")))
-        // .get("/board/add", (request, response) -> response.sendString(Mono.just("게시글 등록")))
-        // .get("/board/detail", (request, response) -> response.sendString(Mono.just("게시글 조회")))
-        // .file("/index.html", file)
-        // )
-        .bindNow();
+        .handle((request, response) -> processRequest(request, response)).bindNow();
     System.out.println("서버 실행됨!");
 
     server.onDispose().block();
@@ -58,19 +48,27 @@ public class ServerApp {
 
 
   private NettyOutbound processRequest(HttpServerRequest request, HttpServerResponse response) {
+    HttpServletRequest request2 = new HttpServletRequest(request);
+    HttpServletResponse response2 = new HttpServletResponse(response);
+
     try {
-      return response.sendString(Mono.just("hello, world!"));
+      dispatcherServlet.service(request2, response2);
+
+      // HTTP 응답 프로토콜의 헤더 설정
+      response.addHeader("Content-Type", response2.getContentType());
+
+      // 서블릿이 출력한 문자열을 버퍼에서 꺼내 HTTP 프로토콜에 맞춰 응답한다.
+      return response.sendString(Mono.just(response2.getContent()));
 
     } catch (Exception e) {
-      System.out.println("클라이언트 통신 오류!");
       e.printStackTrace();
+      return response.sendString(Mono.just(response2.getContent()));
 
     } finally {
       SqlSessionFactoryProxy sqlSessionFactoryProxy =
           (SqlSessionFactoryProxy) iocContainer.getBean(SqlSessionFactory.class);
       sqlSessionFactoryProxy.clean();
     }
-    return null;
   }
 }
 

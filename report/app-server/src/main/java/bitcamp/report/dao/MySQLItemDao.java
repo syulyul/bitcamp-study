@@ -22,14 +22,14 @@ public class MySQLItemDao implements ItemDao {
   }
 
   @Override
-  public List<Item> list() {
-    SqlSession sqlSession = sqlSessionFactory.openSession();
+  public List<Item> findAll() {
+    SqlSession sqlSession = sqlSessionFactory.openSession(false);
     return sqlSession.selectList("bitcamp.report.dao.ItemDao.findAll");
   }
 
   @Override
   public Item findBy(int no) {
-    SqlSession sqlSession = sqlSessionFactory.openSession();
+    SqlSession sqlSession = sqlSessionFactory.openSession(false);
     return sqlSession.selectOne("bitcamp.report.dao.ItemDao.findBy", no);
   }
 

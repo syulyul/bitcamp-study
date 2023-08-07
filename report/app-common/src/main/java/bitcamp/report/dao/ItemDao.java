@@ -6,7 +6,7 @@ import bitcamp.report.vo.Item;
 public interface ItemDao {
   void insert(Item item);
 
-  List<Item> list();
+  List<Item> findAll();
 
   Item findBy(int no);
 
