@@ -6,7 +6,7 @@ public class Item implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  public static final String FOOD = "식료품";
+  public static final String FOOD = "z";
   public static final String HOUSEHOLD_SUPPLIES = "생활용품";
   public static final String CLOTHES = "의류";
   public static final String HOME_APPLIANCES = "가전제품";
