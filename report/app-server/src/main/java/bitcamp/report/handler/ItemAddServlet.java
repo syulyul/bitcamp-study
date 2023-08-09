@@ -1,27 +1,23 @@
 package bitcamp.report.handler;
 
+import java.io.IOException;
 import java.io.PrintWriter;
-import org.apache.ibatis.session.SqlSessionFactory;
-import bitcamp.report.dao.ItemDao;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import bitcamp.report.vo.Item;
-import bitcamp.util.Component;
-import bitcamp.util.HttpServletRequest;
-import bitcamp.util.HttpServletResponse;
-import bitcamp.util.Servlet;
 
-@Component("/item/add")
-public class ItemAddServlet implements Servlet {
+@WebServlet("/item/add")
+public class ItemAddServlet extends HttpServlet {
 
-  ItemDao itemDao;
-  SqlSessionFactory sqlSessionFactory;
-
-  public ItemAddServlet(ItemDao itemDao, SqlSessionFactory sqlSessionFactory) {
-    this.itemDao = itemDao;
-    this.sqlSessionFactory = sqlSessionFactory;
-  }
+  private static final long serialVersionUID = 1L;
 
   @Override
-  public void service(HttpServletRequest request, HttpServletResponse response) throws Exception {
+  protected void doPost(HttpServletRequest request, HttpServletResponse response)
+      throws ServletException, IOException {
+    request.setCharacterEncoding("UTF-8");
 
     Item item = new Item();
     item.setName(request.getParameter("name"));
@@ -41,12 +37,12 @@ public class ItemAddServlet implements Servlet {
     out.println("<h1>물품 등록</h1>");
 
     try {
-      itemDao.insert(item);
-      sqlSessionFactory.openSession(false).commit();
+      InitServlet.itemDao.insert(item);
+      InitServlet.sqlSessionFactory.openSession(false).commit();
       out.println("<p>등록 성공입니다!</p>");
 
     } catch (Exception e) {
-      sqlSessionFactory.openSession(false).rollback();
+      InitServlet.sqlSessionFactory.openSession(false).rollback();
       out.println("<p>등록 실패입니다!</p>");
       e.printStackTrace();
     }

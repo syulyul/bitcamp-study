@@ -1,36 +1,31 @@
 package bitcamp.report.handler;
 
-import org.apache.ibatis.session.SqlSessionFactory;
-import bitcamp.report.dao.ItemDao;
-import bitcamp.util.Component;
-import bitcamp.util.HttpServletRequest;
-import bitcamp.util.HttpServletResponse;
-import bitcamp.util.Servlet;
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-@Component("/item/delete")
-public class ItemDeleteServlet implements Servlet {
+@WebServlet("/item/delete")
+public class ItemDeleteServlet extends HttpServlet {
 
-  ItemDao itemDao;
-  SqlSessionFactory sqlSessionFactory;
-
-  public ItemDeleteServlet(ItemDao itemDao, SqlSessionFactory sqlSessionFactory) {
-    this.itemDao = itemDao;
-    this.sqlSessionFactory = sqlSessionFactory;
-  }
+  private static final long serialVersionUID = 1L;
 
   @Override
-  public void service(HttpServletRequest request, HttpServletResponse response) throws Exception {
+  protected void doGet(HttpServletRequest request, HttpServletResponse response)
+      throws ServletException, IOException {
 
     try {
-      if (itemDao.delete(Integer.parseInt(request.getParameter("no"))) == 0) {
+      if (InitServlet.itemDao.delete(Integer.parseInt(request.getParameter("no"))) == 0) {
         throw new Exception("해당 번호의 물품이 없습니다!");
       } else {
         response.sendRedirect("/item/list");
       }
-      sqlSessionFactory.openSession(false).commit();
+      InitServlet.sqlSessionFactory.openSession(false).commit();
 
     } catch (Exception e) {
-      sqlSessionFactory.openSession(false).rollback();
+      InitServlet.sqlSessionFactory.openSession(false).rollback();
       throw new RuntimeException(e);
     }
   }

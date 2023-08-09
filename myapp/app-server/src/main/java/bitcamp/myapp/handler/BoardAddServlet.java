@@ -25,6 +25,7 @@ public class BoardAddServlet extends HttpServlet {
       return;
     }
 
+
     int category = Integer.parseInt(request.getParameter("category"));
 
     Board board = new Board();

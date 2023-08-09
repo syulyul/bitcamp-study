@@ -1,27 +1,23 @@
 package bitcamp.report.handler;
 
+import java.io.IOException;
 import java.io.PrintWriter;
-import org.apache.ibatis.session.SqlSessionFactory;
-import bitcamp.report.dao.ItemDao;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import bitcamp.report.vo.Item;
-import bitcamp.util.Component;
-import bitcamp.util.HttpServletRequest;
-import bitcamp.util.HttpServletResponse;
-import bitcamp.util.Servlet;
 
-@Component("/item/update")
-public class ItemUpdateServlet implements Servlet {
+@WebServlet("/item/update")
+public class ItemUpdateServlet extends HttpServlet {
 
-  ItemDao itemDao;
-  SqlSessionFactory sqlSessionFactory;
-
-  public ItemUpdateServlet(ItemDao itemDao, SqlSessionFactory sqlSessionFactory) {
-    this.itemDao = itemDao;
-    this.sqlSessionFactory = sqlSessionFactory;
-  }
+  private static final long serialVersionUID = 1L;
 
   @Override
-  public void service(HttpServletRequest request, HttpServletResponse response) throws Exception {
+  protected void doPost(HttpServletRequest request, HttpServletResponse response)
+      throws ServletException, IOException {
+    request.setCharacterEncoding("UTF-8");
 
     Item item = new Item();
     item.setNo(Integer.parseInt(request.getParameter("no")));
@@ -42,14 +38,14 @@ public class ItemUpdateServlet implements Servlet {
     out.println("<h1>물품 변경</h1>");
 
     try {
-      if (itemDao.update(item) == 0) {
+      if (InitServlet.itemDao.update(item) == 0) {
         out.println("<p>물품이 없습니다.</p>");
       } else {
-        sqlSessionFactory.openSession(false).commit();
+        InitServlet.sqlSessionFactory.openSession(false).commit();
         out.println("<p>변경했습니다!</p>");
       }
     } catch (Exception e) {
-      sqlSessionFactory.openSession(false).rollback();
+      InitServlet.sqlSessionFactory.openSession(false).rollback();
       out.println("<p>변경 실패입니다!</p>");
       e.printStackTrace();
     }

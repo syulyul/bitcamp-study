@@ -1,26 +1,24 @@
 package bitcamp.report.handler;
 
+import java.io.IOException;
 import java.io.PrintWriter;
-import bitcamp.report.dao.ItemDao;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import bitcamp.report.vo.Item;
-import bitcamp.util.Component;
-import bitcamp.util.HttpServletRequest;
-import bitcamp.util.HttpServletResponse;
-import bitcamp.util.Servlet;
 
-@Component("/item/detail")
-public class ItemDetailServlet implements Servlet {
+@WebServlet("/item/detail")
+public class ItemDetailServlet extends HttpServlet {
 
-  ItemDao itemDao;
-
-  public ItemDetailServlet(ItemDao itemDao) {
-    this.itemDao = itemDao;
-  }
+  private static final long serialVersionUID = 1L;
 
   @Override
-  public void service(HttpServletRequest request, HttpServletResponse response) throws Exception {
+  protected void doGet(HttpServletRequest request, HttpServletResponse response)
+      throws ServletException, IOException {
 
-    Item item = itemDao.findBy(Integer.parseInt(request.getParameter("no")));
+    Item item = InitServlet.itemDao.findBy(Integer.parseInt(request.getParameter("no")));
 
     response.setContentType("text/html;charset=UTF-8");
     PrintWriter out = response.getWriter();
@@ -41,21 +39,18 @@ public class ItemDetailServlet implements Servlet {
       out.printf("<tr><th style='width:120px;'>번호</th>"
           + " <td style='width:300px;'><input type='text' name='no' value='%d' readonly></td></tr>\n",
           item.getNo());
-      out.printf("<tr><th>물품 이름</th>"
-          + " <td><input type='text' name='name' value='%s'></td></tr>\n", item.getName());
-      out.printf("<tr><th>물품 가격</th>"
-          + " <td><input type='text' name='price' value='%d'></td></tr>\n", item.getPrice());
-      out.printf("<tr><th>물품 종류</th>"
-          + " <td><select name='type'>\n"
-          + " <option value='식료품' %s>식료품</option>\n"
-          + " <option value='생활용품' %s>생활용품</option>\n"
-          + " <option value='의류' %s>의류</option>\n"
-          + " <option value='가전제품' %s>가전제품</option>\n"
+      out.printf(
+          "<tr><th>물품 이름</th>" + " <td><input type='text' name='name' value='%s'></td></tr>\n",
+          item.getName());
+      out.printf(
+          "<tr><th>물품 가격</th>" + " <td><input type='text' name='price' value='%d'></td></tr>\n",
+          item.getPrice());
+      out.printf("<tr><th>물품 종류</th>" + " <td><select name='type'>\n"
+          + " <option value='식료품' %s>식료품</option>\n" + " <option value='생활용품' %s>생활용품</option>\n"
+          + " <option value='의류' %s>의류</option>\n" + " <option value='가전제품' %s>가전제품</option>\n"
           + " <option value='리빙' %s>리빙</option></select></td></tr>\n",
-          (item.getType() == "식료품" ? "selected" : ""),
-          (item.getType() == "생활용품" ? "selected" : ""),
-          (item.getType() == "의류" ? "selected" : ""),
-          (item.getType() == "가전제품" ? "selected" : ""),
+          (item.getType() == "식료품" ? "selected" : ""), (item.getType() == "생활용품" ? "selected" : ""),
+          (item.getType() == "의류" ? "selected" : ""), (item.getType() == "가전제품" ? "selected" : ""),
           (item.getType() == "리빙" ? "selected" : ""));
       out.println("</table>");
 
@@ -67,9 +62,9 @@ public class ItemDetailServlet implements Servlet {
       out.println("</div>");
       out.println("</form>");
     }
-    
+
     out.println("</body>");
     out.println("</html>");
   }
-  
+
 }

@@ -1,34 +1,31 @@
 package bitcamp.report.handler;
 
+import java.io.IOException;
 import java.io.PrintWriter;
-import org.apache.ibatis.session.SqlSessionFactory;
-import bitcamp.report.dao.BoardDao;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import bitcamp.report.vo.Board;
 import bitcamp.report.vo.Member;
-import bitcamp.util.Component;
-import bitcamp.util.HttpServletRequest;
-import bitcamp.util.HttpServletResponse;
-import bitcamp.util.Servlet;
 
-@Component("/board/update")
-public class BoardUpdateServlet implements Servlet {
+@WebServlet("/board/update")
+public class BoardUpdateServlet extends HttpServlet {
 
-  BoardDao boardDao;
-  SqlSessionFactory sqlSessionFactory;
-
-  public BoardUpdateServlet(BoardDao boardDao, SqlSessionFactory sqlSessionFactory) {
-    this.boardDao = boardDao;
-    this.sqlSessionFactory = sqlSessionFactory;
-  }
+  private static final long serialVersionUID = 1L;
 
   @Override
-  public void service(HttpServletRequest request, HttpServletResponse response) throws Exception {
+  protected void doPost(HttpServletRequest request, HttpServletResponse response)
+      throws ServletException, IOException {
 
     Member loginUser = (Member) request.getSession().getAttribute("loginUser");
     if (loginUser == null) {
       response.sendRedirect("/auth/form.html");
       return;
     }
+
+    request.setCharacterEncoding("UTF-8");
 
     int category = Integer.parseInt(request.getParameter("category"));
 
@@ -52,15 +49,15 @@ public class BoardUpdateServlet implements Servlet {
     out.println("<h1>게시글 변경</h1>");
 
     try {
-      if (boardDao.update(board) == 0) {
+      if (InitServlet.boardDao.update(board) == 0) {
         out.println("<p>게시글이 없거나 변경 권한이 없습니다.</p>");
       } else {
         out.println("<p>변경했습니다!</p>");
       }
-      sqlSessionFactory.openSession(false).commit();
+      InitServlet.sqlSessionFactory.openSession(false).commit();
 
     } catch (Exception e) {
-      sqlSessionFactory.openSession(false).rollback();
+      InitServlet.sqlSessionFactory.openSession(false).rollback();
       out.println("<p>게시글 변경 실패입니다!</p>");
       e.printStackTrace();
     }

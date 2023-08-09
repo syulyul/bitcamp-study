@@ -1,25 +1,23 @@
 package bitcamp.report.handler;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-import bitcamp.report.dao.ItemDao;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import bitcamp.report.vo.Item;
-import bitcamp.util.Component;
-import bitcamp.util.HttpServletRequest;
-import bitcamp.util.HttpServletResponse;
-import bitcamp.util.Servlet;
 
-@Component("/item/list")
-public class ItemListServlet implements Servlet {
+@WebServlet("/item/list")
+public class ItemListServlet extends HttpServlet {
 
-  ItemDao itemDao;
-
-  public ItemListServlet(ItemDao itemDao) {
-    this.itemDao = itemDao;
-  }
+  private static final long serialVersionUID = 1L;
 
   @Override
-  public void service(HttpServletRequest request, HttpServletResponse response) throws Exception {
+  protected void doGet(HttpServletRequest request, HttpServletResponse response)
+      throws ServletException, IOException {
 
     response.setContentType("text/html;charset=UTF-8");
     PrintWriter out = response.getWriter();
@@ -38,7 +36,7 @@ public class ItemListServlet implements Servlet {
     out.println("  <tr><th>번호</th> <th>물품 이름</th> <th>물품 가격</th> <th>물품 종류</th></tr>");
     out.println("</thead>");
 
-    List<Item> list = itemDao.findAll();
+    List<Item> list = InitServlet.itemDao.findAll();
     for (Item item : list) {
       out.printf(
           "<tr>" + " <td>%d</td>" + " <td><a href='/item/detail?no=%d'>%s</a></td>" + " <td>%d</td>"

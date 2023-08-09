@@ -1,29 +1,28 @@
 package bitcamp.report.handler;
 
+import java.io.IOException;
 import java.io.PrintWriter;
-import bitcamp.report.dao.MemberDao;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import bitcamp.report.vo.Member;
-import bitcamp.util.Component;
-import bitcamp.util.HttpServletRequest;
-import bitcamp.util.HttpServletResponse;
-import bitcamp.util.Servlet;
 
-@Component("/auth/login")
-public class LoginServlet implements Servlet {
+@WebServlet("/auth/login")
+public class LoginServlet extends HttpServlet {
 
-  MemberDao memberDao;
-
-  public LoginServlet(MemberDao memberDao) {
-    this.memberDao = memberDao;
-  }
+  private static final long serialVersionUID = 1L;
 
   @Override
-  public void service(HttpServletRequest request, HttpServletResponse response) throws Exception {
+  protected void doPost(HttpServletRequest request, HttpServletResponse response)
+      throws ServletException, IOException {
+
     Member m = new Member();
     m.setPhone(request.getParameter("phone"));
     m.setPassword(request.getParameter("password"));
 
-    Member loginUser = memberDao.findByPhoneAndPassword(m);
+    Member loginUser = InitServlet.memberDao.findByPhoneAndPassword(m);
 
     if (loginUser != null) {
       // 로그인 정보를 다른 요청에도 사용할 수 있도록 세션 보관소에 담아 둔다.
@@ -38,7 +37,7 @@ public class LoginServlet implements Servlet {
     out.println("<html>");
     out.println("<head>");
     out.println("<meta charset='UTF-8'>");
-    out.println("<meta http-equib='refresh' content='1;url=/auth/form.html'>");
+    out.println("<meta http-equiv='refresh' content='1;url=/auth/form.html'>");
     out.println("<title>로그인</title>");
     out.println("</head>");
     out.println("<body>");

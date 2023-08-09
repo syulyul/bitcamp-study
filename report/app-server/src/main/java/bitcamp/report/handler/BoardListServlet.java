@@ -1,30 +1,29 @@
 package bitcamp.report.handler;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import bitcamp.report.dao.BoardDao;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import bitcamp.report.vo.Board;
-import bitcamp.util.Component;
-import bitcamp.util.HttpServletRequest;
-import bitcamp.util.HttpServletResponse;
-import bitcamp.util.Servlet;
 
-@Component("/board/list")
-public class BoardListServlet implements Servlet {
+@WebServlet("/board/list")
+public class BoardListServlet extends HttpServlet {
 
-  BoardDao boardDao;
+  private static final long serialVersionUID = 1L;
+
   SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
 
-  public BoardListServlet(BoardDao boardDao) {
-    this.boardDao = boardDao;
-  }
-
   @Override
-  public void service(HttpServletRequest request, HttpServletResponse response) throws Exception {
+  protected void doGet(HttpServletRequest request, HttpServletResponse response)
+      throws ServletException, IOException {
 
     int category = Integer.parseInt(request.getParameter("category"));
-    
+
     response.setContentType("text/html;charset=UTF-8");
     PrintWriter out = response.getWriter();
 
@@ -44,23 +43,16 @@ public class BoardListServlet implements Servlet {
     out.println("   <tr><th>번호</th> <th>제목</th> <th>작성자</th> <th>조회수</th> <th>등록일</th></tr>");
     out.println("</thead>");
 
-    List<Board> list = boardDao.findAll(category);
+    List<Board> list = InitServlet.boardDao.findAll(category);
 
     out.println("<tbody>");
     for (Board board : list) {
-      out.printf("<tr>"
-          + " <td>%d</td>"
-          + " <td><a href='/board/detail?category=%d&no=%d'>%s</a></td>"
-          + " <td>%s</td>"
-          + " <td>%d</td>"
-          + " <td>%s</td></tr>\n",
-          board.getNo(), 
-          board.getCategory(),
-          board.getNo(),
-          (board.getTitle().length() > 0 ? board.getTitle() : "제목없음"), 
-          board.getWriter().getName(), 
-          board.getViewCount(),
-          dateFormatter.format(board.getCreatedDate()));
+      out.printf(
+          "<tr>" + " <td>%d</td>" + " <td><a href='/board/detail?category=%d&no=%d'>%s</a></td>"
+              + " <td>%s</td>" + " <td>%d</td>" + " <td>%s</td></tr>\n",
+          board.getNo(), board.getCategory(), board.getNo(),
+          (board.getTitle().length() > 0 ? board.getTitle() : "제목없음"), board.getWriter().getName(),
+          board.getViewCount(), dateFormatter.format(board.getCreatedDate()));
     }
     out.println("</tbody>");
     out.println("</table>");
