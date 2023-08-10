@@ -25,8 +25,6 @@ public class BoardUpdateServlet extends HttpServlet {
       return;
     }
 
-    request.setCharacterEncoding("UTF-8");
-
     int category = Integer.parseInt(request.getParameter("category"));
 
     Board board = new Board();
