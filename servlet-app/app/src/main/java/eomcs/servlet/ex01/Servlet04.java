@@ -18,7 +18,7 @@ public class Servlet04 extends HttpServlet {
       throws ServletException, IOException {
     System.out.println("GET 요청 받음!");
 
-    resp.setContentType("test/plain;charset=UTF-8");
+    resp.setContentType("text/html;charset=UTF-8");
     PrintWriter out = resp.getWriter();
     out.println("GET 요청을 받았습니다!");
   }
@@ -28,7 +28,7 @@ public class Servlet04 extends HttpServlet {
       throws ServletException, IOException {
     System.out.println("POST 요청 받음!");
 
-    resp.setContentType("test/plain;charset=UTF-8");
+    resp.setContentType("text/html;charset=UTF-8");
     PrintWriter out = resp.getWriter();
     out.println("POST 요청을 받았습니다!");
   }
