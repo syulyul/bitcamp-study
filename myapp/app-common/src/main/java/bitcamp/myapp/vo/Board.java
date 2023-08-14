@@ -2,6 +2,7 @@ package bitcamp.myapp.vo;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Objects;
 
 public class Board implements Serializable { // 다중 구현 가능
@@ -15,6 +16,7 @@ public class Board implements Serializable { // 다중 구현 가능
   private int viewCount;
   private Timestamp createdDate;
   private int category;
+  private List<AttatchedFile> attatchedFiles;
 
   @Override
   public int hashCode() {
@@ -95,6 +97,14 @@ public class Board implements Serializable { // 다중 구현 가능
 
   public void setCategory(int category) {
     this.category = category;
+  }
+
+  public List<AttatchedFile> getAttatchedFiles() {
+    return attatchedFiles;
+  }
+
+  public void setAttatchedFiles(List<AttatchedFile> attatchedFiles) {
+    this.attatchedFiles = attatchedFiles;
   }
 
 }
