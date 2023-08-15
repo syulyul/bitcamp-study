@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import bitcamp.myapp.vo.AttatchedFile;
+import bitcamp.myapp.vo.AttachedFile;
 import bitcamp.myapp.vo.Board;
 import bitcamp.myapp.vo.Member;
 
@@ -55,7 +55,7 @@ public class BoardAddServlet extends HttpServlet {
       String uploadDir = 웹애플리케이션환경정보.getRealPath("/upload/board/");
       // System.out.println(uploadDir);
 
-      ArrayList<AttatchedFile> attatchedFiles = new ArrayList<>();
+      ArrayList<AttachedFile> attachedFiles = new ArrayList<>();
 
       for (FileItem part : parts) {
         if (part.isFormField()) { // 일반 데이터
@@ -75,13 +75,13 @@ public class BoardAddServlet extends HttpServlet {
           part.write(new File(uploadDir, filename));
 
           // 3) 파일 이름을 객체에 보관하여 목록에 추가한다.
-          AttatchedFile attatchedFile = new AttatchedFile();
-          attatchedFile.setFilePath(filename);
+          AttachedFile attachedFile = new AttachedFile();
+          attachedFile.setFilePath(filename);
 
-          attatchedFiles.add(attatchedFile);
+          attachedFiles.add(attachedFile);
         }
       }
-      board.setAttatchedFiles(attatchedFiles);
+      board.setAttachedFiles(attachedFiles);
 
 
       response.setContentType("text/html;charset=UTF-8");

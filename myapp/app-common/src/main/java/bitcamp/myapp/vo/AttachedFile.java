@@ -2,7 +2,7 @@ package bitcamp.myapp.vo;
 
 import java.io.Serializable;
 
-public class AttatchedFile implements Serializable {
+public class AttachedFile implements Serializable {
   private static final long serialVersionUID = 1L;
 
   int no;

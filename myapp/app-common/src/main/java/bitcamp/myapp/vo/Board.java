@@ -16,7 +16,7 @@ public class Board implements Serializable { // 다중 구현 가능
   private int viewCount;
   private Timestamp createdDate;
   private int category;
-  private List<AttatchedFile> attatchedFiles;
+  private List<AttachedFile> attachedFiles;
 
   @Override
   public int hashCode() {
@@ -99,12 +99,12 @@ public class Board implements Serializable { // 다중 구현 가능
     this.category = category;
   }
 
-  public List<AttatchedFile> getAttatchedFiles() {
-    return attatchedFiles;
+  public List<AttachedFile> getAttachedFiles() {
+    return attachedFiles;
   }
 
-  public void setAttatchedFiles(List<AttatchedFile> attatchedFiles) {
-    this.attatchedFiles = attatchedFiles;
+  public void setAttachedFiles(List<AttachedFile> attachedFiles) {
+    this.attachedFiles = attachedFiles;
   }
 
 }

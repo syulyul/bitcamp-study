@@ -32,7 +32,7 @@ public class HomeServlet extends HttpServlet {
     out.println("<ul>");
     out.println("  <li><a href='/member/list'>회원</a></li>");
     out.println("  <li><a href='/board/list?category=1'>게시판</a></li>");
-    out.println("  <li><a href='/board/list?category=2'>독서록</a></li>");
+    out.println("  <li><a href='/board/list?category=2'>공지사항</a></li>");
 
     Member loginUser = (Member) request.getSession().getAttribute("loginUser");
     if (loginUser == null) {
