@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>비트 캠프</title>
+</head>
+<body>
+<h1>물품</h1>
+<form action='/item/add' method='post'>
+<table border='1'>
+<tr>
+  <th>물품 이름</th> <td style="width:200px;"><input type='text' name='name'></td>
+</tr>
+<tr>
+  <th>물품 가격</th> <td><input type='text' name='price'></td>
+</tr>
+<tr>
+  <th>물품 종류</th>
+    <td>
+      <select name="type">
+        <option value="식료품">식료품</option>
+        <option value="생활용품">생활용품</option>
+        <option value="의류">의류</option>
+        <option value="가전제품">가전제품</option>
+        <option value="리빙">리빙</option>
+      </select>
+    </td>
+</tr>
+</table>
+<button>등록</button>
+</form>
+</body>
+</html>
