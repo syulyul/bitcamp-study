@@ -138,7 +138,7 @@ public class Servlet01 extends GenericServlet {
 // 1) URL 디코딩 코드(메모리에 저장된 상태)
 // => 3F 6E 61 6D 65 3D 41 42
 // EA BO 80 <---- 한글 '가'의 UTF-8 코드
-// EA BO 81 <---- 한글 '가'의 UTF-8 코드
+// EA BO 81 <---- 한글 '각'의 UTF-8 코드
 // 26 61 67 65 3D 32 30
 // => URL 디코딩 대상
 // 25 45 41(%EA) => EA
