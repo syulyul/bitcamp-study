@@ -10,7 +10,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import bitcamp.myapp.dao.BoardDao;
 import bitcamp.myapp.vo.Board;
+import bitcamp.util.NcpObjectStorageService;
+import org.apache.ibatis.session.SqlSessionFactory;
 
 @WebServlet("/board/list")
 public class BoardListServlet extends HttpServlet {
@@ -47,7 +51,9 @@ public class BoardListServlet extends HttpServlet {
     out.println("  <tr><th>번호</th> <th>제목</th> <th>작성자</th> <th>조회수</th> <th>등록일</th></tr>");
     out.println("</thead>");
 
-    List<Board> list = InitServlet.boardDao.findAll(category);
+    BoardDao boardDao = (BoardDao) this.getServletContext().getAttribute("boardDao");
+
+    List<Board> list = boardDao.findAll(category);
 
     out.println("<tbody>");
     for (Board board : list) {

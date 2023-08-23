@@ -7,7 +7,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import bitcamp.myapp.dao.MemberDao;
 import bitcamp.myapp.vo.Member;
+import bitcamp.util.NcpObjectStorageService;
+import org.apache.ibatis.session.SqlSessionFactory;
 
 @WebServlet("/member/detail")
 public class MemberDetailServlet extends HttpServlet {
@@ -18,7 +22,9 @@ public class MemberDetailServlet extends HttpServlet {
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
 
-    Member member = InitServlet.memberDao.findBy(Integer.parseInt(request.getParameter("no")));
+    MemberDao memberDao = (MemberDao) this.getServletContext().getAttribute("memberDao");
+
+    Member member = memberDao.findBy(Integer.parseInt(request.getParameter("no")));
 
     response.setContentType("text/html;charset=UTF-8");
     PrintWriter out = response.getWriter();
@@ -29,6 +35,9 @@ public class MemberDetailServlet extends HttpServlet {
     out.println("<title>회원</title>");
     out.println("</head>");
     out.println("<body>");
+
+    request.getRequestDispatcher("/header").include(request, response);
+
     out.println("<h1>회원</h1>");
 
     if (member == null) {
@@ -70,6 +79,8 @@ public class MemberDetailServlet extends HttpServlet {
       out.println("</div>");
       out.println("</form>");
     }
+
+    request.getRequestDispatcher("/footer").include(request, response);
 
     out.println("</body>");
     out.println("</html>");

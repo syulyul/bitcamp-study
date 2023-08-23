@@ -595,7 +595,7 @@
 - IntelliJ IDE 개발 도구로 교체
 - 프로젝트 실습
   - 61. 네이버 클라우드의 Image Optimizer를 이용하여 썸네일 이미지 다루기
-  - 63. JSP를 이용하여 콘텐트 출력문을 자동 생성하기(소개)
+  - 64. JSP를 이용하여 콘텐트 출력문을 자동 생성하기(소개)
 
 ### 62일(8/21,월)
 
@@ -617,6 +617,16 @@
   - 절대 경로와 상대 경로의 이해
 - 프로젝트 실습
   - 62. forword/include/refresh/redirect 다루기
+
+### 64일(8/23, 수)
+
+- 서블릿 프로그래밍
+  - 보관소 사용법: ServletContext, HttpSession, ServletRequest, JspContext
+  - 쿠키 사용법
+  - 세션 사용법
+- 프로젝트 실습
+  - 62. forword/include/refresh/redirect 다루기(계속)
+  - 63. 쿠키와 ServletContext 보관소 활용하기
 
 ## 웨일즈 화상회의
 
