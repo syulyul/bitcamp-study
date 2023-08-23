@@ -7,10 +7,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import bitcamp.report.vo.Member;
 
-@WebServlet("/index.html")
-public class HomeServlet extends HttpServlet {
+@WebServlet("/board/form")
+public class BoardFormServlet extends HttpServlet {
 
   private static final long serialVersionUID = 1L;
 
@@ -18,9 +17,10 @@ public class HomeServlet extends HttpServlet {
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
 
+    int category = Integer.parseInt(request.getParameter("category"));
+
     response.setContentType("text/html;charset=UTF-8");
     PrintWriter out = response.getWriter();
-    out.println("<!DOCTYPE html>");
     out.println("<!DOCTYPE html>");
     out.println("<html>");
     out.println("<head>");
@@ -28,13 +28,22 @@ public class HomeServlet extends HttpServlet {
     out.println("<title>비트캠프</title>");
     out.println("</head>");
     out.println("<body>");
-    out.println("<h1>MyApp10</h1>");
-    out.println("<p>개인 프로젝트 입니다.</p>");
+
+    request.getRequestDispatcher("/header").include(request, response);
+
+    out.println("<h1>게시글</h1>");
+    out.println("<form action='/board/add' method='post' enctype='multipart/form-data'>");
+    out.println("제목 <input type='text' name='title'><br>");
+    out.println("내용 <textarea name='content'></textarea><br>");
+    out.println("파일 <input type='file' name='files' multiple><br>");
+    out.printf("<input type='hidden' name='category' value='%d'>\n", category);
+    out.println("<button>등록</button>");
+    out.println("</form>");
 
     request.getRequestDispatcher("/footer").include(request, response);
 
     out.println("</body>");
     out.println("</html>");
-
   }
+
 }
