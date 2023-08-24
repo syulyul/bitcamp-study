@@ -28,8 +28,11 @@ public class HomeServlet extends HttpServlet {
     out.println("<title>비트캠프</title>");
     out.println("</head>");
     out.println("<body>");
+
+    request.getRequestDispatcher("/header").include(request, response);
+
     out.println("<h1>MyApp10</h1>");
-    out.println("<p>개인 프로젝트 입니다.</p>");
+    out.println("<p>개인 프로젝트 입니다</p>");
 
     request.getRequestDispatcher("/footer").include(request, response);
 

@@ -1,6 +1,6 @@
-package bitcamp.myapp.handler;
+package bitcamp.report.handler;
 
-import bitcamp.myapp.vo.Member;
+import bitcamp.report.vo.Member;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,17 +21,18 @@ public class HeaderServlet extends HttpServlet {
 
     response.setContentType("text/html;charset=UTF-8");
     PrintWriter out = response.getWriter();
-    out.println("<div style='height: 50px;background-color:orange;'>");
+
+    out.println("<div style='height: 50px;background-color:#c2e0f0;'>");
     out.println("<img src='https://www.ncloud.com/public/img/logo-m.png' style='height: 40px'>");
     out.println("<a href='/member/list'>회원</a>");
     out.println("<a href='/board/list?category=1'>게시글</a>");
-    out.println("<a href='/board/list?category=2'>독서록</a>");
+    out.println("<a href='/board/list?category=2'>공지사항</a>");
 
     Member loginUser = (Member) request.getSession().getAttribute("loginUser");
     if (loginUser == null) {
-      out.println("<a href='/auth/form'>로그인</a>");
+      out.println("<a href='/auth/form.html'>로그인</a>");
     } else {
-      out.printf("%s %s <a href='/auth/logout'>로그아웃</a>\n",
+      out.printf("%s %s <a href='/auth/logout'>로그아웃</a>",
               (loginUser.getPhoto() == null ?
                       "<img style='height:40px' src='/images/avatar.png'>" :
                       String.format("<img src='http://urnfabxxeceu19010753.cdn.ntruss.com/member/%s?type=f&w=30&h=40&faceopt=true&ttype=jpg'>",
@@ -40,17 +41,5 @@ public class HeaderServlet extends HttpServlet {
     }
 
     out.println("</div>");
-
   }
 }
-
-
-
-
-
-
-
-
-
-
-

@@ -1,12 +1,13 @@
 package bitcamp.myapp.dao;
 
+import bitcamp.myapp.vo.AttachedFile;
+import bitcamp.myapp.vo.Board;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import bitcamp.myapp.vo.AttachedFile;
-import bitcamp.myapp.vo.Board;
 
 public class MySQLBoardDao implements BoardDao {
 
@@ -74,6 +75,12 @@ public class MySQLBoardDao implements BoardDao {
   public int deleteFile(int no) {
     SqlSession sqlSession = sqlSessionFactory.openSession(false);
     return sqlSession.delete("bitcamp.myapp.dao.BoardDao.deleteFile", no);
+  }
+
+  @Override
+  public int deleteFiles(int boardNo) {
+    SqlSession sqlSession = sqlSessionFactory.openSession(false);
+    return sqlSession.delete("bitcamp.myapp.dao.BoardDao.deleteFiles", boardNo);
   }
 
 }

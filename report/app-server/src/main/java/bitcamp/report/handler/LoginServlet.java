@@ -33,5 +33,7 @@ public class LoginServlet extends HttpServlet {
 
     request.setAttribute("message", "회원 정보가 일치하지 않습니다.");
     request.setAttribute("refresh", "1;url=/auth/form.html");
+
+    request.getRequestDispatcher("/error").forward(request, response);
   }
 }

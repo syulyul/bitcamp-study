@@ -35,7 +35,7 @@ public class HeaderServlet extends HttpServlet {
       out.printf("%s %s <a href='/auth/logout'>로그아웃</a>",
               (loginUser.getPhoto() == null ?
                       "<img style='height:40px' src='/images/avatar.png'>" :
-                      String.format("<img src='http://urnfabxxeceu19010753.cdn.ntruss.com/member/%1$s?type=f&w=60&h=80&faceopt=true&ttype=jpg'>",
+                      String.format("<img src='http://urnfabxxeceu19010753.cdn.ntruss.com/member/%s?type=f&w=30&h=40&faceopt=true&ttype=jpg'>",
                               loginUser.getPhoto())),
               loginUser.getName());
     }
