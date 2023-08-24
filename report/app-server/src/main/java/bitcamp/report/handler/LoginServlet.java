@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,6 +22,15 @@ public class LoginServlet extends HttpServlet {
     Member m = new Member();
     m.setPhone(request.getParameter("phone"));
     m.setPassword(request.getParameter("password"));
+
+    if (request.getParameter("savePhone") != null) {
+      Cookie cookie = new Cookie("phone", m.getPhone());
+      response.addCookie(cookie);
+    } else {
+      Cookie cookie = new Cookie("phone", "no");
+      cookie.setMaxAge(0);
+      response.addCookie(cookie);
+    }
 
     Member loginUser = InitServlet.memberDao.findByPhoneAndPassword(m);
 
