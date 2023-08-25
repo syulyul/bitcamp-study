@@ -2,12 +2,10 @@
     language="java"
     pageEncoding="UTF-8"
     contentType="text/html;charset=UTF-8"%> <%-- directive element --%>
-
-<%@ page import="java.io.IOException"%>
 <%@ page import="java.util.List"%>
-<%@ page import="bitcamp.myapp.dao.MemberDao"%>
 <%@ page import="bitcamp.myapp.vo.Member"%>
-<%@ page import="java.util.List"%>
+
+<jsp:useBean id="memberDao" type="bitcamp.myapp.dao.MemberDao" scope="application"/>
 
 <!DOCTYPE html>
 <html>
@@ -29,8 +27,6 @@
 </thead>
 
 <%
-    MemberDao memberDao = (MemberDao) this.getServletContext().getAttribute("memberDao");
-
     List<Member> list = memberDao.findAll();
 %>
 <tbody>

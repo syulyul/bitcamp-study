@@ -1,22 +1,14 @@
 <%@ page
     language="java"
     pageEncoding="UTF-8"
-    contentType="text/html;charset=UTF-8"%> <%-- directive element --%>
-
-<%@ page import="java.io.IOException"%>
+    contentType="text/html;charset=UTF-8"
+    trimDirectiveWhitespaces="true"%>
 <%@ page import="java.text.SimpleDateFormat"%>
 <%@ page import="java.util.List"%>
-<%@ page import="bitcamp.myapp.dao.BoardDao"%>
 <%@ page import="bitcamp.myapp.vo.Board"%>
-<%@ page import="java.util.List"%>
-
-<%!
-  // declaration element
-  SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
-%>
 
 <%
-    // scriptlet (scripting element)
+    request.setAttribute("refresh", "2;url=list.jsp?category=" + request.getParameter("category"));
     int category = Integer.parseInt(request.getParameter("category"));
 %>
 <!DOCTYPE html>
@@ -29,34 +21,35 @@
 
 <jsp:include page="../header.jsp"/>
 
-<h1>게시글 목록-1</h1>
+<h1>게시글 목록-2</h1>
 <div style='margin:5px;'>
-<a href='/board/form.jsp?category=<%=category%>'>새 글</a>
+<a href='/board/form.jsp?category=${param.category}'>새 글</a>
 </div>
 <table border='1'>
 <thead>
   <tr><th>번호</th> <th>제목</th> <th>작성자</th> <th>조회수</th> <th>등록일</th></tr>
 </thead>
 
-<%
-  BoardDao boardDao = (BoardDao) this.getServletContext().getAttribute("boardDao");
+<jsp:useBean id="boardDao" type="bitcamp.myapp.dao.BoardDao" scope="application"/>
 
+<%
   List<Board> list = boardDao.findAll(category);
 %>
 
 <tbody>
 <%
   for (Board board : list) {
+    pageContext.setAttribute("board", board);
 %>
     <tr>
-        <td><%=board.getNo()%></td>
-        <td><a href='/board/detail.jsp?category=<%=board.getCategory()%>&no=<%=board.getNo()%>'>
-            <%=(board.getTitle().length() > 0 ? board.getTitle() : "제목없음")%>
+        <td>${board.no}</td>
+        <td><a href='/board/detail.jsp?category=${board.category}&no=${board.no}'>
+            ${board.title.length() > 0 ? board.title : "제목없음"}
             </a>
         </td>
-        <td><%=board.getWriter().getName()%></td>
-        <td><%=board.getViewCount()%></td>
-        <td><%=dateFormatter.format(board.getCreatedDate())%></td>
+        <td>${board.writer.name}</td>
+        <td>${board.viewCount}</td>
+        <td>${simpleDateFormatter.format(board.createdDate)}</td>
     </tr>
 <%
   }
