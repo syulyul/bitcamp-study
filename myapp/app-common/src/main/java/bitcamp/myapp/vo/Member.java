@@ -19,6 +19,19 @@ public class Member implements Serializable { // 직렬화 표시용도
   private String photo;
 
   @Override
+  public String toString() {
+    return "Member{" +
+            "no=" + no +
+            ", name='" + name + '\'' +
+            ", email='" + email + '\'' +
+            ", password='" + password + '\'' +
+            ", gender=" + gender +
+            ", createdDate=" + createdDate +
+            ", photo='" + photo + '\'' +
+            '}';
+  }
+
+  @Override
   public int hashCode() {
     return Objects.hash(no);
   }

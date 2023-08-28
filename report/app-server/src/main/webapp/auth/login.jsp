@@ -1,26 +1,14 @@
-package bitcamp.report.handler;
+<%@ page
+    language="java"
+    pageEncoding="UTF-8"
+    contentType="text/html;charset=UTF-8"
+    trimDirectiveWhitespaces="true"
+    errorPage="/error.jsp"%>
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+<%@ page import="bitcamp.report.dao.MemberDao"%>
+<%@ page import="bitcamp.report.vo.Member"%>
 
-import bitcamp.report.dao.MemberDao;
-import bitcamp.report.vo.Member;
-
-@WebServlet("/auth/login")
-public class LoginServlet extends HttpServlet {
-
-  private static final long serialVersionUID = 1L;
-
-  @Override
-  protected void doPost(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
-
+<%
     Member m = new Member();
     m.setPhone(request.getParameter("phone"));
     m.setPassword(request.getParameter("password"));
@@ -48,5 +36,4 @@ public class LoginServlet extends HttpServlet {
     request.setAttribute("refresh", "1;url=/auth/form.html");
 
     request.getRequestDispatcher("/error").forward(request, response);
-  }
-}
+%>

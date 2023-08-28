@@ -50,14 +50,14 @@
 %>
       <tr>
           <td><%=board.getNo()%></td>
-          <td><a href='/board/detail?category=<%=board.getCategory()%>&no=<%=board.getNo()%>'>
+          <td><a href='/board/detail.jsp?category=<%=board.getCategory()%>&no=<%=board.getNo()%>'>
             <%=(board.getTitle().length() > 0 ? board.getTitle() : "제목없음")%>
             </a>
           </td>
           <td><%=board.getWriter().getName()%></td>
           <td><%=board.getViewCount()%></td>
           <td><%=dateFormatter.format(board.getCreatedDate())%></td></tr>
->%
+<%
     }
 %>
 </tbody>
