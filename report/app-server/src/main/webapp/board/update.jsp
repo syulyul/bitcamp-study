@@ -18,15 +18,15 @@
     // 에러 발생 시 리프레시 할 경로
     request.setAttribute("refresh", "2;url=list.jsp?category=" + request.getParameter("category"));
 
-    Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+    Member loginUser = (Member) session.getAttribute("loginUser");
     if (loginUser == null) {
       response.sendRedirect("/auth/form.html");
       return;
     }
 
-    BoardDao boardDao = (BoardDao) this.getServletContext().getAttribute("boardDao");
-    SqlSessionFactory sqlSessionFactory = (SqlSessionFactory) this.getServletContext().getAttribute("sqlSessionFactory");
-    NcpObjectStorageService ncpObjectStorageService = (NcpObjectStorageService) this.getServletContext().getAttribute("ncpObjectStorageService");
+    BoardDao boardDao = (BoardDao) application.getAttribute("boardDao");
+    SqlSessionFactory sqlSessionFactory = (SqlSessionFactory) application.getAttribute("sqlSessionFactory");
+    NcpObjectStorageService ncpObjectStorageService = (NcpObjectStorageService) application.getAttribute("ncpObjectStorageService");
 
       Board board = new Board();
       board.setWriter(loginUser);

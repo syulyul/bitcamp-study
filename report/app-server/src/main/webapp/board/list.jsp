@@ -3,10 +3,8 @@
     pageEncoding="UTF-8"
     contentType="text/html;charset=UTF-8"%> <%-- directive element --%>
 
-<%@ page import="java.io.IOException"%>
 <%@ page import="java.text.SimpleDateFormat"%>
 <%@ page import="java.util.List"%>
-<%@ page import="bitcamp.report.dao.BoardDao"%>
 <%@ page import="bitcamp.report.vo.Board"%>
 
 <%!
@@ -29,7 +27,7 @@
 
 <jsp:include page="../header.jsp"/>
 
-<h1>게시글 목록-1</h1>
+<h1>게시글 목록-2</h1>
 <div style='margin:5px;'>
 <a href='/board/form.jsp?category=<%=category%>'>새 글</a>
 </div>
@@ -38,8 +36,9 @@
 <tr><th>번호</th> <th>제목</th> <th>작성자</th> <th>조회수</th> <th>등록일</th></tr>
 </thead>
 
+<jsp:useBean id="boardDao" type="bitcamp.report.dao.BoardDao" scope="application"/>
+
 <%
-    BoardDao boardDao = (BoardDao) this.getServletContext().getAttribute("boardDao");
 
     List<Board> list = boardDao.findAll(category);
 %>

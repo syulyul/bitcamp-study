@@ -6,7 +6,7 @@
     import="java.net.ServerSocket"
     import="java.util.List,java.util.Map,java.util.Set"
     trimDirectiveWhitespaces="true"
-    autoFlush="false"
+    autoFlush="true"
     buffer="16kb"
 %>
 <%@ page import="java.sql.Connection"%>

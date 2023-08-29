@@ -5,29 +5,28 @@
     trimDirectiveWhitespaces="true"
     errorPage="/error.jsp"%>
 
-<%@ page import="java.io.IOException"%>
 <%@ page import="java.text.SimpleDateFormat"%>
 <%@ page import="java.util.ArrayList"%>
-<%@ page import="bitcamp.report.dao.BoardDao"%>
 <%@ page import="bitcamp.report.vo.AttachedFile"%>
 <%@ page import="bitcamp.report.vo.Board"%>
 <%@ page import="bitcamp.report.vo.Member"%>
-<%@ page import="bitcamp.util.NcpObjectStorageService"%>
-<%@ page import="org.apache.ibatis.session.SqlSessionFactory"%>
 
 <%
     // 오류가 발생했을 때 refresh 할 URL 지정
     request.setAttribute("refresh", "2;url=list.jsp?category=" + request.getParameter("category"));
 
-    Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+    Member loginUser = (Member) session.getAttribute("loginUser");
     if (loginUser == null) {
       response.sendRedirect("/auth/form.html");
       return;
     }
+%>
 
-    BoardDao boardDao = (BoardDao) this.getServletContext().getAttribute("boardDao");
-    SqlSessionFactory sqlSessionFactory = (SqlSessionFactory) this.getServletContext().getAttribute("sqlSessionFactory");
-    NcpObjectStorageService ncpObjectStorageService = (NcpObjectStorageService) this.getServletContext().getAttribute("ncpObjectStorageService");
+<jsp:useBean id="boardDao" type="bitcamp.report.dao.BoardDao" scope="application"/>
+<jsp:useBean id="sqlSessionFactory" type="org.apache.ibatis.session.SqlSessionFactory" scope="application"/>
+<jsp:useBean id="ncpObjectStorageService" type="bitcamp.util.NcpObjectStorageService" scope="application"/>
+
+<%
 
     // 각각의 파트에서 값을 꺼낸다.
     Board board = new Board();

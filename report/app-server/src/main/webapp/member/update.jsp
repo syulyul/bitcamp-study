@@ -20,9 +20,9 @@
     member.setPassword(request.getParameter("password"));
     member.setPosition(request.getParameter("position").charAt(0));
 
-    MemberDao memberDao = (MemberDao) this.getServletContext().getAttribute("memberDao");
-    SqlSessionFactory sqlSessionFactory = (SqlSessionFactory) this.getServletContext().getAttribute("sqlSessionFactory");
-    NcpObjectStorageService ncpObjectStorageService = (NcpObjectStorageService) this.getServletContext().getAttribute("ncpObjectStorageService");
+    MemberDao memberDao = (MemberDao) application.getAttribute("memberDao");
+    SqlSessionFactory sqlSessionFactory = (SqlSessionFactory) application.getAttribute("sqlSessionFactory");
+    NcpObjectStorageService ncpObjectStorageService = (NcpObjectStorageService) application.getAttribute("ncpObjectStorageService");
 
     Part photoPart = request.getPart("photo");
     if (photoPart.getSize() > 0) {

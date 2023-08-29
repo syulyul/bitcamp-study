@@ -6,8 +6,11 @@
 <%@ page import ="bitcamp.report.vo.Member"%>
 
 <%
+    SqlSessionFactory sqlSessionFactory = (SqlSessionFactory) application.getAttribute("sqlSessionFactory");
+    sqlSessionFactory.openSession(false).commit();
+
     if (request.getAttribute("refresh") != null) {
-      response.setHeader("Refresh", (String)request.getAttribute("refresh"));
+      response.setHeader("Refresh", (String) request.getAttribute("refresh"));
     }
 %>
 <!DOCTYPE html>

@@ -13,9 +13,9 @@
 <%
     request.setAttribute("refresh", "2;url=list.jsp");
 
-    MemberDao memberDao = (MemberDao) this.getServletContext().getAttribute("memberDao");
-    SqlSessionFactory sqlSessionFactory = (SqlSessionFactory) this.getServletContext().getAttribute("sqlSessionFactory");
-    NcpObjectStorageService ncpObjectStorageService = (NcpObjectStorageService) this.getServletContext().getAttribute("ncpObjectStorageService");
+    MemberDao memberDao = (MemberDao) application.getAttribute("memberDao");
+    SqlSessionFactory sqlSessionFactory = (SqlSessionFactory) application.getAttribute("sqlSessionFactory");
+    NcpObjectStorageService ncpObjectStorageService = (NcpObjectStorageService) application.getAttribute("ncpObjectStorageService");
 
     Member m = new Member();
     m.setName(request.getParameter("name"));

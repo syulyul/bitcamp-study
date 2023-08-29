@@ -10,7 +10,7 @@
     <a href='/board/list.jsp?category=1'>게시글</a>
     <a href='/board/list.jsp?category=2'>공지사항</a>
 <%
-    Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+    Member loginUser = (Member) session.getAttribute("loginUser");
     if (loginUser == null) {
       out.println("<a href='/auth/form.jsp'>로그인</a>");
     } else {

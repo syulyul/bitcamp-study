@@ -10,7 +10,7 @@
 <%@ page import="org.apache.ibatis.session.SqlSessionFactory"%>
 
 <%
-    MemberDao memberDao = (MemberDao) this.getServletContext().getAttribute("memberDao");
+    MemberDao memberDao = (MemberDao) application.getAttribute("memberDao");
 
     Member member = memberDao.findBy(Integer.parseInt(request.getParameter("no")));
 %>

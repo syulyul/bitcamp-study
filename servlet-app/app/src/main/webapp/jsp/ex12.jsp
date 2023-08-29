@@ -42,7 +42,6 @@ pageContext.setAttribute("s4", "윤봉길");
 
 <jsp:useBean id="s5" type="java.lang.String" scope="page"/>
 
-
 </body>
 </html>
 <%--

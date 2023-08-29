@@ -27,7 +27,7 @@
   <tr><th>번호</th> <th>이름</th> <th>전화번호</th></tr>
 </thead>
 <%
-    MemberDao memberDao = (MemberDao) this.getServletContext().getAttribute("memberDao");
+    MemberDao memberDao = (MemberDao) application.getAttribute("memberDao");
 
     List<Member> list = memberDao.findAll();
 %>

@@ -4,6 +4,7 @@
 <%
 String[] names = {"홍길동", "임꺽정", "유관순"};
 %>
+
 <!DOCTYPE html>
 <html>
 <head>
