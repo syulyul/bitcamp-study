@@ -86,7 +86,7 @@
       }
     }
 %>
-<jsp:include page="../footer"/>
+<jsp:include page="../footer.jsp"/>
 
 </body>
 </html>

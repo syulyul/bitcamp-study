@@ -9,6 +9,8 @@
 <%@ page import="bitcamp.report.vo.Member"%>
 
 <%
+    request.setAttribute("refresh", "2;url=/auth/form.jsp");
+
     Member m = new Member();
     m.setPhone(request.getParameter("phone"));
     m.setPassword(request.getParameter("password"));
@@ -25,15 +27,10 @@
     MemberDao memberDao = (MemberDao) this.getServletContext().getAttribute("memberDao");
     Member loginUser = memberDao.findByPhoneAndPassword(m);
 
-    if (loginUser != null) {
-      // 로그인 정보를 다른 요청에도 사용할 수 있도록 세션 보관소에 담아 둔다.
-      request.getSession().setAttribute("loginUser", loginUser);
-      response.sendRedirect("/");
-      return;
+    if (loginUser == null) {
+        throw new Exception("회원 정보가 일치하지 않습니다.");
     }
 
-    request.setAttribute("message", "회원 정보가 일치하지 않습니다.");
-    request.setAttribute("refresh", "1;url=/auth/form.html");
-
-    request.getRequestDispatcher("/error").forward(request, response);
+    request.getSession().setAttribute("loginUser", loginUser);
+    response.sendRedirect("/");
 %>

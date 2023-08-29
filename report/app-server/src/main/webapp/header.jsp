@@ -21,7 +21,7 @@
         "<img src='http://urnfabxxeceu19010753.cdn.ntruss.com/member/%s?type=f&w=30&h=40&faceopt=true&ttype=jpg'>",
                                       loginUser.getPhoto()));
       }
-      out.println(String.format("%s <a href='/auth/logout'>로그아웃</a>", loginUser.getName()));
+      out.println(String.format("%s <a href='/auth/logout.jsp'>로그아웃</a>", loginUser.getName()));
     }
 %>
 </div>
