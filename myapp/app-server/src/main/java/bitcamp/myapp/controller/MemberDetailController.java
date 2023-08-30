@@ -1,7 +1,6 @@
 package bitcamp.myapp.controller;
 
 import bitcamp.myapp.dao.MemberDao;
-import bitcamp.myapp.vo.Member;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,14 +19,8 @@ public class MemberDetailController extends HttpServlet {
       throws ServletException, IOException {
 
     MemberDao memberDao = (MemberDao) this.getServletContext().getAttribute("memberDao");
-
-    Member member = memberDao.findBy(Integer.parseInt(request.getParameter("no")));
-
-    request.setAttribute("member", member);
-
-    response.setContentType("text/html;charset=UTF-8");
-
-    request.getRequestDispatcher("/member/detail.jsp").include(request, response);
+    request.setAttribute("member", memberDao.findBy(Integer.parseInt(request.getParameter("no"))));
+    request.setAttribute("viewUrl", "/WEB-INF/jsp/member/detail.jsp");
 
   }
 }

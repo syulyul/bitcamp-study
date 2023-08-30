@@ -21,13 +21,11 @@ public class BoardListController extends HttpServlet {
     try {
       BoardDao boardDao = (BoardDao) this.getServletContext().getAttribute("boardDao");
       request.setAttribute("list", boardDao.findAll(Integer.parseInt(request.getParameter("category"))));
-
-      response.setContentType("text/html;charset=UTF-8");
-      request.getRequestDispatcher("/board/list.jsp").include(request, response);
+      request.setAttribute("viewUrl", "/WEB-INF/jsp/board/list.jsp");
 
     } catch (Exception e) {
       request.setAttribute("refresh", "1;url=/");
-      throw new ServletException(e);
+      request.setAttribute("exception", e);
     }
   }
 

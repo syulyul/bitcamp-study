@@ -24,7 +24,7 @@ public class BoardFileDeleteController extends HttpServlet {
 
     Member loginUser = (Member) request.getSession().getAttribute("loginUser");
     if (loginUser == null) {
-      response.sendRedirect("/auth/login");
+      request.setAttribute("viewUrl", "redirect:../auth/login");
       return;
     }
 
@@ -46,14 +46,14 @@ public class BoardFileDeleteController extends HttpServlet {
         throw new Exception("해당 번호의 첨부파일이 없거나 삭제 권한이 없습니다.");
       } else {
         sqlSessionFactory.openSession(false).commit();
-        response.sendRedirect("/board/detail?category=" + category + "&no=" + board.getNo());
+        request.setAttribute("viewUrl", "redirect:detail?category=" + category + "&no=" + board.getNo());
       }
 
     } catch (Exception e) {
       sqlSessionFactory.openSession(false).rollback();
-      request.setAttribute("refresh", "2;url=/board/detail?category=" + request.getParameter("category") +
+      request.setAttribute("refresh", "2;url=detail?category=" + request.getParameter("category") +
               "&no=" + board.getNo());
-      throw new ServletException(e);
+      request.setAttribute("excdeption", e);
     }
   }
 }
