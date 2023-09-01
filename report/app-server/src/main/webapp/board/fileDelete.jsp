@@ -5,25 +5,22 @@
     trimDirectiveWhitespaces="true"
     errorPage="/error.jsp"%>
 
-<%@ page import="bitcamp.report.dao.BoardDao"%>
 <%@ page import="bitcamp.report.vo.AttachedFile"%>
 <%@ page import="bitcamp.report.vo.Board"%>
-<%@ page import="bitcamp.report.vo.Member"%>
-<%@ page import="org.apache.ibatis.session.SqlSessionFactory"%>
+
+<jsp:useBean id="boardDao" type="bitcamp.report.dao.BoardDao" scope="application"/>
+<jsp:useBean id="sqlSessionFactory" type="org.apache.ibatis.session.SqlSessionFactory" scope="application"/>
+<jsp:useBean id="loginUser" class="bitcamp.report.vo.Member" scope="session"/>
 
 <%
 
-    Member loginUser = (Member) session.getAttribute("loginUser");
-    if (loginUser == null) {
-      response.sendRedirect("/auth/form.html");
+    if (loginUser.getNo() == 0) {
+      response.sendRedirect("/auth/form.jsp");
       return;
     }
 
     int category = Integer.parseInt(request.getParameter("category"));
     int fileNo = Integer.parseInt(request.getParameter("no"));
-
-    BoardDao boardDao = (BoardDao) application.getAttribute("boardDao");
-    SqlSessionFactory sqlSessionFactory = (SqlSessionFactory) application.getAttribute("sqlSessionFactory");
 
     AttachedFile attachedFile = boardDao.findFileBy(fileNo);
     Board board = boardDao.findBy(category, attachedFile.getBoardNo());

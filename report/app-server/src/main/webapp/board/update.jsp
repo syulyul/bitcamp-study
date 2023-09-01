@@ -5,28 +5,24 @@
     trimDirectiveWhitespaces="true"
     errorPage="/error.jsp"%>
 
-<%@ page import="java.text.SimpleDateFormat"%>
 <%@ page import="java.util.ArrayList"%>
-<%@ page import="bitcamp.report.dao.BoardDao"%>
 <%@ page import="bitcamp.report.vo.AttachedFile"%>
 <%@ page import="bitcamp.report.vo.Board"%>
-<%@ page import="bitcamp.report.vo.Member"%>
-<%@ page import="org.apache.ibatis.session.SqlSessionFactory"%>
-<%@ page import="bitcamp.util.NcpObjectStorageService"%>
+
+<jsp:useBean id="boardDao" type="bitcamp.report.dao.BoardDao" scope="application"/>
+<jsp:useBean id="sqlSessionFactory" type="org.apache.ibatis.session.SqlSessionFactory" scope="application"/>
+<jsp:useBean id="ncpObjectStorageService" type="bitcamp.util.NcpObjectStorageService" scope="application"/>
+<jsp:useBean id="loginUser" class="bitcamp.report.vo.Member" scope="session"/>
 
 <%
-    // 에러 발생 시 리프레시 할 경로
-    request.setAttribute("refresh", "2;url=list.jsp?category=" + request.getParameter("category"));
-
-    Member loginUser = (Member) session.getAttribute("loginUser");
-    if (loginUser == null) {
-      response.sendRedirect("/auth/form.html");
+    if (loginUser.getNo() == 0) {
+      response.sendRedirect("/auth/form.jsp");
       return;
     }
 
-    BoardDao boardDao = (BoardDao) application.getAttribute("boardDao");
-    SqlSessionFactory sqlSessionFactory = (SqlSessionFactory) application.getAttribute("sqlSessionFactory");
-    NcpObjectStorageService ncpObjectStorageService = (NcpObjectStorageService) application.getAttribute("ncpObjectStorageService");
+    // 에러 발생 시 리프레시 할 경로
+    request.setAttribute("refresh", "2;url=list.jsp?category=" + request.getParameter("category"));
+
 
       Board board = new Board();
       board.setWriter(loginUser);

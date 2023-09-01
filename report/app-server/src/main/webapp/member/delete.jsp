@@ -5,15 +5,13 @@
     trimDirectiveWhitespaces="true"
     errorPage="/error.jsp"%>
 
-<%@ page import="bitcamp.report.dao.MemberDao"%>
 <%@ page import="bitcamp.report.vo.Member"%>
-<%@ page import="org.apache.ibatis.session.SqlSessionFactory"%>
+
+<jsp:useBean id="memberDao" type="bitcamp.report.dao.MemberDao" scope="application"/>
+<jsp:useBean id="sqlSessionFactory" type="org.apache.ibatis.session.SqlSessionFactory" scope="application"/>
 
 <%
     request.setAttribute("refresh", "2;url=list.jsp");
-
-    MemberDao memberDao = (MemberDao) application.getAttribute("memberDao");
-    SqlSessionFactory sqlSessionFactory = (SqlSessionFactory) application.getAttribute("sqlSessionFactory");
 
     if (memberDao.delete(Integer.parseInt(request.getParameter("no"))) == 0) {
         throw new Exception("해당 번호의 회원이 없습니다!");

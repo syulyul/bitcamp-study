@@ -3,11 +3,10 @@
     pageEncoding="UTF-8"
     contentType="text/html;charset=UTF-8"%> <%-- directive element --%>
 
-<%@ page import="java.io.IOException"%>
-<%@ page import="java.text.SimpleDateFormat"%>
 <%@ page import="java.util.List"%>
-<%@ page import="bitcamp.report.dao.MemberDao"%>
 <%@ page import="bitcamp.report.vo.Member"%>
+
+<jsp:useBean id="memberDao" type="bitcamp.report.dao.MemberDao" scope="application"/>
 
 <!DOCTYPE html>
 <html>
@@ -27,8 +26,6 @@
   <tr><th>번호</th> <th>이름</th> <th>전화번호</th></tr>
 </thead>
 <%
-    MemberDao memberDao = (MemberDao) application.getAttribute("memberDao");
-
     List<Member> list = memberDao.findAll();
 %>
 <tbody>

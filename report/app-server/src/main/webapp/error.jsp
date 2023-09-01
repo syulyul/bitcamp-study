@@ -5,10 +5,10 @@
     isErrorPage="true"%>
 <%@ page import ="bitcamp.report.vo.Member"%>
 
-<%
-    SqlSessionFactory sqlSessionFactory = (SqlSessionFactory) application.getAttribute("sqlSessionFactory");
-    sqlSessionFactory.openSession(false).commit();
+<jsp:useBean id="sqlSessionFactory" type="org.apache.ibatis.session.SqlSessionFactory" scope="application"/>
 
+<%
+    sqlSessionFactory.openSession(false).rollback();
     if (request.getAttribute("refresh") != null) {
       response.setHeader("Refresh", (String) request.getAttribute("refresh"));
     }

@@ -9,24 +9,21 @@
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="bitcamp.report.vo.AttachedFile"%>
 <%@ page import="bitcamp.report.vo.Board"%>
-<%@ page import="bitcamp.report.vo.Member"%>
-
-<%
-    // 오류가 발생했을 때 refresh 할 URL 지정
-    request.setAttribute("refresh", "2;url=list.jsp?category=" + request.getParameter("category"));
-
-    Member loginUser = (Member) session.getAttribute("loginUser");
-    if (loginUser == null) {
-      response.sendRedirect("/auth/form.html");
-      return;
-    }
-%>
 
 <jsp:useBean id="boardDao" type="bitcamp.report.dao.BoardDao" scope="application"/>
 <jsp:useBean id="sqlSessionFactory" type="org.apache.ibatis.session.SqlSessionFactory" scope="application"/>
 <jsp:useBean id="ncpObjectStorageService" type="bitcamp.util.NcpObjectStorageService" scope="application"/>
+<jsp:useBean id="loginUser" class="bitcamp.report.vo.Member" scope="session"/>
 
 <%
+    if (loginUser.getNo() == 0) {
+      response.sendRedirect("/auth/form.jsp");
+      return;
+    }
+
+    // 오류가 발생했을 때 refresh 할 URL 지정
+    request.setAttribute("refresh", "2;url=list.jsp?category=" + request.getParameter("category"));
+
 
     // 각각의 파트에서 값을 꺼낸다.
     Board board = new Board();

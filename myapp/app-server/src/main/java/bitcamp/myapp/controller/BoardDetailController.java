@@ -2,26 +2,32 @@ package bitcamp.myapp.controller;
 
 import bitcamp.myapp.dao.BoardDao;
 import bitcamp.myapp.vo.Board;
-import org.apache.ibatis.session.SqlSessionFactory;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
-@WebServlet("/board/detail")
-public class BoardDetailController extends HttpServlet {
+@Component("/board/detail")
+public class BoardDetailController implements PageController {
 
-  private static final long serialVersionUID = 1L;
+  BoardDao boardDao;
+  PlatformTransactionManager txManager;
+
+  public BoardDetailController(BoardDao boardDao, PlatformTransactionManager txManager) {
+    this.boardDao = boardDao;
+    this.txManager = txManager;
+  }
 
   @Override
-  protected void doGet(HttpServletRequest request, HttpServletResponse response)
-          throws ServletException, IOException {
-
-    BoardDao boardDao = (BoardDao) this.getServletContext().getAttribute("boardDao");
-    SqlSessionFactory sqlSessionFactory = (SqlSessionFactory) this.getServletContext().getAttribute("sqlSessionFactory");
+  public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+    def.setName("tx1");
+    def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+    TransactionStatus status = txManager.getTransaction(def);
 
     try {
       int category = Integer.parseInt(request.getParameter("category"));
@@ -31,15 +37,15 @@ public class BoardDetailController extends HttpServlet {
       if (board != null) {
         board.setViewCount(board.getViewCount() + 1);
         boardDao.updateCount(board);
-        sqlSessionFactory.openSession(false).commit();
+        txManager.commit(status);
         request.setAttribute("board", board);
       }
-      request.setAttribute("viewUrl", "/WEB-INF/jsp/board/detail.jsp");
+      return "/WEB-INF/jsp/board/detail.jsp";
 
     } catch (Exception e) {
-      sqlSessionFactory.openSession(false).rollback();
+      txManager.rollback(status);
       request.setAttribute("refresh", "5;url=/board/list?category=" + request.getParameter("category"));
-      request.setAttribute("exception", e);
+      throw e;
     }
   }
 }

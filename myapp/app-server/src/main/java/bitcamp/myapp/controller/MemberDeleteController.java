@@ -1,39 +1,46 @@
 package bitcamp.myapp.controller;
 
 import bitcamp.myapp.dao.MemberDao;
-import org.apache.ibatis.session.SqlSessionFactory;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
-@WebServlet("/member/delete")
-public class MemberDeleteController extends HttpServlet {
+@Component("/member/delete")
+public class MemberDeleteController implements PageController {
 
-  private static final long serialVersionUID = 1L;
+  MemberDao memberDao;
+  PlatformTransactionManager txManager;
+
+  public MemberDeleteController(MemberDao memberDao, PlatformTransactionManager txManager) {
+    this.memberDao = memberDao;
+    this.txManager = txManager;
+  }
 
   @Override
-  protected void doGet(HttpServletRequest request, HttpServletResponse response)
-          throws ServletException, IOException {
+  public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-    MemberDao memberDao = (MemberDao) this.getServletContext().getAttribute("memberDao");
-    SqlSessionFactory sqlSessionFactory = (SqlSessionFactory) this.getServletContext().getAttribute("sqlSessionFactory");
+    DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+    def.setName("tx1");
+    def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+    TransactionStatus status = txManager.getTransaction(def);
 
     try {
       if (memberDao.delete(Integer.parseInt(request.getParameter("no"))) == 0) {
         throw new Exception("해당 번호의 회원이 없습니다.");
       } else {
-        sqlSessionFactory.openSession(false).commit();
-        request.setAttribute("viewUrl", "redirect:list");
+        txManager.commit(status);
+        return "redirect:list";
       }
 
     } catch (Exception e) {
-      sqlSessionFactory.openSession(false).rollback();
+      txManager.rollback(status);
       request.setAttribute("refresh", "2;url=list");
-      request.setAttribute("exception", e);
+      throw e;
     }
   }
 

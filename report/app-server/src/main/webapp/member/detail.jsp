@@ -4,14 +4,11 @@
     contentType="text/html;charset=UTF-8"
     trimDirectiveWhitespaces="true"%>
 
-<%@ page import="java.io.IOException"%>
-<%@ page import="bitcamp.report.dao.MemberDao"%>
 <%@ page import="bitcamp.report.vo.Member"%>
-<%@ page import="org.apache.ibatis.session.SqlSessionFactory"%>
+
+<jsp:useBean id="memberDao" type="bitcamp.report.dao.MemberDao" scope="application"/>
 
 <%
-    MemberDao memberDao = (MemberDao) application.getAttribute("memberDao");
-
     Member member = memberDao.findBy(Integer.parseInt(request.getParameter("no")));
 %>
 <!DOCTYPE html>

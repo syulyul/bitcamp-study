@@ -5,21 +5,19 @@
     trimDirectiveWhitespaces="true"
     errorPage="/error.jsp"%>
 
-<%@ page import="bitcamp.report.dao.BoardDao"%>
-<%@ page import="bitcamp.report.vo.AttachedFile"%>
 <%@ page import="bitcamp.report.vo.Board"%>
-<%@ page import="bitcamp.report.vo.Member"%>
-<%@ page import="org.apache.ibatis.session.SqlSessionFactory"%>
-<%@ page import="bitcamp.util.NcpObjectStorageService"%>
+
+<jsp:useBean id="boardDao" type="bitcamp.report.dao.BoardDao" scope="application"/>
+<jsp:useBean id="sqlSessionFactory" type="org.apache.ibatis.session.SqlSessionFactory" scope="application"/>
+<jsp:useBean id="loginUser" class="bitcamp.report.vo.Member" scope="session"/>
 
 <%
-    request.setAttribute("refresh", "2;url=list.jsp?category=" + request.getParameter("category"));
-
-    Member loginUser = (Member) session.getAttribute("loginUser");
-    if (loginUser == null) {
-      response.sendRedirect("/auth/form.html");
+    if (loginUser.getNo() == 0) {
+      response.sendRedirect("/auth/form.jsp");
       return;
     }
+    request.setAttribute("refresh", "2;url=list.jsp?category=" + request.getParameter("category"));
+
 
     int category = Integer.parseInt(request.getParameter("category"));
 
@@ -27,9 +25,6 @@
     b.setNo(Integer.parseInt(request.getParameter("no")));
     b.setWriter(loginUser);
     b.setCategory(category);
-
-    BoardDao boardDao = (BoardDao) application.getAttribute("boardDao");
-    SqlSessionFactory sqlSessionFactory = (SqlSessionFactory) application.getAttribute("sqlSessionFactory");
 
     boardDao.deleteFiles(b.getNo());
 

@@ -2,36 +2,32 @@ package bitcamp.myapp.controller;
 
 import bitcamp.myapp.dao.MemberDao;
 import bitcamp.myapp.vo.Member;
+import org.springframework.stereotype.Component;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
-@WebServlet("/auth/login")
-public class LoginController extends HttpServlet {
+@Component("/auth/login")
+public class LoginController implements PageController {
 
-  private static final long serialVersionUID = 1L;
+  MemberDao memberDao;
 
-  @Override
-  protected void doGet(HttpServletRequest request, HttpServletResponse response)
-          throws ServletException, IOException {
-    request.setAttribute("viewUrl", "/WEB-INF/jsp/auth/form.jsp");
+  public LoginController(MemberDao memberDao) {
+    this.memberDao = memberDao;
   }
 
   @Override
-  protected void doPost(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
+  public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    if (request.getMethod().equals("GET")) {
+      return "/WEB-INF/jsp/auth/form.jsp";
+    }
 
-    Member m = new Member();
-    m.setEmail(request.getParameter("email"));
-    m.setPassword(request.getParameter("password"));
+    String email = request.getParameter("email");
+    String password = request.getParameter("password");
 
     if (request.getParameter("saveEmail") != null) {
-      Cookie cookie = new Cookie("email", m.getEmail());
+      Cookie cookie = new Cookie("email", email);
       response.addCookie(cookie);
     } else {
       Cookie cookie = new Cookie("email", "no");
@@ -39,15 +35,12 @@ public class LoginController extends HttpServlet {
       response.addCookie(cookie);
     }
 
-    MemberDao memberDao = (MemberDao) this.getServletContext().getAttribute("memberDao");
-    Member loginUser = memberDao.findByEmailAndPassword(m);
-    if (loginUser != null) {
-      // 로그인 정보를 다른 요청에서도 사용할 있도록 세션 보관소에 담아 둔다.
-      request.getSession().setAttribute("loginUser", loginUser);
-      request.setAttribute("viewUrl", "redirect:/");
-      return;
+    Member loginUser = memberDao.findByEmailAndPassword(email, password);
+    if (loginUser == null) {
+      request.setAttribute("refresh", "2;url=/app/auth/login");
+      throw new Exception("회원 정보가 일치하지 않습니다.");
     }
-    request.setAttribute("refresh", "2;url=/app/auth/login");
-    request.setAttribute("exception", new Exception("회원 정보가 일치하지 않습니다."));
+    request.getSession().setAttribute("loginUser", loginUser);
+    return "redirect:/";
   }
 }

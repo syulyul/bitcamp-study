@@ -5,7 +5,6 @@
     trimDirectiveWhitespaces="true"
     errorPage="/error.jsp"%>
 
-<%@ page import="bitcamp.report.dao.MemberDao"%>
 <%@ page import="bitcamp.report.vo.Member"%>
 
 <%
@@ -24,7 +23,9 @@
       response.addCookie(cookie);
     }
 %>
+
 <jsp:useBean id="memberDao" type="bitcamp.report.dao.MemberDao" scope="application"/>
+
 <%
 
     Member loginUser = memberDao.findByPhoneAndPassword(m);

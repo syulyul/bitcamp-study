@@ -5,17 +5,14 @@
     trimDirectiveWhitespaces="true"
     errorPage="/error.jsp"%>
 
-<%@ page import="bitcamp.report.dao.MemberDao"%>
 <%@ page import="bitcamp.report.vo.Member"%>
-<%@ page import="bitcamp.util.NcpObjectStorageService"%>
-<%@ page import="org.apache.ibatis.session.SqlSessionFactory"%>
+
+<jsp:useBean id="memberDao" type="bitcamp.report.dao.MemberDao" scope="application"/>
+<jsp:useBean id="sqlSessionFactory" type="org.apache.ibatis.session.SqlSessionFactory" scope="application"/>
+<jsp:useBean id="ncpObjectStorageService" type="bitcamp.util.NcpObjectStorageService" scope="application"/>
 
 <%
     request.setAttribute("refresh", "2;url=list.jsp");
-
-    MemberDao memberDao = (MemberDao) application.getAttribute("memberDao");
-    SqlSessionFactory sqlSessionFactory = (SqlSessionFactory) application.getAttribute("sqlSessionFactory");
-    NcpObjectStorageService ncpObjectStorageService = (NcpObjectStorageService) application.getAttribute("ncpObjectStorageService");
 
     Member m = new Member();
     m.setName(request.getParameter("name"));
