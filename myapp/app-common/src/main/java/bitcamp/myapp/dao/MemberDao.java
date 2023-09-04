@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface MemberDao {
-  void insert(Member member);
+  int insert(Member member);
   List<Member> findAll();
   Member findBy(int no); // 규칙 추가
   Member findByEmailAndPassword(@Param("email") String email, @Param("password") String password);
