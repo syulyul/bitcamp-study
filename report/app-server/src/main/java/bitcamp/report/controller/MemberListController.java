@@ -20,8 +20,6 @@ public class MemberListController extends HttpServlet {
 
     MemberDao memberDao = (MemberDao) this.getServletContext().getAttribute("memberDao");
     request.setAttribute("list", memberDao.findAll());
-
-    response.setContentType("text/html;charset=UTF-8");
     request.getRequestDispatcher("/WEB-INF/jsp/member/list.jsp").include(request, response);
   }
 

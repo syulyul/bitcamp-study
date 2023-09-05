@@ -27,35 +27,4 @@ public class HomeController extends HttpServlet {
     // View 컴포넌트를 인클루딩 한다.
     request.getRequestDispatcher("/WEB-INF/jsp/index.jsp").include(request, response);
   }
-
-  @Override
-  protected void doPost(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
-
-    Member m = new Member();
-    m.setPhone(request.getParameter("phone"));
-    m.setPassword(request.getParameter("password"));
-
-    if (request.getParameter("savePhone") != null) {
-      Cookie cookie = new Cookie("phone", m.getPhone());
-      response.addCookie(cookie);
-    } else {
-      Cookie cookie = new Cookie("phone", "no");
-      cookie.setMaxAge(0);
-      response.addCookie(cookie);
-    }
-
-    MemberDao memberDao = (MemberDao) this.getServletContext().getAttribute("memberDao");
-    Member loginUser = memberDao.findByPhoneAndPassword(m);
-
-    if (loginUser != null) {
-      // 로그인 정보를 다른 요청에도 사용할 수 있도록 세션 보관소에 담아 둔다.
-      request.getSession().setAttribute("loginUser", loginUser);
-      response.sendRedirect("/");
-      return;
-    }
-
-    request.setAttribute("refresh", "2;url=/auth/login");
-    throw new ServletException("회원 정보가 일치하지 않습니다.");
-  }
 }

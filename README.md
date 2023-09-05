@@ -674,6 +674,30 @@
   - 66. Front Controller 디자인 패턴 도입하기
   - 67. Spring IoC 컨테이너를 이용하여 페이지 컨트롤러를 관리하기
 
+### 70일(8/31,목)
+
+- 스프링 IoC 컨테이너
+  - Spring IoC 컨테이너 사용법
+
+### 71일(9/1,금)
+
+- 스프링 IoC 컨테이너
+  - Spring IoC 컨테이너 사용법(계속)
+- 프로젝트 실습
+  - 69. Mybatis + Spring IoC 컨테이너 = DAO 구현체 자동 생성
+
+### 72일(9/4,월)
+
+- 프로젝트 실습
+  - 70. Controller에서 비즈니스 로직 분리하기: 서비스 컴포넌트 도입
+  - 71. 트랜잭션 제어 코드를 캡슐화하기: Spring의 TransactionTemplate 모방 구현
+  - 72. Spring의 TransactionTemplate 으로 교체하기
+  - 73. 애노테이션을 사용하여 트랜잭션 제어하기
+
+### 73일(9/5,화)
+
+- 프로젝트 실습
+  - 74. Spring의 @Transactional 로 교체하기
 
 ## 웨일즈 화상회의
 
