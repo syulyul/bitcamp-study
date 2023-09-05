@@ -22,7 +22,7 @@
     <p>해당 번호의 회원이 없습니다!</p>
 </c:if>
 <c:if test="${not empty member}">
-    <form action='/member/update' method='post' enctype='multipart/form-data'>
+    <form action='update' method='post' enctype='multipart/form-data'>
     <table border='1'>
     <tr>
         <th style='width:120px;'>사진</th>
@@ -44,7 +44,7 @@
     <td><input type='text' name='name' value='${member.name}'></td></tr>
 <tr>
     <th>전화번호</th>
-    <td><input type='tel' name='phone' value='${member.phone'></td></tr>
+    <td><input type='tel' name='phone' value='${member.phone}'></td></tr>
 <tr>
     <th>암호</th>
     <td><input type='password' name='password'></td></tr>
@@ -58,8 +58,8 @@
   <div>
   <button>변경</button>
   <button type='reset'>초기화</button>
-        <a href='/member/delete?no=${member.no}'>삭제</a>
-  <a href='/member/list'>목록</a>
+        <a href='delete?no=${member.no}'>삭제</a>
+  <a href='list'>목록</a>
   </div>
   </form>
 </c:if>

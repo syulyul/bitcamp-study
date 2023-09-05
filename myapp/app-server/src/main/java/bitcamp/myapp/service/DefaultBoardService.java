@@ -63,7 +63,7 @@ public class DefaultBoardService implements BoardService {
   }
 
   @Override
-  public AttachedFile getAttachedFiile(int fileNo) throws Exception {
+  public AttachedFile getAttachedFile(int fileNo) throws Exception {
     return boardDao.findFileBy(fileNo);
   }
 

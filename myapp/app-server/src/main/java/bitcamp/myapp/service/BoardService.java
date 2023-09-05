@@ -13,6 +13,6 @@ public interface BoardService {
   int delete(int boardNo) throws Exception;
   int increaseViewCount(int boardNo) throws Exception;
 
-  AttachedFile getAttachedFiile(int fileNo) throws Exception;
+  AttachedFile getAttachedFile(int fileNo) throws Exception;
   int deleteAttachedFile(int fileNo) throws Exception;
 }
