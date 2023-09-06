@@ -3,6 +3,8 @@ package bitcamp.util;
 import java.io.InputStream;
 import java.util.UUID;
 import javax.servlet.http.Part;
+
+import bitcamp.report.config.NcpConfig;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.client.builder.AwsClientBuilder;
