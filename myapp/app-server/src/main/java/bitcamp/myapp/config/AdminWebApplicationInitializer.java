@@ -1,43 +1,50 @@
 package bitcamp.myapp.config;
 
+import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+import javax.servlet.Filter;
 import javax.servlet.MultipartConfigElement;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
-public class AppWebApplicationInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+public class AdminWebApplicationInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+
+  public AdminWebApplicationInitializer() {
+    System.out.println("AdminWebApplicationInitializer 생성됨!");
+  }
 
   @Override
-  public void onStartup(ServletContext sc) throws ServletException {
-    System.out.println("MyWebApplicationInitializer4.onStartup() 호출됨!");
-
-    // 수퍼 클래스에 정의된 작업은 그대로 수행하고,
-    // => DispatcherServlet이 사용할 IoC 컨테이너를 준비한다.
-    super.onStartup(sc);
+  protected String getServletName() {
+    return "admin";
   }
 
   @Override
   protected Class<?>[] getRootConfigClasses() {
-    // ContextLoaderListener의 IoC 컨테이너가 사용할 Java config 클래스를 지정한다.
+    // ContextLoaderListener의 IoC 컨테이너가 사용할 java config 클래스를 지정한다.
+    // => AppWebApplicationInitializer에서 RootConfig를 가지고 ContextLoaderListener를 만들었기 때문에
+    //    여기에서는 설정하지 않는다.
     return null;
   }
 
   @Override
   protected Class<?>[] getServletConfigClasses() {
     // DispatcherServlet의 IoC 컨테이너가 사용할 Java config 클래스를 지정한다.
-    return new Class[] {AppConfig.class};
+    return new Class[] {AdminConfig.class};
   }
 
   @Override
   protected String[] getServletMappings() {
     // DispatcherServlet의 URL을 지정한다.
-    return new String[] {"/app/*"};
+    return new String[] {"/admin/*"};
   }
 
   @Override
   protected void customizeRegistration(ServletRegistration.Dynamic registration) {
-    registration.setMultipartConfig(new MultipartConfigElement("temp", 10000000, 15000000, 1000000));
+    registration.setMultipartConfig(new MultipartConfigElement(null, 10000000, 15000000, 1000000));
+  }
+
+  @Override
+  protected Filter[] getServletFilters() {
+    return new Filter[] {new CharacterEncodingFilter("UTF-8")};
   }
 }
