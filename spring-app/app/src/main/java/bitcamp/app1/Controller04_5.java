@@ -1,7 +1,6 @@
 // 요청 핸들러의 아규먼트 - 글로벌 프로퍼티 에디터 적용하기
 package bitcamp.app1;
 
-import org.apache.catalina.Engine;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

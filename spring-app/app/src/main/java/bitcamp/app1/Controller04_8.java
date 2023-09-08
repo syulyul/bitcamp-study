@@ -1,12 +1,6 @@
 // 요청 핸들러의 아규먼트 - multipart/form-data 형식의 파라미터 값 받기
 package bitcamp.app1;
 
-import java.io.File;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.UUID;
-import javax.servlet.ServletContext;
-import javax.servlet.http.Part;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +8,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.Part;
+import java.io.File;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/c04_8")
@@ -44,6 +45,10 @@ public class Controller04_8 {
       int age,
       Part photo // Servlet API의 객체
       ) throws Exception {
+
+    System.out.println(name);
+    System.out.println(age);
+    System.out.println(photo);
 
     String filename = null;
     if (photo.getSize() > 0) {

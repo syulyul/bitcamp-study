@@ -54,7 +54,7 @@
       board_no desc
   </select>
   
-  <select id="findBy" parameterType="map" resultMap="boardMap">
+  <select id="findBy" resultMap="boardMap">
     select  
       b.board_no,
       b.title,
@@ -71,7 +71,7 @@
       left outer join report_board_file f on b.board_no=f.board_no
     where
       b.category=#{categoryNo}  
-	    and b.board_no=#{boardNo}
+      and b.board_no=#{boardNo}
   </select>
   
   <update id="update" parameterType="board">

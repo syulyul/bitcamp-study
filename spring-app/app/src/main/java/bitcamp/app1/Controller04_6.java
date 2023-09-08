@@ -1,14 +1,15 @@
 // 요청 핸들러의 아규먼트 - @RequestHeader
 package bitcamp.app1;
 
-import java.io.PrintWriter;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.io.PrintWriter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Controller
 @RequestMapping("/c04_6")
@@ -29,7 +30,9 @@ public class Controller04_6 {
     out.printf("Accept=%s\n", accept);
     out.printf("User-Agent=%s\n", userAgent);
 
-    if (userAgent.matches(".*Edg.*")) {
+    if (userAgent.matches(".*Whale.*")) {
+      out.println("Whale");
+    } else if (userAgent.matches(".*Edg.*")) {
       out.println("Edge");
     } else if (userAgent.matches(".*Chrome.*")) {
       out.println("chrome");

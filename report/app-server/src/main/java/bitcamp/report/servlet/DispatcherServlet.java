@@ -3,7 +3,6 @@ package bitcamp.report.servlet;
 import bitcamp.report.config.AppConfig;
 import bitcamp.report.config.NcpConfig;
 import bitcamp.report.controller.PageController;
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import javax.servlet.ServletException;
@@ -27,9 +26,6 @@ public class DispatcherServlet extends HttpServlet {
   public void init() throws ServletException {
     System.out.println("DispatcherServlet.init() 호출됨!");
     iocContainer = new AnnotationConfigApplicationContext(AppConfig.class, NcpConfig.class);
-
-    SqlSessionFactory sqlSessionFactory = iocContainer.getBean(SqlSessionFactory.class);
-    this.getServletContext().setAttribute("sqlSessionFactory", sqlSessionFactory);
   }
 
   @Override

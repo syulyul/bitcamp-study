@@ -2,13 +2,14 @@ package bitcamp.report.dao;
 
 import bitcamp.report.vo.AttachedFile;
 import bitcamp.report.vo.Board;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 public interface BoardDao {
   void insert(Board board);
   List<Board> findAll(int category);
-  Board findBy(int category, int no);
+  Board findBy(@Param("categoryNo") int category, @Param("boardNo") int no);
   int update(Board board);
   int updateCount(Board board);
   int delete(Board board);

@@ -1,10 +1,13 @@
 package bitcamp.report.controller;
 
 import bitcamp.report.dao.MemberDao;
-import bitcamp.report.vo.Member;
 import bitcamp.report.service.NcpObjectStorageService;
-import org.apache.ibatis.session.SqlSessionFactory;
+import bitcamp.report.vo.Member;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,17 +17,22 @@ import javax.servlet.http.Part;
 public class MemberUpdateController implements PageController {
 
   MemberDao memberDao;
-  SqlSessionFactory sqlSessionFactory;
+  PlatformTransactionManager txManager;
   NcpObjectStorageService ncpObjectStorageService;
 
-  public MemberUpdateController(MemberDao memberDao, SqlSessionFactory sqlSessionFactory, NcpObjectStorageService ncpObjectStorageService) {
+  public MemberUpdateController(MemberDao memberDao, PlatformTransactionManager txManager, NcpObjectStorageService ncpObjectStorageService) {
     this.memberDao = memberDao;
-    this.sqlSessionFactory = sqlSessionFactory;
+    this.txManager = txManager;
     this.ncpObjectStorageService = ncpObjectStorageService;
   }
 
   @Override
   public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+    DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+    def.setName("tx1");
+    def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+    TransactionStatus status = txManager.getTransaction(def);
 
     try {
       Member member = new Member();
@@ -45,12 +53,12 @@ public class MemberUpdateController implements PageController {
       if (memberDao.update(member) == 0) {
         throw new Exception("회원이 없습니다.");
       } else {
-        sqlSessionFactory.openSession(false).commit();
+        txManager.commit(status);
         return "redirect:list";
       }
 
     } catch (Exception e) {
-      sqlSessionFactory.openSession(false).rollback();
+      txManager.rollback(status);
       request.setAttribute("refresh", "2;url=list");
       throw e;
     }

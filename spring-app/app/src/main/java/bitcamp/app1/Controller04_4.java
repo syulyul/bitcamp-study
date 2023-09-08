@@ -4,7 +4,10 @@ package bitcamp.app1;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.beans.PropertyEditorSupport;
 import java.io.PrintWriter;
@@ -77,7 +80,7 @@ public class Controller04_4 {
   //    즉 이 메서드에 프로퍼티 에디터를 등록하는 코드를 둔다.
   //
 
-  @InitBinder
+//  @InitBinder
   // => 메서드 이름은 마음대로.
   // => 작업하는데 필요한 값이 있다면 파라미터로 선언하라.
   public void initBinder(WebDataBinder binder) {
@@ -103,7 +106,8 @@ public class Controller04_4 {
         );
 
     // WebDataBinder에 프로퍼티 에디터 등록하기
-    binder.registerCustomEditor(Engine.class, // String을 Engine 타입으로 바꾸는 에디터임을 지정한다.
+    binder.registerCustomEditor(
+        Engine.class, // String을 Engine 타입으로 바꾸는 에디터임을 지정한다.
         new EnginePropertyEditor() // 바꿔주는 일을 하는 프로퍼티 에디터를 등록한다.
         );
   }

@@ -23,12 +23,11 @@ public class LoginController implements PageController {
       return "/WEB-INF/jsp/auth/form.jsp";
     }
 
-    Member m = new Member();
-    m.setPhone(request.getParameter("phone"));
-    m.setPassword(request.getParameter("password"));
+    String phone = request.getParameter("phone");
+    String password = request.getParameter("password");
 
     if (request.getParameter("savePhone") != null) {
-      Cookie cookie = new Cookie("phone", m.getPhone());
+      Cookie cookie = new Cookie("phone", phone);
       response.addCookie(cookie);
     } else {
       Cookie cookie = new Cookie("phone", "no");
@@ -36,7 +35,7 @@ public class LoginController implements PageController {
       response.addCookie(cookie);
     }
 
-    Member loginUser = memberDao.findByPhoneAndPassword(m);
+    Member loginUser = memberDao.findByPhoneAndPassword(phone, password);
 
     if (loginUser == null) {
       request.setAttribute("refresh", "2;url=/app/auth/login");
