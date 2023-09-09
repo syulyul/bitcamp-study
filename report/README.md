@@ -416,3 +416,13 @@
 - Spring IoC 컨테이너를 이용하여 객체를 자동 생성하는 방법
 - 의존 객체를 자동으로 주입하는 방법
 - Spring IoC 컨테이너에 들어 있는 객체를 꺼내 사용하는 방법
+
+## 69. Mybatis + Spring IoC 컨테이너 = DAO 구현체 자동 생성
+
+- Mybatis의 Spring 연동 플러그인을 사용하여 DAO를 자동 생성하는 방법
+- Mybatis의 Log4j 활성화 하기
+
+## 70. Controller에서 비즈니스 로직 분리하기: 서비스 컴포넌트 도입
+
+- Controller에서 비즈니스 로직을 분리하는 이유
+- 서비스 컴포넌트의 역할 이해
