@@ -709,11 +709,23 @@
   - 78. Spring WebMVC 프레임워크 도입하기
   - 79. Spring IoC 컨테이너를 Root Context와 Servlet Context로 분리하기
 
-### 74일(9/6,수)
+### 75일(9/7,목)
 
+- Spring WebMVC 사용법
 - 프로젝트 실습
-  - Spring WebMVC 사용법
-    - 80. Spring WebMVC 활용하기
+  - 80. Spring WebMVC 활용하기
+
+### 76일(9/8,금)
+
+- Spring WebMVC 사용법(계속)
+- 프로젝트 실습
+  - 80. Spring WebMVC 활용하기(계속)
+
+### 77일(9/11,월)
+
+- Spring WebMVC 사용법(계속)
+- 프로젝트 실습
+  - 80. Spring WebMVC 활용하기(계속)
 
 
 ## 웨일즈 화상회의
