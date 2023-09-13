@@ -473,3 +473,7 @@
 ## 80. Spring WebMVC 활용하기
 
 - Spring WebMVC 사용법
+
+## 81. 뷰 템플릿 기술을 Thymeleaf 로 교체하기
+
+- Thymeleaf 사용법
