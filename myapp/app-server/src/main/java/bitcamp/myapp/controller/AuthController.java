@@ -20,13 +20,11 @@ public class AuthController {
     System.out.println("AuthController 생성됨!");
   }
 
-
   @Autowired
   MemberService memberService;
 
-
   @GetMapping("form")
-  public void form(@CookieValue(defaultValue = "") String email, Model model) {
+  public void form(@CookieValue(required = false) String email, Model model) {
     model.addAttribute("email", email);
   }
 
