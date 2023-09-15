@@ -84,7 +84,7 @@ public class BoardController {
       boardService.increaseViewCount(no);
       model.addAttribute("board", board);
     }
-    return "/board/detail";
+    return "board/detail";
   }
 
   @GetMapping("list")
