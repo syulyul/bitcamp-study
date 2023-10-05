@@ -3,16 +3,22 @@ package bitcamp.report.servlet;
 import bitcamp.report.config.AppConfig;
 import bitcamp.report.config.NcpConfig;
 import bitcamp.report.controller.RequestMapping;
+import bitcamp.report.controller.RequestParam;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -70,7 +76,8 @@ public class DispatcherServlet extends HttpServlet {
 
     // request Handler 호출하기
     try {
-      String viewUrl = (String) requestHandlerMapping.handler.invoke(requestHandlerMapping.controller, request, response);
+      Object[] arguments = prepareArguments(requestHandlerMapping.handler, request, response);
+      String viewUrl = (String) requestHandlerMapping.handler.invoke(requestHandlerMapping.controller, arguments);
 
       if (viewUrl.startsWith("redirect:")) {
         response.sendRedirect(viewUrl.substring(9)); // 예) redirect:/app/board/list
@@ -82,6 +89,30 @@ public class DispatcherServlet extends HttpServlet {
       throw new ServletException("요청 처리 중 오류 발생!", e);
     }
 
+  }
+
+  private Object[] prepareArguments(Method handler, HttpServletRequest request, HttpServletResponse response) {
+    Parameter[] params = handler.getParameters();
+    ArrayList<Object> arguments = new ArrayList<>();
+
+    System.out.printf("%s(): ", handler.getName());
+    for (Parameter p : params) {
+      System.out.printf("%s, ", p.getType().getName());
+      if (p.getType() == HttpServletRequest.class || p.getType() == ServletRequest.class) {
+        arguments.add(request);
+      } else if (p.getType() == HttpServletResponse.class || p.getType() == ServletResponse.class) {
+        arguments.add(response);
+      } else if (p.getType() == HttpSession.class) {
+        arguments.add(request.getSession());
+      } else if (p.getType() == String.class) {
+        arguments.add(request.getParameter(p.getAnnotation(RequestParam.class).value()));
+      } else if (p.getType() == int.class) {
+        arguments.add(Integer.parseInt(request.getParameter(p.getAnnotation(RequestParam.class).value())));
+      } else {
+        arguments.add(null);
+      }
+    }
+    return arguments.toArray();
   }
 
   static class RequestHandlerMapping {

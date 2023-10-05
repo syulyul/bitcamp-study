@@ -16,13 +16,14 @@ public class AuthController {
   MemberService memberService;
 
   @RequestMapping("/auth/login")
-  public String login(HttpServletRequest request, HttpServletResponse response) throws Exception {
+  public String login(
+          @RequestParam("phone") String phone,
+          @RequestParam("password") String password,
+          HttpServletRequest request,
+          HttpServletResponse response) throws Exception {
     if (request.getMethod().equals("GET")) {
       return "/WEB-INF/jsp/auth/form.jsp";
     }
-
-    String phone = request.getParameter("phone");
-    String password = request.getParameter("password");
 
     if (request.getParameter("savePhone") != null) {
       Cookie cookie = new Cookie("phone", phone);

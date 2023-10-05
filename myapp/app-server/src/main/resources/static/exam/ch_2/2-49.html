@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>HTML Basic</title>
+    <style>
+        .team {
+            font-weight: bold;
+            color: blue;
+        }
+        .member {
+            font-size: small;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>프로젝트 팀</h1>
+    <ul>
+        <li><span class="team">1팀</span> : <span class="member">홍길동</span>, <span class="member">임꺽정</span>, <span class="member">유관순</span></li>
+        <li><span class="team">2팀</span> : <span class="member">김구</span>, <span class="member">안중근</span>, <span class="member">윤봉길</span></li>
+    </ul>
+
+    <script>
+        var el = document.querySelectorAll('.member');
+        for (var e of el) {
+            console.log(e.textContent);
+        }
+    </script>
+</body>
+</html>
