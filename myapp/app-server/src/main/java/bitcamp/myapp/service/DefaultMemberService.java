@@ -2,23 +2,18 @@ package bitcamp.myapp.service;
 
 import bitcamp.myapp.dao.MemberDao;
 import bitcamp.myapp.vo.Member;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class DefaultMemberService implements MemberService {
 
-  {
-    System.out.println("DefaultMemberService 생성됨!");
-  }
-
-  MemberDao memberDao;
-
-  public DefaultMemberService(MemberDao memberDao) {
-    this.memberDao = memberDao;
-  }
+  @NonNull MemberDao memberDao;
 
   @Transactional
   @Override

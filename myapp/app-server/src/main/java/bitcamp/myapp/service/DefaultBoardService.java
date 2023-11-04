@@ -3,24 +3,17 @@ package bitcamp.myapp.service;
 import bitcamp.myapp.dao.BoardDao;
 import bitcamp.myapp.vo.AttachedFile;
 import bitcamp.myapp.vo.Board;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class DefaultBoardService implements BoardService {
 
-  {
-    System.out.println("DefaultBoardService 생성됨!");
-  }
-
-  BoardDao boardDao;
-
-
-  public DefaultBoardService(BoardDao boardDao) {
-    this.boardDao = boardDao;
-  }
+  private final BoardDao boardDao;
 
   @Transactional // 이 메서드는 트랜잭션 상태에서 실행하라고 지정
   @Override

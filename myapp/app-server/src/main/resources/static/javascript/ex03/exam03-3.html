@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ex03</title>
+</head>
+<body>
+<h1>함수 - 함수 아규먼트와 함수 내장 변수 arguments</h1>
+<script>
+var arr = ["aaa", "bbb", "ccc"];
+
+function forEach(arr, cb) {
+    for (var v of arr) {
+        cb(v);
+    }
+}
+forEach(arr, value => console.log(value));
+
+</script>
+</body>
+</html>
+
+
+
+
+

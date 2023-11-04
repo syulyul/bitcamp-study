@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @Component
 public class NcpObjectStorageService {
-  final AmazonS3 s3;
+  private final AmazonS3 s3;
 
   public NcpObjectStorageService(NcpConfig ncpConfig) {
     System.out.println("NcpObjectStorageService() 호출됨!");
